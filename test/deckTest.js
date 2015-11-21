@@ -44,8 +44,10 @@ describe('Card',function(){
 	});
 });
 describe('Deck',function(){
-	it('length should be of 32 cards',function(){
-		var deck = new m.Deck;
-		assert.equal(deck.length,32);
+	describe('dealCards',function(){
+		it('gives 4 cards',function(){
+			var deck = new m.Deck;
+			expect(deck.dealCards).to.have.length(4);
+		});
 	});
 });
