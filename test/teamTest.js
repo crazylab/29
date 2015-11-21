@@ -14,14 +14,20 @@ describe('Team',function(){
 		expect(team.team1).to.have.all.keys('player1','player2');
 		expect(team.team2).to.have.all.keys('player1','player2');
 	});
-	it('sets id for each player', function () {
-		expect(team.team1.player1.id).to.equal('Ramu');
-	});
 });
 
 describe('Player',function(){
+	var player = new teamModule.Player('Ramu');
 	it('creates players with properties',function(){
-		var player = new teamModule.Player();
-		expect(player).to.have.all.keys('id','hand','hasPair');
+		expect(player).to.have.all.keys('name','id','hand','hasPair');
+	});
+	it('creates the player and has proper data for its each property');
+
+	describe('#types',function(){
+		it('Properties are of different types',function(){
+			assert.typeOf(player.id, 'string');
+			assert.typeOf(player.hand, 'object');
+			assert.typeOf(player.hasPair, 'boolean');
+		});
 	});
 });
