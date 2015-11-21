@@ -46,8 +46,8 @@ m.Deck.prototype = {
 		this.cards = ld.shuffle(this.cards);
 		return this.cards;
 	},
-	get length(){
-		return this.cards.length;
+	get dealCards(){
+		return this.cards.splice(0,4);
 	}
 }
 exports.m = m;
