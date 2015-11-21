@@ -47,6 +47,8 @@ m.Deck.prototype = {
 		return this.cards;
 	},
 	get dealCards(){
+		if(this.cards.length == 0)
+			return new Error('No more cards available.');
 		return this.cards.splice(0,4);
 	}
 }

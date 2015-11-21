@@ -44,10 +44,26 @@ describe('Card',function(){
 	});
 });
 describe('Deck',function(){
+	var deck;
+	beforeEach(function(){
+		deck = new m.Deck;
+	});
 	describe('dealCards',function(){
 		it('gives 4 cards',function(){
-			var deck = new m.Deck;
 			expect(deck.dealCards).to.have.length(4);
 		});
+		it('will gives error message when no more card is available',function(){
+			while(deck.cards.length != 0 ){
+				deck.dealCards;
+			}
+			var err = new Error('No more cards available.');
+			assert.deepEqual(deck.dealCards,err);
+		});
+	});
+	it('will have 4 cards less after each dealing of Cards',function(){
+		for(var cards = 28; cards!= 0; cards = cards - 4){
+			deck.dealCards;
+			expect(deck.cards).to.have.length(cards);	
+		};
 	});
 });
