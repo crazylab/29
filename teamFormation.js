@@ -3,18 +3,17 @@ exports.teamLib = teamLib;
 
 teamLib.Team = function(players){
 	this.team1 = {
-		player1:players[0],
-		player2:players[2]
+		player1:new teamLib.Player(players[0]),
+		player2:new teamLib.Player(players[2])
 	};
 	this.team2 = {
-		player1:players[1],
-		player2:players[3]
+		player1:new teamLib.Player(players[1]),
+		player2:new teamLib.Player(players[3])
 	};
 };
 
-teamLib.Player = function(){
-	this.id = function(){};
-	this.firstHand = [];
-	this.secondHand = [];
+teamLib.Player = function(player){
+	this.id = player;
+	this.hand = {};
 	this.hasPair = false;
 };
