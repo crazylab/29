@@ -14,6 +14,9 @@ describe('Team',function(){
 describe('Player',function(){
 	it('creates players with properties',function(){
 		var player = new teamModule.Player();
-		expect(player).to.have.all.keys('id','firstHand','secondHand','hasPair');
+		expect(player).to.have.all.keys('id','hand','hasPair');
+		assert.typeOf(player.id,'function', 'it should be a method to allocate ids to the players');
+		assert.typeOf(player.hand,'object', 'it must be an object');
+		assert.typeOf(player.hasPair,'boolean', 'it must be a boolean');
 	});
 });

@@ -6,9 +6,8 @@ teamLib.Team = function(players){
 	this.team2 = {};
 };
 
-teamLib.Player = function(){
+teamLib.Player = function(player){
 	this.id = function(){};
-	this.firstHand = [];
-	this.secondHand = [];
+	this.hand = {};
 	this.hasPair = false;
 };
