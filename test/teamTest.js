@@ -23,4 +23,5 @@ describe('Player',function(){
 	it('creates players with properties',function(){
 		var player = new teamModule.Player();
 		expect(player).to.have.all.keys('id','hand','hasPair');
+	});
 });
