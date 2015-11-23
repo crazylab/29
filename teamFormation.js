@@ -12,9 +12,12 @@ teamLib.Team = function(players){
 	};
 };
 
-teamLib.Player = function(player){
-	this.name = player;
-	this.id = player;
-	this.hand = {};
+teamLib.Player = function(playerName){
+	this.name = playerName;
+	this.id = playerName;
+	this.hand = {
+		firstDeal	: [],
+		secondDeal	: []
+	};
 	this.hasPair = false;
 };

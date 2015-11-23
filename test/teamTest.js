@@ -25,9 +25,15 @@ describe('Player',function(){
 
 	describe('#types',function(){
 		it('Properties are of different types',function(){
+			assert.typeOf(player.name, 'string');
 			assert.typeOf(player.id, 'string');
-			assert.typeOf(player.hand, 'object');
 			assert.typeOf(player.hasPair, 'boolean');
+			assert.typeOf(player.hand, 'object');
+			describe('#hand',function(){
+				it('has two deals of cards',function(){
+					expect(player.hand).to.have.all.keys('firstDeal','secondDeal');
+				});
+			});
 		});
 	});
 });
