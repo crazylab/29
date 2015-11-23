@@ -42,14 +42,15 @@ m.Deck = function(){
 	this.cards = generateCards();
 }
 m.Deck.prototype = {
-	get shuffle(){
-		this.cards = ld.shuffle(this.cards);
-		return this.cards;
-	},
 	get dealCards(){
 		if(this.cards.length == 0)
 			return new Error('No more cards available.');
 		return this.cards.splice(this.cards.length - 4,4);
+	},
+	shuffle : function(){
+		this.cards = ld.shuffle(this.cards);
+		return this;	
 	}
 }
+
 exports.m = m;
