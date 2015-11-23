@@ -1,23 +1,14 @@
-var teamLib = {};
-exports.teamLib = teamLib;
+var team = {};
+exports.team = team;
 
-teamLib.Team = function(players){
-	this.team1 = {
-		player1: new teamLib.Player(players[0]),
-		player2: new teamLib.Player(players[2])
-	};
-	this.team2 = {
-		player1: new teamLib.Player(players[1]),
-		player2: new teamLib.Player(players[3])
-	};
+team.Team = function(player_1,player_2){
+	this.player_1 = new team.Player(player_1.name, player_1.id);
+	this.player_2 = new team.Player(player_2.name, player_2.id);
 };
 
-teamLib.Player = function(playerName){
+team.Player = function(playerName,id){
 	this.name = playerName;
-	this.id = playerName;
-	this.hand = {
-		firstDeal	: [],
-		secondDeal	: []
-	};
+	this.id = id;
+	this.hand = [];
 	this.hasPair = false;
 };
