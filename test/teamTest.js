@@ -1,32 +1,43 @@
-var teamModule = require('../teamFormation.js').teamLib;
+var m = require('../teamFormation.js').team;
 var chai = require('chai');
 var assert = chai.assert;
 var expect = chai.expect;
 
 describe('Team',function(){
-	var players = ['Ramu','Haru','Shibu','Piku'];
-	var team = new teamModule.Team(players);
+	var player_1 = {name: 'PK', id: '4'};
+	var player_2 = {name: 'RJ', id: '5'};
+	var team = new m.Team(player_1,player_2);
 
-	it('creates teams with two players',function(){
-		expect(team).to.have.all.keys('team1','team2');
+	it('creates team with two players',function(){
+		expect(team).to.have.all.keys('player_1','player_2');
 	});
-	it('seperates two teams with players',function(){
-		expect(team.team1).to.have.all.keys('player1','player2');
-		expect(team.team2).to.have.all.keys('player1','player2');
+	it('has player with given name with empty hand',function(){
+		var player_1 = {
+			name : 'PK',
+			id: '4',
+			hand : [],
+			hasPair : false
+		};
+		var player_2 = {
+			name : 'RJ',
+			id: '5',
+			hand : [],
+			hasPair : false
+		};
+		var expected = {player_1 : player_1, player_2: player_2};
+		assert.deepEqual(team, expected);
 	});
 });
 
 describe('Player',function(){
-	var player = new teamModule.Player('Ramu');
-	it('creates players with properties',function(){
+	var player = new m.Player('Ramu','5');
+	it('creates player with properties',function(){
 		expect(player).to.have.all.keys('name','id','hand','hasPair');
 	});
-	it('creates the player and has proper data for its each property');
-
-	describe('#types',function(){
+	describe('types',function(){
 		it('Properties are of different types',function(){
 			assert.typeOf(player.id, 'string');
-			assert.typeOf(player.hand, 'object');
+			assert.typeOf(player.hand, 'array');
 			assert.typeOf(player.hasPair, 'boolean');
 		});
 	});
