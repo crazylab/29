@@ -17,7 +17,6 @@ describe('Card',function(){
 			rank : 3
 		};
 		assert.deepEqual(new m.Card('A','Diamond'),diamondA);
-		
 		var spadeK = {
 			name : 'K',
 			suit : 'Spade',

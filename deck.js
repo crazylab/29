@@ -36,7 +36,7 @@ var generateCards = function(){
 		});
 		cards = cards.concat(sameSuitCards);
 	};
-	return cards;
+	return cards.reverse();
 };
 m.Deck = function(){
 	this.cards = generateCards();
@@ -49,7 +49,7 @@ m.Deck.prototype = {
 	get dealCards(){
 		if(this.cards.length == 0)
 			return new Error('No more cards available.');
-		return this.cards.splice(0,4);
+		return this.cards.splice(this.cards.length - 4,4);
 	}
 }
 exports.m = m;
