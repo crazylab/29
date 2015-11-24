@@ -12,18 +12,8 @@ describe('Team',function(){
 		expect(team).to.have.all.keys('player_1','player_2');
 	});
 	it('has player with given name with empty hand',function(){
-		var player_1 = {
-			name : 'PK',
-			id: '4',
-			hand : [],
-			hasPair : false
-		};
-		var player_2 = {
-			name : 'RJ',
-			id: '5',
-			hand : [],
-			hasPair : false
-		};
+		var player_1 = new m.Player('PK','4');
+		var player_2 = new m.Player('RJ', '5');
 		var expected = {player_1 : player_1, player_2: player_2};
 		assert.deepEqual(team, expected);
 	});
