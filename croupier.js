@@ -25,3 +25,9 @@ croupier.setIdAndNames = function(playerNames){
 		ids.push(ld.uniqueId());
 	return makeTeams(playerNames,ids);
 };
+
+croupier.distributeDeckToEach = function(dealtCards,player){
+	var existingHand = player.hand;
+	player.hand = existingHand.concat(dealtCards)
+	return player;
+};

@@ -1,4 +1,5 @@
 var m = require('../croupier.js').croupier;
+var d = require('../deck.js').m;
 
 var chai = require('chai');
 var assert = chai.assert;
@@ -34,4 +35,16 @@ describe('setIdAndNames',function(){
 		});
 	});
 
+});
+
+describe('distributeDeckToEach',function(){
+	var fourCards = [ { name: '10', suit: 'Heart', point: 1, rank: 4 },
+  						{ name: '9', suit: 'Heart', point: 2, rank: 2 },
+						{ name: '8', suit: 'Heart', point: 0, rank: 7 },
+ 						{ name: '7', suit: 'Heart', point: 0, rank: 8 } ];
+ 	var playerWithDetail = {name: 'ramu', id: '3', hand : [], hasPair : false};
+	it('distributes cards to each player',function(){
+		var player = m.distributeDeckToEach(fourCards,playerWithDetail);
+		expect(player.hand).to.have.length(4);
+	});
 });
