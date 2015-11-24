@@ -47,8 +47,8 @@ m.Deck.prototype = {
 			return new Error('No more cards available.');
 		return this.cards.splice(this.cards.length - 4,4);
 	},
-	shuffle : function(){
-		this.cards = ld.shuffle(this.cards);
+	shuffle : function(cards){
+		this.cards = ld.shuffle(cards);
 		return this;	
 	}
 }
