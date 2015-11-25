@@ -39,7 +39,7 @@ var generateCards = function(){
 	return cards.reverse();
 };
 m.Deck = function(){
-	this.cards = generateCards();
+		this.cards = generateCards();
 }
 m.Deck.prototype = {
 	get dealCards(){

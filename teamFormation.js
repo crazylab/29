@@ -9,6 +9,6 @@ team.Team = function(player_1,player_2){
 team.Player = function(playerName,id){
 	this.name = playerName;
 	this.id = id;
-	this.hand = [];
+	this.hand = {Heart:[],Spade:[],Club:[],Diamond:[]};
 	this.hasPair = false;
 };
