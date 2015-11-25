@@ -96,14 +96,17 @@ describe('setIdAndNames',function(){
 
 });
 
-describe('distributeDeckToEach',function(){
+describe('dealCardsToAPlayer',function(){
 	var fourCards = [ { name: '10', suit: 'Heart', point: 1, rank: 4 },
-  						{ name: '9', suit: 'Heart', point: 2, rank: 2 },
-						{ name: '8', suit: 'Heart', point: 0, rank: 7 },
+  						{ name: '9', suit: 'Spade', point: 2, rank: 2 },
+						{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
  						{ name: '7', suit: 'Heart', point: 0, rank: 8 } ];
- 	var playerWithDetail = {name: 'ramu', id: '3', hand : [], hasPair : false};
-	it('distributes cards to each player',function(){
-		var player = m.distributeDeckToEach(fourCards,playerWithDetail);
-		expect(player.hand).to.have.length(4);
+ 	var playerWithDetail = {name: 'ramu', id: '3', hand : {Heart:[],Spade:[],Club:[],Diamond:[]}, hasPair : false};
+	it('distributes four cards to a player',function(){
+		var player = m.dealCardsToAPlayer(fourCards,playerWithDetail);
+		expect(player.hand.Heart).to.have.length(2);
+		expect(player.hand.Club).to.have.length(0);
+		expect(player.hand.Diamond).to.have.length(1);
+		expect(player.hand.Spade).to.have.length(1);
 	});
 });

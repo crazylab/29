@@ -10,12 +10,6 @@ var shuffle = function(cards){
 	return cards;	
 };
 
-var dealCards = function(cards){
-	if(cards.length == 0)
-		return new Error('No more cards available.');
-	return cards.splice(cards.length - 4,4);
-};
-
 croupier.bid = {
 	value : null,
 	player : null
@@ -64,8 +58,10 @@ croupier.setIdAndNames = function(playerNames){
 	return makeTeams(playerNames,ids);
 };
 
-croupier.distributeDeckToEach = function(dealtCards,player){
+croupier.dealCardsToAPlayer = function(dealtCards,player){
 	var existingHand = player.hand;
-	player.hand = existingHand.concat(dealtCards)
+	dealtCards.forEach(function(card){
+		existingHand[card.suit].push(card);
+	});
 	return player;
 };

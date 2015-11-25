@@ -9,13 +9,7 @@ describe('Team',function(){
 	var team = new m.Team(player_1,player_2);
 
 	it('creates team with two players',function(){
-		expect(team).to.have.all.keys('player_1','player_2');
-	});
-	it('has player with given name with empty hand',function(){
-		var player_1 = new m.Player('PK','4');
-		var player_2 = new m.Player('RJ', '5');
-		var expected = {player_1 : player_1, player_2: player_2};
-		assert.deepEqual(team, expected);
+		expect(team).to.have.all.keys('player_1','player_2','wonCards');
 	});
 });
 
