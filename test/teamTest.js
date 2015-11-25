@@ -28,7 +28,7 @@ describe('Player',function(){
 		it('Properties are of different types',function(){
 			assert.typeOf(player.name, 'string');
 			assert.typeOf(player.id, 'string');
-			assert.typeOf(player.hand, 'array');
+			assert.typeOf(player.hand, 'object');
 			assert.typeOf(player.hasPair, 'boolean');
 		});
 	});
