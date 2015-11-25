@@ -1,9 +1,20 @@
-var deckLib = require('./deck.js').m;
+var cardLib = require('./cardGenerator.js');
 var teamLib = require('./teamFormation.js').team;
 var ld = require('lodash');
 
 var croupier = {};
 exports.croupier = croupier;
+
+var shuffle = function(cards){
+	cards = ld.shuffle(cards);
+	return cards;	
+};
+
+var dealCards = function(cards){
+	if(cards.length == 0)
+		return new Error('No more cards available.');
+	return cards.splice(cards.length - 4,4);
+};
 
 croupier.bid = {
 	value : null,
@@ -33,8 +44,8 @@ croupier.setBid = function (playerSequence) {
 };
 
 croupier.getShuffledDeck = function(){
-	var deck = new deckLib.Deck();
-	var shuffledDeck = deck.shuffle(deck.cards);
+	var deck = cardLib.generateCards();
+	var shuffledDeck = shuffle(deck);
 	return shuffledDeck;
 };
 

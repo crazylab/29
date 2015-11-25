@@ -1,6 +1,4 @@
-var ld = require('lodash');
-var m = {};
-m.Card = function(name,suit){
+var Card = function(name,suit){
 	var cardPoint = {
 		'7' : 0,
 		'8' : 0,
@@ -32,25 +30,10 @@ var generateCards = function(){
 	var cards = [];
 	for(var index = 0; index < suits.length; index++){
 		var sameSuitCards = names.map(function(name){
-			return new m.Card(name,suits[index]);
+			return new Card(name,suits[index]);
 		});
 		cards = cards.concat(sameSuitCards);
 	};
-	return cards.reverse();
+	return cards;
 };
-m.Deck = function(){
-		this.cards = generateCards();
-}
-m.Deck.prototype = {
-	get dealCards(){
-		if(this.cards.length == 0)
-			return new Error('No more cards available.');
-		return this.cards.splice(this.cards.length - 4,4);
-	},
-	shuffle : function(cards){
-		this.cards = ld.shuffle(cards);
-		return this;	
-	}
-}
-
-exports.m = m;
+exports.generateCards = generateCards;

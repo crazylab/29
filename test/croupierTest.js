@@ -1,6 +1,6 @@
 var m = require('../croupier.js').croupier;
 var team = require('../teamFormation.js').team;
-var d = require('../deck.js').m;
+var d = require('../cardGenerator.js').m;
 
 var chai = require('chai');
 var assert = chai.assert;
@@ -69,12 +69,9 @@ describe('setBid', function() {
 
 describe('getShuffledDeck',function(){
 	var shuffledDeck = m.getShuffledDeck();
-	it('gives the deck with shuffle property',function(){
-		expect(shuffledDeck).to.have.all.keys('cards');
-	});
 	describe('shuffle',function(){
 		it('will get 32 cards after shuffling',function(){
-			expect(shuffledDeck.cards).to.have.length(32);
+			expect(shuffledDeck).to.have.length(32);
 		});
 	});
 });
