@@ -28,12 +28,12 @@ var generateCards = function(){
 	var names = ['7','8','9','10','J','Q','K','A'];
 	var suits = ['Heart','Spade','Club','Diamond'];
 	var cards = [];
-	for(var index = 0; index < suits.length; index++){
+	suits.forEach(function(suit){
 		var sameSuitCards = names.map(function(name){
-			return new Card(name,suits[index]);
+			return new Card(name,suit);
 		});
 		cards = cards.concat(sameSuitCards);
-	};
+	});
 	return cards;
 };
 exports.generateCards = generateCards;
