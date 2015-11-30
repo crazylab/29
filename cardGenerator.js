@@ -19,8 +19,9 @@ var Card = function(name,suit){
 		'K' : 5,
 		'A' : 3
 	}
-	this.name = name;
+	this.id = suit[0]+name;
 	this.suit = suit;
+	this.name = name;
 	this.point = cardPoint[name];
 	this.rank = cardRank[name];
 }

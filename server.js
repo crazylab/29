@@ -1,6 +1,6 @@
 var http = require('http');
 var fs = require('fs');
-var players = [];
+var ld = require('lodash');
 
 var serveStaticFile = function(req,res){
 	if(req.url === '/')
@@ -19,7 +19,19 @@ var serveStaticFile = function(req,res){
 		}
 	});
 }
+var serveGameStatus = function(req,res){
+	res.statusCode = 200;
+	console.log(res.statusCode);
+	res.end(JSON.stringify(gameStatus));
+}
 var handle_get = function(req,res){
+	var innerRequest = {
+		'/status' : serveGameStatus
+	}
+	if(innerRequest[req.url] !== undefined){
+		innerRequest[req.url](req,res);
+		return;
+	}
 	serveStaticFile(req,res);
 }
 var handle_post = function(req,res){
@@ -31,7 +43,10 @@ var method_not_allowed = function(req,res){
 	res.end('Method Not Allowed');
 }
 var requestHandler = function(req, res){
-	var ip = req.connection.remoteAddress;
+	// var ip = req.connection.remoteAddress;
+	if(!req.headers.cookie){
+		res.setHeader("Set-Cookie", ["ID="+ld.uniqueId()]);
+	}
 	console.log('user request: ',req.url);
 	if(req.method === 'GET')
 		handle_get(req,res);
@@ -41,4 +56,7 @@ var requestHandler = function(req, res){
 		method_not_allowed(req,res);
 };
 
-http.createServer(requestHandler).listen(8000);;
+var server=http.createServer(requestHandler).listen(3000);
+server.on('error',function(e){
+	console.log(e.message);
+})
