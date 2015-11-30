@@ -43,19 +43,15 @@ croupier.getShuffledDeck = function(){
 	return shuffledDeck;
 };
 
-var makeTeams = function(playerNames,ids){
-	var team_1 = new teamLib.Team({name:playerNames[0], id:ids[0]},
-									{name:playerNames[2], id:ids[2]});
-	var team_2 = new teamLib.Team({name:playerNames[1], id:ids[1]},
-									{name:playerNames[3], id:ids[3]});
+var makeTeams = function(uniqueIds){
+	var team_1 = new teamLib.Team(uniqueIds[0],uniqueIds[2]);
+	var team_2 = new teamLib.Team(uniqueIds[1],uniqueIds[3]);
+	console.log(team_1);
 	return {team_1:team_1, team_2:team_2};
 };
 
-croupier.setIdAndNames = function(playerNames){
-	var ids = [];
-	for(var i = 0; i < 4; i++)
-		ids.push(ld.uniqueId());
-	return makeTeams(playerNames,ids);
+croupier.setIdAndNames = function(uniqueIds){
+	return makeTeams(uniqueIds);
 };
 
 croupier.dealCardsToAPlayer = function(dealtCards,player){
