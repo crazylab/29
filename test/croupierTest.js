@@ -77,23 +77,11 @@ describe('getShuffledDeck',function(){
 });
 
 describe('setIdAndNames',function(){
-	var playerNames = ['Ramu','Manu','Ram','Hari'];
+	var playerNames = ['10.2.45.178','10.2.45.173','10.2.45.192','10.4.45.191'];
 	var playersWithID = m.setIdAndNames(playerNames);
 	it('sets id for each player and asserts name to each',function(){
 		expect(playersWithID).to.have.all.keys('team_1','team_2');
 	});
-	describe('player\'s id',function(){
-		var team1 = playersWithID.team_1;
-		it('is present for each player',function(){
-			expect(team1.player_1).to.have.property('id');
-			expect(team1.player_2).to.have.property('id');
-			assert.equal(team1.player_2.name,'Ram');
-		});
-		it('also takes care of making the IDs unique',function(){
-			assert.notEqual(team1.player_2.id,playersWithID.team_2.player_2.id);
-		});
-	});
-
 });
 
 describe('dealCardsToAPlayer',function(){
