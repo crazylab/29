@@ -3,7 +3,7 @@ var fs = require('fs');
 var _ = require('lodash');
 var querystring = require('querystring');
 
-var croupier = require('./croupier.js');
+var main = require('./main.js');
 
 const PORT = 8000;
 
@@ -55,14 +55,17 @@ var servePostPages = function(req,res){
 		var count = players.length; 
 		var name = querystring.parse(data).name;
 
-		if(!req.headers.cookie && players.length<4){
+		if(!req.headers.cookie && players.length < 4){
 			res.setHeader('set-cookie',[id = ip+'_'+name]);
 			savePlayers(players,ip+'_'+name);
 		};
 
-		if(count==4 && !req.headers.cookie){
+		if(count == 4 && !req.headers.cookie)
 			method_not_allowed(req,res);
-		};
+
+		if(players.length == 4)
+			main.gameHandler(players);
+
 		res.writeHead(302,{Location:'gamePage.html'});
 		res.end(data);
 	});

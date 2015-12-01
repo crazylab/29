@@ -78,7 +78,7 @@ describe('getShuffledDeck',function(){
 
 describe('setIdAndNames',function(){
 	var playerNames = ['10.2.45.178','10.2.45.173','10.2.45.192','10.4.45.191'];
-	var playersWithID = m.setIdAndNames(playerNames);
+	var playersWithID = m.makeTeams(playerNames);
 	it('sets id for each player and asserts name to each',function(){
 		expect(playersWithID).to.have.all.keys('team_1','team_2');
 	});
