@@ -9,7 +9,9 @@ var shuffle = function(cards){
 	cards = ld.shuffle(cards);
 	return cards;	
 };
+croupier.getStatus = function(){
 
+}
 croupier.bid = {
 	value : null,
 	player : null

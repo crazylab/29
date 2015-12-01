@@ -1,11 +1,12 @@
 var http = require('http');
 var fs = require('fs');
-var _ = require('lodash');
+var ld = require('lodash'); 
 var querystring = require('querystring');
 
 var main = require('./main.js');
+var croupier = require('./croupier.js').croupier;
 
-const PORT = 8000;
+const PORT = 3000;
 
 var serveStaticFile = function(req,res){
 	if(req.url === '/')
@@ -23,14 +24,25 @@ var serveStaticFile = function(req,res){
 			res.end('Not Found');
 		}
 	});
+}
+var serveGameStatus = function(req,res){
+	res.statusCode = 200;
+	console.log(res.statusCode);
+	var gameStatus = croupier.getStatus();
+	res.end(JSON.stringify(gameStatus));
 };
-
 var savePlayers = function(players,id){
 	players.push(id);
 	return players;
 };
-
 var handle_get = function(req,res){
+	var innerRequest = {
+		'/status' : serveGameStatus
+	}
+	if(innerRequest[req.url] !== undefined){
+		innerRequest[req.url](req,res);
+		return;
+	}
 	serveStaticFile(req,res);
 };
 
@@ -42,8 +54,7 @@ var method_not_allowed = function(req,res){
 	res.statusCode = 405;
 	console.log(res.statusCode);
 	res.end('Method Not Allowed');
-};
-
+}
 var players = [];
 var servePostPages = function(req,res){
 	var ip = req.connection.remoteAddress;
@@ -81,4 +92,7 @@ var requestHandler = function(req, res){
 		method_not_allowed(req,res);
 };
 
-http.createServer(requestHandler).listen(PORT);;
+var server=http.createServer(requestHandler).listen(PORT);
+server.on('error',function(e){
+	console.log(e.message);
+});
