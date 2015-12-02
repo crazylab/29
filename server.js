@@ -6,7 +6,6 @@ var EventEmitter = require('events').EventEmitter;
 // ------------------------------------------------
 var routes = require('./routes.js');
 var main = require('./main.js');
-var croupier = require('./croupier.js').croupier;
 //-------------------------------------------------
 const PORT = 3000;
 // ------------------------------------------------
@@ -27,9 +26,6 @@ rEmitter.on('next', function(handlers, req, res, next){
 });
 var handle_all_post = function(req, res){
 	var handlers = post_handlers.filter(matchHandler(req.url));
-	console.log(handlers.map(function(ph){
-		return ph.path;
-	}));
 	var next = function(){
 		rEmitter.emit('next', handlers, req, res, next);
 	};
@@ -37,9 +33,6 @@ var handle_all_post = function(req, res){
 }; 
 var handle_all_get = function(req, res){
 	var handlers = get_handlers.filter(matchHandler(req.url));
-	console.log(handlers.map(function(ph){
-		return ph.path;
-	}));
 	var next = function(){
 		rEmitter.emit('next', handlers, req, res, next);
 	};
@@ -47,7 +40,6 @@ var handle_all_get = function(req, res){
 };
 
 var requestHandler = function(req, res){
-	console.log(req.method, req.url);
 	if(req.method == 'GET')
 		handle_all_get(req, res);
 	else if(req.method == 'POST')

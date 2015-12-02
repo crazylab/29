@@ -22,10 +22,10 @@ var verticalCards = function (numberOfCards){
 var showAllHands = function(myHand){
 	$.get("status",function(data){
 		var status = JSON.parse(data);
-		$('#myHand').html(horizontalCards(status.myHand));
+		$('#ownHand').html(horizontalCards(status.ownHand));
 		$('#partner').html(horizontalCards(status.partner));
-		$('#opponent1').html(verticalCards(status.opponent1));
-		$('#opponent2').html(verticalCards(status.opponent2));
+		$('#opponent_1').html(verticalCards(status.opponent_1));
+		$('#opponent_2').html(verticalCards(status.opponent_2));
 	});
 }
 var onPageReady = function(){
