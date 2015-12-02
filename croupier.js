@@ -58,3 +58,10 @@ croupier.dealCardsToAPlayer = function(dealtCards,player){
 	});
 	return player;
 };
+
+croupier.calculateTotalPoint = function(teamBucket){
+	return teamBucket.reduce(function(init,secondCard){
+		return init + secondCard.point;
+	},0);
+};
+

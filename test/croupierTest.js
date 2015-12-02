@@ -98,3 +98,40 @@ describe('dealCardsToAPlayer',function(){
 		expect(player.hand.Spade).to.have.length(1);
 	});
 });
+
+describe('calculateTotalPoint',function(){
+	var teamBucket = [{ name: '10', suit: 'Heart', point: 1, rank: 4 },
+  						{ name: '9', suit: 'Spade', point: 2, rank: 2 },
+						{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
+ 						{ name: '7', suit: 'Club', point: 0, rank: 8 } ,
+						{ name: '8', suit: 'Heart', point: 0, rank: 7 },
+						{ name: 'Q', suit: 'Diamond', point: 0, rank: 6 },
+						{ name: '8', suit: 'Spade', point: 0, rank: 7 },
+						{ name: '8', suit: 'Club', point: 0, rank: 7 },
+						{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
+  						{ name: '7', suit: 'Spade', point: 0, rank: 8 },
+						{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
+ 						{ name: 'J', suit: 'Club', point: 3, rank: 1 } ,
+						{ name: '10', suit: 'Diamond', point: 1, rank: 4 },
+						{ name: 'A', suit: 'Heart', point: 1, rank: 3 },
+						{ name: '10', suit: 'Club', point: 1, rank: 4 },
+						{ name: 'K', suit: 'Spade', point: 0, rank: 5 }];
+	it('calculate TotalPoint of a team',function(){
+		assert.equal(14,m.calculateTotalPoint(teamBucket));
+	});
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
