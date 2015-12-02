@@ -44,7 +44,7 @@
     top: 10px;
     left: 10px;
     width: 71px;
-    height: 95px;
+    height: 96px;
     border: 1px solid #73AD21;	
 }
 .topCard{
@@ -94,4 +94,12 @@
 }
 .card{
 
+}
+
+.trump_suits{
+    visibility: hidden;
+}
+
+#trumps{
+    margin-top: 90px;
 }

@@ -1,36 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Welcome </title>
-	<link rel="stylesheet" type="text/css" href="css/gameStyle.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script type="text/javascript" src="javascript/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="javascript/handlebars.runtime-v4.0.5.js"></script>
-	<script type="text/javascript" src="javascript/game.js"></script>
-</head> 
-<body>
-	<h1 class="heading"> Let's Play 29 </h1>
-	<center>
-		<div class="game" id="table">
-			<div class="bidStatus" align="left">
-				Bid Value: <div id="bidValue"></div><br>
-				Top Bidder: <div id="topBidder"></div>
+	<head>
+		<title>Welcome </title>
+		<link rel="stylesheet" type="text/css" href="css/gameStyle.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script type="text/javascript" src="javascript/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="javascript/handlebars.runtime-v4.0.5.js"></script>
+		<script type="text/javascript" src="javascript/game.js"></script>
+		<script type="text/javascript" src="javascript/trump.js"></script>
+	</head> 
+	<body>
+		<h1 class="heading"> Let's Play 29 </h1>
+		<center>
+			<div class="game" id="table">
+				<div class="bidStatus" align="left">
+					Bid Value: <div id="bidValue"></div><br>
+					Top Bidder: <div id="topBidder"></div>
+				</div>
+				<div class="horizontalBox top" id="partner"></div>
+				<div class="verticalBox left" id="opponent1"></div>
+				<div class="verticalBox right" id="opponent2"></div>
+				<div class="table">
+					<div class="trump"></div>
+					<div class="topCard" id="topCard"></div>
+					<div class="leftCard" id="leftCard"></div>
+					<div class="rightCard" id="rightCard"></div>
+					<div class="bottomCard" id="bottomCard"></div>
+						Bidding Done<div id="highestBidder">Click Here</div> <!-- this line should be removed -->
+					<div id="trumps" align= "center" class="trump_suits">
+						<table>
+				      		<tr>SELECT TRUMP</tr>
+						  	<tr id="trump">
+							    <td id="club"><img src="img/C2.png" ></td>
+					        	<td id="diamond"><img src="img/D2.png" ></td>
+					        	<td id="spade"><img src="img/S2.png" ></td>   
+							    <td id="heart"><img src="img/H2.png" ></td>		
+						    </tr>
+						</table>
+				  	</div>
+				</div>
+				<div class="horizontalBox bottom">
+					<div id="playerName">You</div>
+					<table class="playerHand" id="myHand"></table>
+				</div>
 			</div>
-			<div class="horizontalBox top" id="partner"></div>
-			<div class="verticalBox left" id="opponent1"></div>
-			<div class="verticalBox right" id="opponent2"></div>
-			<div class="table">
-				<div class="trump"></div>
-				<div class="topCard" id="topCard"></div>
-				<div class="leftCard" id="leftCard"></div>
-				<div class="rightCard" id="rightCard"></div>
-				<div class="bottomCard" id="bottomCard"></div>
-			</div>
-			<div class="horizontalBox bottom">
-				<div id="playerName">You</div>
-				<table class="playerHand" id="myHand"></table>
-			</div>
-		</div>
-	</center>
-</body>
+		</center>
+	</body>
 </html>

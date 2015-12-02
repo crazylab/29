@@ -60,11 +60,11 @@ var servePostPages = function(req,res){
 	var data = '';
 	req.on('data',function(chunk){
 		data +=chunk;
+		console.log(data,'-----');
 	});
 	req.on('end',function(){
 		var count = players.length; 
 		var name = querystring.parse(data).name;
-
 		if(!req.headers.cookie && players.length<4){
 			res.setHeader('set-cookie',[id = ip+'_'+name]);
 			savePlayers(players,ip+'_'+name);
