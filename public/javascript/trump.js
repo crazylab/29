@@ -6,10 +6,10 @@ var onReady = function () {
 		$('.trump').html(content);
 	};
 	$(function () {
-		$('#club').on("click", postTrump);
-		$('#diamond').on("click", postTrump);
-		$('#spade').on("click", postTrump);
-		$('#heart').on("click", postTrump);
+		$('#C2').on("click", postTrump);
+		$('#D2').on("click", postTrump);
+		$('#S2').on("click", postTrump);
+		$('#H2').on("click", postTrump);
 	});	
 
 	// this function is related to the highest bidder.Use if necessary
@@ -18,6 +18,15 @@ var onReady = function () {
 			$('#trumps').removeClass('trump_suits');
 		});
 	});
+
+	$(function(){
+		$('.trump').click(function(){
+			$.get('getTrump',function(data){
+				$('.trump').html('<img src=img/'+data+'.png />');
+			});
+		});
+	});
+
 };
 
 $(document).ready(onReady);

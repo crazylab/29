@@ -1,6 +1,7 @@
 var croupier = require('./croupier.js').croupier;
 
-var gameHandler = function(uniqueIDs){
-	var teams = croupier.makeTeams(uniqueIDs);
+var game = {
+	trump:{suit:null, open:false}
 };
-exports.gameHandler = gameHandler;
+
+exports.game = game;

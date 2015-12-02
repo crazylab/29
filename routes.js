@@ -40,6 +40,21 @@ var savePlayers = function(players,id){
 	players.push(id);
 	return players;
 };
+var setTrumpSuit = function (req, res) {
+	var data = '';
+	req.on('data',function(chunk){
+		data += chunk;
+	});
+	req.on('end',function(){
+		main.game.trump.suit = data;
+		res.end();
+	});
+};
+var getTrumpSuit = function (req, res) {
+	res.statusCode = 200;
+	var data = main.game.trump.suit;
+	res.end(data);
+};
 var players = []; 		//Need to Change
 var servePostPages = function(req,res,next){
 	var ip = req.connection.remoteAddress;
@@ -68,11 +83,13 @@ var servePostPages = function(req,res,next){
 };
 exports.post_handlers = [
 	{path: '^/gamePage.html$', handler: servePostPages},
+	{path: '^/setTrump$', handler: setTrumpSuit},
 	{path: '', handler: method_not_allowed}
 ];
 exports.get_handlers = [
 	{path: '^/$', handler: serveIndex},
 	{path: '^/status$', handler: serveGameStatus},
+	{path: '^/getTrump$', handler: getTrumpSuit},
 	{path: '', handler: serveStaticFile},
 	{path: '', handler: fileNotFound}
 ];
