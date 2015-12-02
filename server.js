@@ -2,93 +2,59 @@ var http = require('http');
 var fs = require('fs');
 var ld = require('lodash'); 
 var querystring = require('querystring');
-
+var EventEmitter = require('events').EventEmitter;
+// ------------------------------------------------
+var routes = require('./routes.js');
+var main = require('./main.js');
 var croupier = require('./croupier.js').croupier;
-
+//-------------------------------------------------
 const PORT = 3000;
+// ------------------------------------------------
+var get_handlers = routes.get_handlers;
+var post_handlers = routes.post_handlers;
+var rEmitter = new EventEmitter();
 
-var serveStaticFile = function(req,res){
-	if(req.url === '/')
-		req.url = '/index.html';
-	var path = './public' + req.url;
-	fs.readFile(path, function(err,data){
-		if(data){
-			res.statusCode = 200;
-			console.log(res.statusCode);
-			res.end(data);
-		}
-		else{
-			res.statusCode = 404;
-			console.log(res.statusCode);
-			res.end('Not Found');
-		}
-	});
-}
-var serveGameStatus = function(req,res){
-	res.statusCode = 200;
-	console.log(res.statusCode);
-	var gameStatus = croupier.getStatus();
-	res.end(JSON.stringify(gameStatus));
+var matchHandler = function(url){
+	return function(ph){
+		return url.match(new RegExp(ph.path));
+	};
 };
-var savePlayers = function(players,id){
-	players.push(id);
-	return players;
-};
-var handle_get = function(req,res){
-	var innerRequest = {
-		'/status' : serveGameStatus
-	}
-	if(innerRequest[req.url] !== undefined){
-		innerRequest[req.url](req,res);
+rEmitter.on('next', function(handlers, req, res, next){
+	if(handlers.length == 0) 
 		return;
-	}
-	serveStaticFile(req,res);
-};
-
-var handle_post = function(req,res){
-	servePostPages(req,res);
-};
-
-var method_not_allowed = function(req,res){
-	res.statusCode = 405;
-	console.log(res.statusCode);
-	res.end('Method Not Allowed');
-}
-var players = [];
-var servePostPages = function(req,res){
-	var ip = req.connection.remoteAddress;
-	var data = '';
-	req.on('data',function(chunk){
-		data +=chunk;
-		console.log(data,'-----');
-	});
-	req.on('end',function(){
-		var count = players.length; 
-		var name = querystring.parse(data).name;
-		if(!req.headers.cookie && players.length<4){
-			res.setHeader('set-cookie',[id = ip+'_'+name]);
-			savePlayers(players,ip+'_'+name);
-		};
-
-		if(count==4 && !req.headers.cookie){
-			method_not_allowed(req,res);
-		};
-		res.writeHead(302,{Location:'gamePage.html'});
-		res.end(data);
-	});
+	var ph = handlers.shift();
+	ph.handler(req, res, next);
+});
+var handle_all_post = function(req, res){
+	var handlers = post_handlers.filter(matchHandler(req.url));
+	console.log(handlers.map(function(ph){
+		return ph.path;
+	}));
+	var next = function(){
+		rEmitter.emit('next', handlers, req, res, next);
+	};
+	next();
+}; 
+var handle_all_get = function(req, res){
+	var handlers = get_handlers.filter(matchHandler(req.url));
+	console.log(handlers.map(function(ph){
+		return ph.path;
+	}));
+	var next = function(){
+		rEmitter.emit('next', handlers, req, res, next);
+	};
+	next();
 };
 
 var requestHandler = function(req, res){
-	console.log('user request: ',req.url,req.method);
-	if(req.method === 'GET')
-		handle_get(req,res);
-	else if(req.method === 'POST')
-		handle_post(req,res);
+	console.log(req.method, req.url);
+	if(req.method == 'GET')
+		handle_all_get(req, res);
+	else if(req.method == 'POST')
+		handle_all_post(req, res);
 	else
-		method_not_allowed(req,res);
+		method_not_allowed(req, res);
 };
-
-var server=http.createServer(requestHandler).listen(PORT);
-server.on('error',function(e){
-	console.log(e.message);
+http.createServer(requestHandler).listen(PORT).on('error',function(err){
+	console.log(err.message);
 });
