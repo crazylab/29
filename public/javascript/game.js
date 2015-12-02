@@ -30,5 +30,6 @@ var showAllHands = function(myHand){
 }
 var onPageReady = function(){
 	showAllHands();
-}
+};
+
 $(document).ready(onPageReady);

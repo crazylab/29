@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Welcome </title>
-	<link rel="stylesheet" type="text/css" href="css/gameStyle.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script type="text/javascript" src="javascript/jquery-1.11.3.min.js"></script>
-	<script type="text/javascript" src="javascript/handlebars.runtime-v4.0.5.js"></script>
-	<script type="text/javascript" src="javascript/game.js"></script>
-</head> 
-<body>
-	<h1 class="heading"> Let's Play 29 </h1>
-	<center>
-		<div class="game" id="table">
-			<div class="bidStatus" align="left">
-				Bid Value: <div id="bidValue"></div><br>
-				Top Bidder: <div id="topBidder"></div>
-			</div>
+	<head>
+		<title>Welcome </title>
+		<link rel="stylesheet" type="text/css" href="css/gameStyle.css">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<script type="text/javascript" src="javascript/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="javascript/handlebars.runtime-v4.0.5.js"></script>
+		<script type="text/javascript" src="javascript/game.js"></script>
+		<script type="text/javascript" src="javascript/trump.js"></script>
+	</head> 
+	<body>
+		<h1 class="heading"> Let's Play 29 </h1>
+		<center>
+			<div class="game" id="table">
+				<div class="bidStatus" align="left">
+					Bid Value: <div id="bidValue"></div><br>
+					Top Bidder: <div id="topBidder"></div>
+				</div>
 			<div class="horizontalBox top" id="partner"></div>
 			<div class="verticalBox left" id="opponent_1"></div>
 			<div class="verticalBox right" id="opponent_2"></div>
@@ -33,4 +34,3 @@
 		</div>
 	</center>
 </body>
-</html>
