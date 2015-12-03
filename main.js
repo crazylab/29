@@ -15,6 +15,10 @@ var getCardID = function(cards){
 		return card.id;
 	});
 };
+var isTrumpSet = function () {
+	if (this.trump.suit) return true;
+	return false;
+};
 game.getStatus = function(playerID){
 	var ownTeam = game.sequence.filter(function(id){
 		return game[playerID].team == game[id].team;
@@ -25,6 +29,7 @@ game.getStatus = function(playerID){
 		partner : getCardID(game[ownTeam[0]].hand).length,
 		opponent_1 : getCardID(game[opponentTeam[0]].hand).length,
 		opponent_2 : getCardID(game[opponentTeam[1]].hand).length,
+		trumpStatus : game.trump
 	};
 };
 var Player = function(team){
@@ -64,5 +69,13 @@ game.distributeCards = function(){
 		game[id].hand = seperateCards(dealtCards);
 	});
 	return game;
+};
+game.setTrumpSuit = function (suit) {
+	this.trump.suit = suit;
+};
+
+game.getTrumpSuit = function () {
+	this.trump.open = true;
+	return this.trump.suit;
 };
 exports.game = game;

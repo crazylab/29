@@ -13,20 +13,21 @@ var onReady = function () {
 	});	
 
 	// this function is related to the highest bidder.Use if necessary
-	$(function(){
-		$('#highestBidder').click(function(){
+	$(function () {
+		$('#highestBidder').click(function (){
 			$('#trumps').removeClass('trump_suits');
 		});
 	});
-
-	$(function(){
-		$('.trump').click(function(){
-			$.get('getTrump',function(data){
-				$('.trump').html('<img src=img/'+data+'.png />');
-			});
+	var showTrump = function(){
+		$.get('getTrump',function(data) {
+			$('.trump').attr('disabled', 'disabled');
+			$('.trump').html('<img src=img/'+data+'.png />');
 		});
-	});
+	};
 
+	$(function () {
+		$('.trump').one('click', showTrump);
+	});
 };
 
 $(document).ready(onReady);

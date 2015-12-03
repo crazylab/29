@@ -40,13 +40,13 @@ var setTrumpSuit = function (req, res) {
 		data += chunk;
 	});
 	req.on('end',function(){
-		main.game.trump.suit = data;
+		main.setTrumpSuit(data);
 		res.end();
 	});
 };
 var getTrumpSuit = function (req, res) {
 	res.statusCode = 200;
-	var data = main.game.trump.suit;
+	var data = main.getTrumpSuit();
 	res.end(data);
 };
 var players = []; 		//Need to Change
