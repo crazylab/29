@@ -1,16 +1,20 @@
-var game = require('../main.js').game;
+var kkk = require('../main.js').game;
+var team = require('../teamFormation.js').team;
+
 var chai = require('chai');
 var assert = chai.assert;
 var expect = chai.expect;
 
 describe('distribute',function(){
+	var game = new kkk.Game();
 	var gameStatus = game.assignTeam(['1','2','3','4']);
+
 	gameStatus = game.distributeCards();
 	it('gives four cards to each player from deck',function(){
-		var hand1 = gameStatus['1'].hand;
-		var hand2 = gameStatus['2'].hand;
-		var hand3 = gameStatus['3'].hand;
-		var hand4 = gameStatus['4'].hand;
+		var hand1 = game.team_1.players[0].hand;
+		var hand2 = game.team_1.players[1].hand;
+		var hand3 = game.team_2.players[0].hand;
+		var hand4 = game.team_2.players[1].hand;
 
 		var totalCard = hand1.Heart.length + hand1.Spade.length + hand1.Club.length + hand1.Diamond.length;
 		expect(totalCard).to.equal(4);
@@ -26,19 +30,32 @@ describe('distribute',function(){
 	});
 });
 describe('getStatus',function(){
-	var gameStatus = game.assignTeam(['1','2','3','4']);
+	var game = new kkk.Game();
+	var gameStatus = game.assignTeam(['1','two','3','4']);
 	gameStatus = game.distributeCards();
-	var status = game.getStatus('2');
+	var status = game.getStatus('two');
 
 	it('gives object with ownHand and length of partner, opponent_1, opponent_2 hand',function(){
-		expect(status).to.have.all.keys('ownHand', 'partner', 'opponent_1', 'opponent_2');
+		expect(status).to.have.all.keys('ownHand', 'partner', 'opponent_1', 'opponent_2','trumpStatus');
 	});
 	it('gives four card IDs for the requested player',function(){
 		expect(status.ownHand).to.have.length(4);
 	});
-	it('gives 3 for the other player',function(){
+	it('gives 4 cards for the 3 other player',function(){
 		expect(status.partner).to.equal(4);
 		expect(status.opponent_1).to.equal(4);
 		expect(status.opponent_2).to.equal(4);
+	});
+});
+describe('assignPlayerToATeam',function(){
+	it('assigns player to a team in one game',function(){
+
+	})
+});
+describe('assignTeam',function(){
+	var game = new kkk.Game();
+	game.assignTeam(['1','2','3','4']);
+	it('assigns player to a team',function(){
+		expect(game.team_1.players[0].id).to.equal('1');
 	});
 });

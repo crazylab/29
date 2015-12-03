@@ -1,4 +1,5 @@
 var m = require('../croupier.js').croupier;
+var game = require('../main.js').game;
 var team = require('../teamFormation.js').team;
 var d = require('../cardGenerator.js').m;
 
@@ -249,17 +250,12 @@ describe('roundWinner',function(){
 
 
 	})
-});+---+
+});
+/*describe('assignAPlayer',function(){
+	it('assigns a player to a team',function(){
+		var player_id1 = 'one';
+		var game = game.newGame();
 
 
-
-
-
-
-
-
-
-
-
-
-
+	});
+});*/
