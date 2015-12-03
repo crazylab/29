@@ -65,3 +65,35 @@ croupier.calculateTotalPoint = function(teamBucket){
 	},0);
 };
 
+var beforeTrumpShow = function(comparingCard,startingSuit,standCard){
+	if (startingSuit == comparingCard.card.suit) {
+		if (standCard.card.rank > comparingCard.card.rank)
+			standCard = comparingCard;
+	};
+	return standCard;
+};
+
+var afterTrumpShow = function(comparingCard,startingSuit,standCard,trumpSuit){
+	if (comparingCard.card.suit == trumpSuit && standCard.trumpShown==false)
+		standCard = comparingCard;
+	else if(comparingCard.card.suit == trumpSuit && standCard.trumpShown==true){
+		if(standCard.card.rank > comparingCard.card.rank)
+			standCard = comparingCard;
+	}
+	else if(comparingCard.card.suit != trumpSuit && standCard.card.suit != trumpSuit)
+		standCard = beforeTrumpShow(comparingCard,startingSuit,standCard);
+	return standCard;
+}
+
+croupier.roundWinner = function (playedCards,trumpSuit){
+	var startingSuit = playedCards[0].card.suit;
+	var standCard = playedCards[0];
+	for (var i = 1;i < playedCards.length;i++){
+		if (playedCards[i].trumpShown == false || startingSuit == trumpSuit)
+			standCard = beforeTrumpShow(playedCards[i],startingSuit,standCard)
+		else
+			standCard = afterTrumpShow(playedCards[i],startingSuit,standCard,trumpSuit);
+	};
+	return standCard.player;
+
+};
