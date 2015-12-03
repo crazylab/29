@@ -240,22 +240,7 @@ describe('roundWinner',function(){
 						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 						trumpShown: true
 						}];
-		var playedCardsSet_6 = [{player:'10.4.20.173_sayan',
-						card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
-						trumpShown: false
-						},
-						{player:'10.4.20.163_sayani',
-						card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
-						trumpShown: true
-						},
-						{player:'10.4.20.143_brindaban',
-						card:{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
-						trumpShown: true
-						},
-						{player:'10.4.20.153_rahul',
-						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
-						trumpShown: true
-						}];
+
 		assert.equal('10.4.20.163_sayani',m.roundWinner(playedCardsSet_1,'Diamond'));
 		assert.equal('10.4.20.143_brindaban',m.roundWinner(playedCardsSet_2,'Spade'));
 		assert.equal('10.4.20.163_sayani',m.roundWinner(playedCardsSet_3,'Diamond'));
@@ -264,7 +249,7 @@ describe('roundWinner',function(){
 
 
 	})
-});
+});+---+
 
 
 

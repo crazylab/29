@@ -6,17 +6,27 @@ var onReady = function () {
 		$('.trump').html(content);
 	};
 	$(function () {
-		$('#club').on("click", postTrump);
-		$('#diamond').on("click", postTrump);
-		$('#spade').on("click", postTrump);
-		$('#heart').on("click", postTrump);
+		$('#C2').on("click", postTrump);
+		$('#D2').on("click", postTrump);
+		$('#S2').on("click", postTrump);
+		$('#H2').on("click", postTrump);
 	});	
 
 	// this function is related to the highest bidder.Use if necessary
-	$(function(){
-		$('#highestBidder').click(function(){
+	$(function () {
+		$('#highestBidder').click(function (){
 			$('#trumps').removeClass('trump_suits');
 		});
+	});
+	var showTrump = function(){
+		$.get('getTrump',function(data) {
+			$('.trump').attr('disabled', 'disabled');
+			$('.trump').html('<img src=img/'+data+'.png />');
+		});
+	};
+
+	$(function () {
+		$('.trump').one('click', showTrump);
 	});
 };
 
