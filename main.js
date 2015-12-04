@@ -1,52 +1,41 @@
 var ld = require('lodash');
-var card = require('./cardGenerator.js');
-
-var game = {
-	deck: card.generateCards(),
-	sequence : null,
-	trump : {suit: null, open: false},
-	playedCards : [],
-	bid : {value : null, player : null},
-	score : {team_1 : 0, team_2 : 0}
-};
-var getCardID = function(cards){
-	var allCards = ld.flattenDeep(ld.values(cards));
-	return allCards.map(function(card){
-		return card.id;
-	});
-};
+var card = require('./cards.js');
+var team = require('./teamFormation.js').team;
+var gameExp = {};
+gameExp.Game = function(){
+	this.deck = card.generateCards(),
+	this.trump = {suit: null, open: false},
+	this.playedCards = [],
+	this.bid = {value : null, player : null},
+	this.team_1 = team.generateTeam(),
+	this.team_2 = team.generateTeam()	
+}
 var isTrumpSet = function () {
 	if (this.trump.suit) return true;
 	return false;
 };
-game.getStatus = function(playerID){
-	var ownTeam = game.sequence.filter(function(id){
-		return game[playerID].team == game[id].team;
-	});
-	var opponentTeam = ld.difference(game.sequence,ownTeam);
+gameExp.Game.prototype.getStatus = function(playerID){
+	var ownTeam = this.team_1.hasPlayer(playerID) ? this.team_1:this.team_2;
+	var opponentTeam = this.team_1.hasPlayer(playerID) ? this.team_2:this.team_1;
+
+	var partner = ownTeam.getPartner(playerID);
+	var player = ownTeam.getPlayer(playerID);
 	return {
-		ownHand : getCardID(game[playerID].hand),
-		partner : getCardID(game[ownTeam[0]].hand).length,
-		opponent_1 : getCardID(game[opponentTeam[0]].hand).length,
-		opponent_2 : getCardID(game[opponentTeam[1]].hand).length,
-		trumpStatus : game.trump
+		ownHand : player.getCardID(),
+		partner : partner.getCardsCount(),
+		opponent_1 : opponentTeam.players[0].getCardsCount(),//opponent.player[0].hand.num_of_cards();
+		opponent_2 : opponentTeam.players[1].getCardsCount(),
+		trumpStatus : this.trump.open
 	};
 };
-var Player = function(team){
-	this.team = team;
-	this.hand = {Heart:[],Spade:[],Club:[],Diamond:[]};
-	this.hasPair = false;
+
+gameExp.Game.prototype.assignTeam = function(playerIDs){
+	this.team_1.addPlayer(new team.Player(playerIDs[0]));
+	this.team_1.addPlayer(new team.Player(playerIDs[1]));
+	this.team_2.addPlayer(new team.Player(playerIDs[2]));
+	this.team_2.addPlayer(new team.Player(playerIDs[3]));
 };
-game.assignTeam = function(playerIDs){
-	game.sequence = ld.shuffle(playerIDs);
-	var teams = ['team_1','team_2'];
-	var index = 0;
-	game.sequence.forEach(function(id){
-		game[id] = new Player(teams[index]);
-		index = 1 - index;
-	});
-	return game;
-};
+
 var seperateCards = function(cards){
 	var allCards = {
 					'Heart' : [],
@@ -59,23 +48,29 @@ var seperateCards = function(cards){
 	});
 	return allCards;
 }
-game.shuffle = function(){
-	game.deck = ld.shuffle(game.deck);
-	return game;	
+gameExp.Game.prototype.shuffle = function(){
+	this.deck = ld.shuffle(this.deck);
+	return this;	
 };
-game.distributeCards = function(){
-	game.sequence.forEach(function(id){
-		var dealtCards = game.deck.splice(0,4);
-		game[id].hand = seperateCards(dealtCards);
+
+gameExp.Game.prototype.distributeCards = function(){
+	var self = this;
+	this.team_1.players.forEach(function(player){
+		var dealtCards = self.deck.splice(0,4);
+		player.hand = seperateCards(dealtCards);
 	});
-	return game;
+	this.team_2.players.forEach(function(player){
+		var dealtCards = self.deck.splice(0,4);
+		player.hand = seperateCards(dealtCards);
+	});
+	return this;
 };
-game.setTrumpSuit = function (suit) {
+gameExp.Game.prototype.setTrumpSuit = function (suit) {
 	this.trump.suit = suit;
 };
 
-game.getTrumpSuit = function () {
+gameExp.Game.getTrumpSuit = function () {
 	this.trump.open = true;
 	return this.trump.suit;
 };
-exports.game = game;
+exports.game = gameExp;
