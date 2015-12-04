@@ -4,7 +4,7 @@ exports.team = team;
 
 team.Team = function(){
 	this.players = [];
-	this.score = 0,
+	this.score = 0;
 	this.wonCards = [];
 };
 
@@ -35,7 +35,7 @@ team.generateTeam = function(){
 	return new team.Team();
 }
 
-team.Team.prototype.addPlayer = function(player){
+team.Team.prototype.addPlayer = function(player ){
 	if(this.players.length == 2)
 		throw (new Error('not enough space'));
 	this.players.push(player);

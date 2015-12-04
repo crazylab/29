@@ -1,12 +1,12 @@
-var kkk = require('../main.js').game;
-var team = require('../teamFormation.js').team;
+var gameModule = require('../game.js').game;
+var team = require('../team.js').team;
 
 var chai = require('chai');
 var assert = chai.assert;
 var expect = chai.expect;
 
 describe('distribute',function(){
-	var game = new kkk.Game();
+	var game = new gameModule.Game();
 	var gameStatus = game.assignTeam(['1','2','3','4']);
 
 	gameStatus = game.distributeCards();
@@ -30,7 +30,7 @@ describe('distribute',function(){
 	});
 });
 describe('getStatus',function(){
-	var game = new kkk.Game();
+	var game = new gameModule.Game();
 	var gameStatus = game.assignTeam(['1','two','3','4']);
 	gameStatus = game.distributeCards();
 	var status = game.getStatus('two');
@@ -53,7 +53,7 @@ describe('assignPlayerToATeam',function(){
 	})
 });
 describe('assignTeam',function(){
-	var game = new kkk.Game();
+	var game = new gameModule.Game();
 	game.assignTeam(['1','2','3','4']);
 	it('assigns player to a team',function(){
 		expect(game.team_1.players[0].id).to.equal('1');

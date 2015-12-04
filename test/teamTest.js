@@ -1,4 +1,4 @@
-var m = require('../teamFormation.js').team;
+var m = require('../team.js').team;
 var chai = require('chai');
 var assert = chai.assert;
 var expect = chai.expect;

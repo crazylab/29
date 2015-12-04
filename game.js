@@ -1,6 +1,6 @@
 var ld = require('lodash');
 var card = require('./cards.js');
-var team = require('./teamFormation.js').team;
+var team = require('./team.js').team;
 var gameExp = {};
 gameExp.Game = function(){
 	this.deck = card.generateCards(),

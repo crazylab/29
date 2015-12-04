@@ -1,6 +1,8 @@
-var cardLib = require('./cards.js');
-var teamLib = require('./teamFormation.js').team;
 var ld = require('lodash');
+
+var cardLib = require('./cards.js');
+var teamLib = require('./team.js').team;
+var gameLib = require('./game.js').game;
 
 var croupier = {};
 exports.croupier = croupier;
@@ -45,11 +47,11 @@ croupier.getShuffledDeck = function(){
 	return shuffledDeck;
 };
 
-croupier.makeTeams = function(uniqueIds){
-	var team_1 = new teamLib.Team(uniqueIds[0],uniqueIds[2]);
-	var team_2 = new teamLib.Team(uniqueIds[1],uniqueIds[3]);
-	return {team_1:team_1, team_2:team_2};
-};
+// croupier.makeTeams = function(uniqueIds){
+// 	var team_1 = new teamLib.Team(uniqueIds[0],uniqueIds[2]);
+// 	var team_2 = new teamLib.Team(uniqueIds[1],uniqueIds[3]);
+// 	return {team_1:team_1, team_2:team_2};
+// };
 
 croupier.dealCardsToAPlayer = function(dealtCards,player){
 	var existingHand = player.hand;
@@ -96,4 +98,18 @@ croupier.roundWinner = function (playedCards,trumpSuit){
 	};
 	return standCard.player;
 
+};
+croupier.makeNewGame = function(){
+	return new gameLib.Game();	
+};
+croupier.countPlayer = function(game){
+	return game.team_1.players.length + game.team_2.players.length;
+};
+
+croupier.assignPlayer = function(game,player){
+	if(croupier.countPlayer(game) < 2 )
+		game.team_1.players.push(player);
+	else
+		game.team_2.players.push(player);
+	return game;
 };

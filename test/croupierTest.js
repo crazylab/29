@@ -1,6 +1,5 @@
 var m = require('../croupier.js').croupier;
-var game = require('../main.js').game;
-var team = require('../teamFormation.js').team;
+var team = require('../team.js').team;
 var d = require('../cards.js').m;
 
 var chai = require('chai');
@@ -77,13 +76,13 @@ describe('getShuffledDeck',function(){
 	});
 });
 
-describe('setIdAndNames',function(){
-	var playerNames = ['10.2.45.178','10.2.45.173','10.2.45.192','10.4.45.191'];
-	var playersWithID = m.makeTeams(playerNames);
-	it('sets id for each player and asserts name to each',function(){
-		expect(playersWithID).to.have.all.keys('team_1','team_2');
-	});
-});
+// describe('setIdAndNames',function(){
+// 	var playerNames = ['10.2.45.178','10.2.45.173','10.2.45.192','10.4.45.191'];
+// 	var playersWithID = m.makeTeams(playerNames);
+// 	it('sets id for each player and asserts name to each',function(){
+// 		expect(playersWithID).to.have.all.keys('team_1','team_2');
+// 	});
+// });
 
 describe('dealCardsToAPlayer',function(){
 	var fourCards = [ { name: '10', suit: 'Heart', point: 1, rank: 4 },
@@ -259,3 +258,54 @@ describe('roundWinner',function(){
 
 	});
 });*/
+describe('makeGame',function(){
+	var newGame = m.makeNewGame();
+	it('creates a new game with intial values',function(){
+		expect(newGame).to.have.all.keys('deck','trump','playedCards','bid','team_1','team_2');
+	});
+	it('creates a game whose deck is of 32 cards',function(){
+		expect(newGame.deck).to.have.length(32);
+	});
+});
+
+describe('countPlayer',function(){
+	it('counts the number of player a game has',function(){
+		var game = {
+			team_1 : {players : ['Ramu','Mamu']},
+			team_2 : {players : ['Dada']}
+		};
+		expect(m.countPlayer(game)).to.equal(3);
+	});
+	it('gives zero when there is no player',function(){
+		var game = {
+			team_1 : {players : []},
+			team_2 : {players : []}
+		};
+		expect(m.countPlayer(game)).to.equal(0);
+	});
+});
+
+describe('assignPlayer',function(){
+	it('assigns a player to team_1 when there are no player in both the team',function(){
+		var game = {
+			team_1 : {players : []},
+			team_2 : {players : []}
+		};
+		var player = 'Ramu';
+		var game = m.assignPlayer(game,player);
+		expect(game.team_1.players).to.have.length(1);
+		expect(game.team_2.players).to.have.length(0);
+		expect(game.team_1.players[0]).to.equal('Ramu');
+	});
+	it('assigns a player in team_2 when team_1 has two players and team_2 has one player already',function(){
+		var game = {
+			team_1 : {players : ['Ramu','Mamu']},
+			team_2 : {players : ['Dada']}
+		};
+		var player = 'Shibu';
+		var game = m.assignPlayer(game,player);
+		expect(game.team_1.players).to.have.length(2);
+		expect(game.team_2.players).to.have.length(2);
+		expect(game.team_2.players[1]).to.equal('Shibu');
+	});
+});

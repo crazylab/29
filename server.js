@@ -5,7 +5,7 @@ var querystring = require('querystring');
 var EventEmitter = require('events').EventEmitter;
 // ------------------------------------------------
 var routes = require('./routes.js');
-var main = require('./main.js');
+var main = require('./game.js');
 //-------------------------------------------------
 const PORT = 3000;
 // ------------------------------------------------

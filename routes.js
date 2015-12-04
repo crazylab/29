@@ -1,7 +1,8 @@
 var fs = require('fs');
 var querystring = require('querystring');
 
-var main = require('./main.js').game;
+var game = require('./game.js').game;
+var clientHandler = require('./clientHandler.js').m;
 
 var method_not_allowed = function(req, res){
 	res.statusCode = 405;
@@ -29,75 +30,42 @@ var fileNotFound = function(req, res){
 	res.end('Not Found');
 	console.log(req.method,res.statusCode,': '+req.url,'Not Found.');
 };
-var players = []; 		//Need to Change
-var savePlayers = function(players,id){
-	players.push(id);
-	return players;
-};
 var setTrumpSuit = function (req, res) {
 	var data = '';
 	req.on('data',function(chunk){
 		data += chunk;
 	});
 	req.on('end',function(){
-		main.setTrumpSuit(data);
+		game.setTrumpSuit(data);
 		res.end();
 	});
 };
 var getTrumpSuit = function (req, res) {
 	res.statusCode = 200;
-	var data = main.getTrumpSuit();
+	var data = game.getTrumpSuit();
 	res.end(data);
-};
-var players = []; 		//Need to Change
-var servePostPages = function(req,res,next){
-	var ip = req.connection.remoteAddress;
-	var data = '';
-	console.log(req.url)
-	req.on('data',function(chunk){
-		data += chunk;
-	});
-	req.on('end',function(){
-		var count = players.length; 
-		var name = querystring.parse(data).name;
-
-		if(!req.headers.cookie && players.length < 4){
-			res.setHeader('set-cookie',[id = ip+'_'+name]);
-			savePlayers(players,ip+'_'+name);
-		};
-		if(count == 4 && !req.headers.cookie){
-			res.statusCode = 403;
-			console.log(req.method,res.statusCode,': Four Players are Already Playing.')
-			res.end();
-			return;
-		}
-		if(players.length == 4){
-			main.assignTeam(players).shuffle().distributeCards();
-		}
-		res.writeHead(302,{Location:'gamePage.html'});
-		res.end();
-	});
 };
 var serveGamePage = function(req,res){
 	req.url = '/gamePage.html';
 	serveStaticFile(req,res);
 }
 var serveGameStatus = function(req,res,next){
-	console.log(players);
-	if(players.length != 4){
-		res.statusCode = 406;
-		console.log(req.method,res.statusCode,': Not Enough Player to Play.');
-		next();
-		return;
-	}
+	// console.log(players);
+	// if(players.length != 4){
+	// 	res.statusCode = 406;
+	// 	console.log(req.method,res.statusCode,': Not Enough Player to Play.');
+	// 	next();
+	// 	return;
+	// }
 	res.statusCode = 200;
-	console.log(res.statusCode,': Status Sent.');
-	var gameStatus = main.getStatus(req.headers.cookie);
-	console.log(gameStatus);
-	res.end(JSON.stringify(gameStatus));
+	// console.log(res.statusCode,': Status Sent.');
+	// var gameStatus = game.getStatus(req.headers.cookie);
+	// console.log(gameStatus);
+	// res.end(JSON.stringify(gameStatus));
+	res.end();
 };
 exports.post_handlers = [
-	{path: '^/gamePage.html$', handler: servePostPages},
+	{path: '^/waiting.html$', handler: clientHandler.addPlayer},
 	{path: '^/setTrump$', handler: setTrumpSuit},
 	{path: '', handler: method_not_allowed}
 ];
