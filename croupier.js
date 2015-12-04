@@ -1,4 +1,4 @@
-var cardLib = require('./cardGenerator.js');
+var cardLib = require('./cards.js');
 var teamLib = require('./teamFormation.js').team;
 var ld = require('lodash');
 

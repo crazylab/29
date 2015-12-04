@@ -1,7 +1,7 @@
 var m = require('../croupier.js').croupier;
 var game = require('../main.js').game;
 var team = require('../teamFormation.js').team;
-var d = require('../cardGenerator.js').m;
+var d = require('../cards.js').m;
 
 var chai = require('chai');
 var assert = chai.assert;

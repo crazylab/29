@@ -1,14 +1,7 @@
 var ld = require('lodash');
-var card = require('./cardGenerator.js');
+var card = require('./cards.js');
 var team = require('./teamFormation.js').team;
-var gameExp = {
-	// deck : card.generateCards(),
-	// trump : {suit: null, open: false},
-	// playedCards : [],
-	// bid : {value : null, player : null},
-	// team_1 : team.generateTeam(),
-	// team_2 : team.generateTeam()
-};
+var gameExp = {};
 gameExp.Game = function(){
 	this.deck = card.generateCards(),
 	this.trump = {suit: null, open: false},
