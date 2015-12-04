@@ -20,10 +20,10 @@ var verticalCards = function (numberOfCards){
 	return hand.join('');
 };
 var checkForTrump = function(trumpStatus){
-	if(!trumpStatus.open)
-		return '<img src="img/hidden.png" />';
 	if(trumpStatus.open)
 		return '<img src=img/'+trumpStatus.suit+'.png />';
+	if(!trumpStatus.open && trumpStatus.suit)
+		return '<img src="img/hidden.png" />';
 };
 var showAllHands = function(myHand){
 	$.get("status",function(data){
