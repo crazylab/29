@@ -19,24 +19,37 @@ var verticalCards = function (numberOfCards){
 	}
 	return hand.join('');
 };
-var checkForTrump = function(trumpStatus){
-	if(trumpStatus.open)
-		return '<img src=img/'+trumpStatus.suit+'.png />';
-	if(!trumpStatus.open && trumpStatus.suit)
-		return '<img src="img/hidden.png" />';
+var showTrump = function(trump){
+	if(trump)
+		return '<img src="img/' + trump + '.png" />';
+	return '<img src="img/hidden.png" />';
 };
-var showAllHands = function(myHand){
-	$.get("status",function(data){
-		var status = JSON.parse(data);
-		$('#ownHand').html(horizontalCards(status.ownHand));
-		$('#partner').html(horizontalCards(status.partner));
-		$('#opponent_1').html(verticalCards(status.opponent_1));
-		$('#opponent_2').html(verticalCards(status.opponent_2));
-		$('.trump').html(checkForTrump(status.trumpStatus));
+var updateChanges = function(changes){
+	var handler = {
+		'ownHand' : horizontalCards,
+		'partner' : horizontalCards,
+		'opponent_1' : verticalCards,
+		'opponent_2' : verticalCards,
+		'trump' : showTrump
+	};
+	_.forIn(changes, function(value, key){
+		var id = '#'+ key;
+		var html = handler[key](value);
+		$(id).html(html);
 	});
 }
 var onPageReady = function(){
-	showAllHands();
+	$.get("status",function(status){
+		updateChanges(JSON.parse(status));
+	});
+	setInterval(function(){
+		$.get("status",function(data){
+			var status = JSON.parse(data);
+			if(Object.keys(status).length == 0)
+				return;
+			updateChanges(status);
+		});
+	},3000);
 };
 
 $(document).ready(onPageReady);

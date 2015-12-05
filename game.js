@@ -27,29 +27,9 @@ gameExp.Game.prototype.getStatus = function(playerID){
 		partner : partner.getCardsCount(),
 		opponent_1 : opponentTeam.players[0].getCardsCount(),//opponent.player[0].hand.num_of_cards();
 		opponent_2 : opponentTeam.players[1].getCardsCount(),
-		trumpStatus : this.trump.open
+		trump : this.trump.open && this.trump.suit
 	};
 };
-
-gameExp.Game.prototype.assignTeam = function(playerIDs){
-	this.team_1.addPlayer(new team.Player(playerIDs[0]));
-	this.team_1.addPlayer(new team.Player(playerIDs[1]));
-	this.team_2.addPlayer(new team.Player(playerIDs[2]));
-	this.team_2.addPlayer(new team.Player(playerIDs[3]));
-};
-
-var seperateCards = function(cards){
-	var allCards = {
-					'Heart' : [],
-					'Spade' : [],
-					'Club' : [],
-					'Diamond' : []
-				};
-	cards.forEach(function(card){
-		allCards[card.suit].push(card);
-	});
-	return allCards;
-}
 gameExp.Game.prototype.shuffle = function(){
 	this.deck = ld.shuffle(this.deck);
 	return this;	
