@@ -36,9 +36,10 @@ m.addPlayer = function(req,res){
 			dummyGame = croupier.assignPlayer(dummyGame,player);
 			console.log('----> ',name,' has been added to a team.')
 		};
-		// if(players.length == 4){
-		// 	main.assignTeam(players).shuffle().distributeCards();
-		// }
+		if(croupier.countPlayer(game) == 4){
+			game.setDistributionSequence().shuffleDeck();
+			croupier.distributeCards(game);
+		}
 		res.writeHead(302,{Location:'waiting.html'});
 		res.end();
 	});
@@ -48,4 +49,17 @@ m.serveNeededCount = function(req,res){
 	res.statusCode = 200;
 	res.end(String(neededPlayer));	
 	console.log(req.method,res.statusCode,': Needed Count Has Been Served.')
-}
+};
+m.serveGameStatus = function(req,res,next){
+	if(croupier.countPlayer(game) != 4){
+		res.statusCode = 406;
+		console.log(req.method,res.statusCode,': Not Enough Player to Play.');
+		next();
+		return;
+	}
+	res.statusCode = 200;
+	console.log(res.statusCode,': Status Sent.');
+	var gameStatus = game.getStatus(req.headers.cookie);
+	console.log(gameStatus);
+	res.end(JSON.stringify(gameStatus));
+};

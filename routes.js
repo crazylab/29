@@ -49,21 +49,6 @@ var serveGamePage = function(req,res){
 	req.url = '/gamePage.html';
 	serveStaticFile(req,res);
 }
-var serveGameStatus = function(req,res,next){
-	// console.log(players);
-	// if(players.length != 4){
-	// 	res.statusCode = 406;
-	// 	console.log(req.method,res.statusCode,': Not Enough Player to Play.');
-	// 	next();
-	// 	return;
-	// }
-	res.statusCode = 200;
-	// console.log(res.statusCode,': Status Sent.');
-	// var gameStatus = game.getStatus(req.headers.cookie);
-	// console.log(gameStatus);
-	// res.end(JSON.stringify(gameStatus));
-	res.end();
-};
 exports.post_handlers = [
 	{path: '^/waiting.html$', handler: clientHandler.addPlayer},
 	{path: '^/setTrump$', handler: setTrumpSuit},
@@ -71,7 +56,7 @@ exports.post_handlers = [
 ];
 exports.get_handlers = [
 	{path: '^/$', handler: serveIndex},
-	{path: '^/status$', handler: serveGameStatus},
+	{path: '^/status$', handler: clientHandler.serveGameStatus},
 	{path: '^/getTrump$', handler: getTrumpSuit},
 	{path: '^/waiting$', handler: clientHandler.serveNeededCount},
 	{path: '', handler: serveStaticFile},

@@ -42,7 +42,7 @@ describe('Player',function(){
 	});
 	describe('types',function(){
 		it('Properties are of different types',function(){
-			assert.typeOf(player.hand, 'object');
+			assert.typeOf(player.hand, 'array');
 			assert.typeOf(player.hasPair, 'boolean');
 		});
 	});

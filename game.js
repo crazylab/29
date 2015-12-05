@@ -4,6 +4,8 @@ var team = require('./team.js').team;
 var gameExp = {};
 gameExp.Game = function(){
 	this.deck = card.generateCards(),
+	this.distributionSequence = [],
+	this.roundSequence = [],
 	this.trump = {suit: null, open: false},
 	this.playedCards = [],
 	this.bid = {value : null, player : null},
@@ -51,18 +53,18 @@ var seperateCards = function(cards){
 gameExp.Game.prototype.shuffle = function(){
 	this.deck = ld.shuffle(this.deck);
 	return this;	
+};	
+gameExp.Game.prototype.setDistributionSequence = function(){
+	if(this.distributionSequence.length == 0)
+		this.distributionSequence = [this.team_1.players[0],this.team_2.players[0],this.team_1.players[1],this.team_2.players[1]];
+	else{
+		var firstPlayer = this.distributionSequence.splice(0,1)[0];
+		this.distributionSequence.push(firstPlayer);
+	}
+	return this;
 };
-
-gameExp.Game.prototype.distributeCards = function(){
-	var self = this;
-	this.team_1.players.forEach(function(player){
-		var dealtCards = self.deck.splice(0,4);
-		player.hand = seperateCards(dealtCards);
-	});
-	this.team_2.players.forEach(function(player){
-		var dealtCards = self.deck.splice(0,4);
-		player.hand = seperateCards(dealtCards);
-	});
+gameExp.Game.prototype.shuffleDeck = function(){
+	this.deck = ld.shuffle(this.deck);
 	return this;
 };
 gameExp.Game.prototype.setTrumpSuit = function (suit) {
@@ -73,4 +75,4 @@ gameExp.Game.getTrumpSuit = function () {
 	this.trump.open = true;
 	return this.trump.suit;
 };
-exports.game = gameExp;
+exports.game = gameExp; 7

@@ -7,13 +7,6 @@ var gameLib = require('./game.js').game;
 var croupier = {};
 exports.croupier = croupier;
 
-var shuffle = function(cards){
-	cards = ld.shuffle(cards);
-	return cards;	
-};
-croupier.getStatus = function(){
-
-}
 croupier.bid = {
 	value : null,
 	player : null
@@ -41,11 +34,6 @@ croupier.setBid = function (playerSequence) {
 	}
 };
 
-croupier.getShuffledDeck = function(){
-	var deck = cardLib.generateCards();
-	var shuffledDeck = shuffle(deck);
-	return shuffledDeck;
-};
 
 // croupier.makeTeams = function(uniqueIds){
 // 	var team_1 = new teamLib.Team(uniqueIds[0],uniqueIds[2]);
@@ -53,12 +41,19 @@ croupier.getShuffledDeck = function(){
 // 	return {team_1:team_1, team_2:team_2};
 // };
 
-croupier.dealCardsToAPlayer = function(dealtCards,player){
-	var existingHand = player.hand;
-	dealtCards.forEach(function(card){
-		existingHand[card.suit].push(card);
+// croupier.dealCardsToAPlayer = function(dealtCards,player){
+// 	var existingHand = player.hand;
+// 	dealtCards.forEach(function(card){
+// 		existingHand[card.suit].push(card);
+// 	});
+// 	return player;
+// };
+croupier.distributeCards = function(game){
+	var sequence = game.distributionSequence;
+	sequence.forEach(function(player){
+		player.hand = game.deck.splice(0,4);
 	});
-	return player;
+	return game;
 };
 
 croupier.calculateTotalPoint = function(teamBucket){
