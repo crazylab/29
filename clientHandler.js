@@ -1,5 +1,4 @@
 var querystring = require('querystring');
-var ld = require('lodash');
 var fs = require('fs');
 
 var main = require('./game.js').game;
@@ -9,21 +8,8 @@ var team = require('./team.js').team;
 var m = {};
 exports.m = m;
 
-var storeCurrentGame = function(game){
-	fs.writeFile('./database/gameInstance.json',JSON.stringify(game),function(err){
-		if(err)
-			console.log('err');
-		else 
-			console.log('Game Saved');
-	});
-};
+var game = new main.Game();
 
-var readCurrentGame = function(){
-	var data = fs.readFileSync('./database/gameInstance.json','utf8');
-	return JSON.parse(data);
-};
-
-var initializeGame = ld.once(croupier.makeNewGame);
 var noVacancy = function(req,res){
 	res.statusCode = 403;
 	console.log(req.method,res.statusCode,': Four Players are Already Playing.')
@@ -35,14 +21,11 @@ m.addPlayer = function(req,res){
 	req.on('data',function(chunk){
 		data += chunk;
 	});
+	var dummyGame = game;
 	req.on('end',function(){
-		var instanceOfGame = initializeGame();
 		var name = querystring.parse(data).name;
-
-		if(instanceOfGame) 
-			var game = instanceOfGame;
-
-		var count = croupier.countPlayer(game);
+		console.log(dummyGame)
+		var count = croupier.countPlayer(dummyGame);
 		if(count == 4 && !req.headers.cookie){
 			noVacancy(req,res);
 			return;
@@ -51,9 +34,8 @@ m.addPlayer = function(req,res){
 		if(!req.headers.cookie && count < 4){
 			res.setHeader('set-cookie',[id = name]);
 			var player = new team.Player(name);
-			var game = croupier.assignPlayer(game,player);
+			dummyGame = croupier.assignPlayer(dummyGame,player);
 		};
-		storeCurrentGame(game);
 		// if(players.length == 4){
 		// 	main.assignTeam(players).shuffle().distributeCards();
 		// }
@@ -62,7 +44,6 @@ m.addPlayer = function(req,res){
 	});
 };
 m.serveNeededCount = function(req,res){
-	var game = readCurrentGame();
 	var neededPlayer = 4 - croupier.countPlayer(game);
 	res.statusCode = 200;
 	res.end(String(neededPlayer));	

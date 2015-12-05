@@ -1,6 +1,7 @@
 var m = require('../croupier.js').croupier;
 var team = require('../team.js').team;
 var d = require('../cards.js').m;
+var g = require('../game.js').game;
 
 var chai = require('chai');
 var assert = chai.assert;
@@ -277,7 +278,7 @@ describe('roundWinner',function(){
 	});
 });*/
 describe('makeGame',function(){
-	var newGame = m.makeNewGame();
+	var newGame = new g.Game();
 	it('creates a new game with intial values',function(){
 		expect(newGame).to.have.all.keys('deck','trump','playedCards','bid','team_1','team_2');
 	});
@@ -305,10 +306,7 @@ describe('countPlayer',function(){
 
 describe('assignPlayer',function(){
 	it('assigns a player to team_1 when there are no player in both the team',function(){
-		var game = {
-			team_1 : {players : []},
-			team_2 : {players : []}
-		};
+		var game = new g.Game();
 		var player = 'Ramu';
 		var game = m.assignPlayer(game,player);
 		expect(game.team_1.players).to.have.length(1);
@@ -316,10 +314,11 @@ describe('assignPlayer',function(){
 		expect(game.team_1.players[0]).to.equal('Ramu');
 	});
 	it('assigns a player in team_2 when team_1 has two players and team_2 has one player already',function(){
-		var game = {
-			team_1 : {players : ['Ramu','Mamu']},
-			team_2 : {players : ['Dada']}
-		};
+		var game = new g.Game();
+		game.team_1.players.push('ramu');
+		game.team_1.players.push('raju');
+		game.team_2.players.push('tanu');
+
 		var player = 'Shibu';
 		var game = m.assignPlayer(game,player);
 		expect(game.team_1.players).to.have.length(2);

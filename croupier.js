@@ -99,17 +99,15 @@ croupier.roundWinner = function (playedCards,trumpSuit){
 	return standCard.player;
 
 };
-croupier.makeNewGame = function(){
-	return new gameLib.Game();	
-};
+
 croupier.countPlayer = function(game){
 	return game.team_1.players.length + game.team_2.players.length;
 };
 
 croupier.assignPlayer = function(game,player){
 	if(croupier.countPlayer(game) < 2 )
-		game.team_1.players.push(player);
+		game.team_1.addPlayer(player);
 	else
-		game.team_2.players.push(player);
+		game.team_2.addPlayer(player);
 	return game;
 };
