@@ -63,3 +63,20 @@ m.serveGameStatus = function(req,res,next){
 	console.log(gameStatus);
 	res.end(JSON.stringify(gameStatus));
 };
+m.setTrumpSuit = function (req, res) {
+	var data = '';
+	req.on('data',function(chunk){
+		data += chunk;
+	});
+	req.on('end',function(){
+		game.setTrumpSuit(data);
+		console.log('Trump suit has been set');
+		res.end();
+	});
+};
+m.getTrumpSuit = function (req, res) {
+	res.statusCode = 200;
+	var data = game.getTrumpSuit();
+	console.log('Trump suit '+ data +' has been revealed');
+	res.end(data);
+};
