@@ -1,6 +1,10 @@
 var showPlayerCount = function(){
-	$.get('waiting',function(count){
-		$('#waiting').html('Waiting for '+count+' other players...')
-	});
-}
+	setInterval(function(){
+		$.get('waiting',function(count){
+			$('#waiting').html('Waiting for '+count+' other players...')
+			if(count==0)
+				$(location).attr('href','gamePage.html');
+		});
+	},2500);
+};
 $(document).ready(showPlayerCount);

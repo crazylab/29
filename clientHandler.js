@@ -24,7 +24,6 @@ m.addPlayer = function(req,res){
 	var dummyGame = game;
 	req.on('end',function(){
 		var name = querystring.parse(data).name;
-		console.log(dummyGame)
 		var count = croupier.countPlayer(dummyGame);
 		if(count == 4 && !req.headers.cookie){
 			noVacancy(req,res);
@@ -35,6 +34,7 @@ m.addPlayer = function(req,res){
 			res.setHeader('set-cookie',[id = name]);
 			var player = new team.Player(name);
 			dummyGame = croupier.assignPlayer(dummyGame,player);
+			console.log('----> ',name,' has been added to a team.')
 		};
 		// if(players.length == 4){
 		// 	main.assignTeam(players).shuffle().distributeCards();
