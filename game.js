@@ -25,7 +25,7 @@ gameExp.Game.prototype.getStatus = function(playerID){
 	return {
 		ownHand : player.getCardID(),
 		partner : partner.getCardsCount(),
-		opponent_1 : opponentTeam.players[0].getCardsCount(),//opponent.player[0].hand.num_of_cards();
+		opponent_1 : opponentTeam.players[0].getCardsCount(),
 		opponent_2 : opponentTeam.players[1].getCardsCount(),
 		trump : this.trump.open && this.trump.suit
 	};

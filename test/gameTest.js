@@ -39,7 +39,7 @@ describe('getStatus',function(){
 	var status = game.getStatus('ranju');
 	console.log(game.team_2.players[0].hand)
 	it('gives object with ownHand and length of partner, opponent_1, opponent_2 hand',function(){
-		expect(status).to.have.all.keys('ownHand', 'partner', 'opponent_1', 'opponent_2','trumpStatus');
+		expect(status).to.have.all.keys('ownHand', 'partner', 'opponent_1', 'opponent_2','trump');
 	});
 	it('gives four card IDs for the requested player',function(){
 		expect(status.ownHand).to.have.length(4);
