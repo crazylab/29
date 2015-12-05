@@ -8,3 +8,8 @@
 	margin: 20px 780px; 
 	font-size: 18px;
 }
+.screen_center{
+    position: absolute;
+    top: 50%;
+    left: 41%;
+}

@@ -73,6 +73,7 @@ exports.get_handlers = [
 	{path: '^/$', handler: serveIndex},
 	{path: '^/status$', handler: serveGameStatus},
 	{path: '^/getTrump$', handler: getTrumpSuit},
+	{path: '^/waiting$', handler: clientHandler.serveNeededCount},
 	{path: '', handler: serveStaticFile},
 	{path: '', handler: fileNotFound}
 ];

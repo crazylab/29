@@ -156,8 +156,26 @@ describe('roundWinner',function(){
 							card:{ name: '9', suit: 'Spade', point: 2, rank: 2 },
 							trumpShown: false
 							}];
+		var playedCardsSet_3 = [{player:'10.4.20.173_sayan',
+						card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
+						trumpShown: false
+						},
+						{player:'10.4.20.163_sayani',
+						card:{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
+						trumpShown: false
+						},
+						{player:'10.4.20.143_brindaban',
+						card:{ name: 'J', suit: 'Spade', point: 3, rank: 2 },
+						trumpShown: false
+						},
+						{player:'10.4.20.153_rahul',
+						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
+						trumpShown: false
+						}];
 		assert.equal('10.4.20.153_rahul',m.roundWinner(playedCardsSet_1));
-		assert.equal('10.4.20.143_brindaban',m.roundWinner(playedCardsSet_2));					
+		assert.equal('10.4.20.143_brindaban',m.roundWinner(playedCardsSet_2));
+		assert.equal('10.4.20.173_sayan',m.roundWinner(playedCardsSet_3));
+
 	});
 	it('gives the id of the player who won the round after trumpShown',function(){
 		var playedCardsSet_1 = [{player:'10.4.20.173_sayan',
