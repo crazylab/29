@@ -48,4 +48,21 @@ m.serveNeededCount = function(req,res){
 	res.statusCode = 200;
 	res.end(String(neededPlayer));	
 	console.log(req.method,res.statusCode,': Needed Count Has Been Served.')
-}
+};
+m.setTrumpSuit = function (req, res) {
+	var data = '';
+	req.on('data',function(chunk){
+		data += chunk;
+	});
+	req.on('end',function(){
+		game.setTrumpSuit(data);
+		console.log('Trump suit has been set');
+		res.end();
+	});
+};
+m.getTrumpSuit = function (req, res) {
+	res.statusCode = 200;
+	var data = game.getTrumpSuit();
+	console.log('Trump suit '+ data +' has been revealed');
+	res.end(data);
+};

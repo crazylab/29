@@ -30,21 +30,7 @@ var fileNotFound = function(req, res){
 	res.end('Not Found');
 	console.log(req.method,res.statusCode,': '+req.url,'Not Found.');
 };
-var setTrumpSuit = function (req, res) {
-	var data = '';
-	req.on('data',function(chunk){
-		data += chunk;
-	});
-	req.on('end',function(){
-		game.setTrumpSuit(data);
-		res.end();
-	});
-};
-var getTrumpSuit = function (req, res) {
-	res.statusCode = 200;
-	var data = game.getTrumpSuit();
-	res.end(data);
-};
+
 var serveGamePage = function(req,res){
 	req.url = '/gamePage.html';
 	serveStaticFile(req,res);
@@ -66,13 +52,13 @@ var serveGameStatus = function(req,res,next){
 };
 exports.post_handlers = [
 	{path: '^/waiting.html$', handler: clientHandler.addPlayer},
-	{path: '^/setTrump$', handler: setTrumpSuit},
+	{path: '^/setTrump$', handler: clientHandler.setTrumpSuit},
 	{path: '', handler: method_not_allowed}
 ];
 exports.get_handlers = [
 	{path: '^/$', handler: serveIndex},
 	{path: '^/status$', handler: serveGameStatus},
-	{path: '^/getTrump$', handler: getTrumpSuit},
+	{path: '^/getTrump$', handler: clientHandler.getTrumpSuit},
 	{path: '^/waiting$', handler: clientHandler.serveNeededCount},
 	{path: '', handler: serveStaticFile},
 	{path: '', handler: fileNotFound}

@@ -69,7 +69,7 @@ gameExp.Game.prototype.setTrumpSuit = function (suit) {
 	this.trump.suit = suit;
 };
 
-gameExp.Game.getTrumpSuit = function () {
+gameExp.Game.prototype.getTrumpSuit = function () {
 	this.trump.open = true;
 	return this.trump.suit;
 };
