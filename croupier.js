@@ -33,21 +33,6 @@ croupier.setBid = function (playerSequence) {
 		index = 1 - index;
 	}
 };
-
-
-// croupier.makeTeams = function(uniqueIds){
-// 	var team_1 = new teamLib.Team(uniqueIds[0],uniqueIds[2]);
-// 	var team_2 = new teamLib.Team(uniqueIds[1],uniqueIds[3]);
-// 	return {team_1:team_1, team_2:team_2};
-// };
-
-// croupier.dealCardsToAPlayer = function(dealtCards,player){
-// 	var existingHand = player.hand;
-// 	dealtCards.forEach(function(card){
-// 		existingHand[card.suit].push(card);
-// 	});
-// 	return player;
-// };
 croupier.distributeCards = function(game){
 	var sequence = game.distributionSequence;
 	sequence.forEach(function(player){

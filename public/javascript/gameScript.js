@@ -38,10 +38,14 @@ var updateChanges = function(changes){
 		$(id).html(html);
 	});
 }
-var onPageReady = function(){
-	$.get("status",function(status){
-		updateChanges(JSON.parse(status));
+var playCard = function(){
+	$('#ownHand').on('click','td',function(){
+		var id = $(this).attr('id');
+		$('#'+id).html('');
+		$.post("throwCard", id);
 	});
+}
+var getStatus = function(){
 	setInterval(function(){
 		$.get("status",function(data){
 			var status = JSON.parse(data);
@@ -49,7 +53,13 @@ var onPageReady = function(){
 				return;
 			updateChanges(status);
 		});
-	},3000);
+	},500);
+	playCard();
+}
+var onPageReady = function(){
+	$.get("status",function(status){
+		updateChanges(JSON.parse(status));
+	});
+	getStatus();
 };
-
 $(document).ready(onPageReady);
