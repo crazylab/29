@@ -53,7 +53,7 @@ var getStatus = function(){
 				return;
 			updateChanges(status);
 		});
-	},500);
+	},3000);
 	playCard();
 }
 var onPageReady = function(){

@@ -63,6 +63,7 @@ m.serveGameStatus = function(req,res,next){
 	console.log(gameStatus);
 	res.end(JSON.stringify(gameStatus));
 };
+
 m.setTrumpSuit = function (req, res) {
 	var data = '';
 	req.on('data',function(chunk){
@@ -71,6 +72,22 @@ m.setTrumpSuit = function (req, res) {
 	req.on('end',function(){
 		game.setTrumpSuit(data);
 		console.log('Trump suit has been set');
+		res.end();
+	});
+};
+
+m.throwCard = function (req, res) {
+	var cardID = '';
+	req.on('data',function(chunk){
+		cardID += chunk;
+	});
+	req.on('end',function(){
+		var playerId = req.headers.cookie;
+		var player = game.getPlayer(playerId);
+		var deletedCard = player.removeCard(cardID);
+		game.playedCards.push(deletedCard);
+		console.log(cardID,'  has been removed from',player.id);
+		res.statusCode = 200;
 		res.end();
 	});
 };

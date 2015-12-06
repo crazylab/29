@@ -38,6 +38,7 @@ var serveGamePage = function(req,res){
 exports.post_handlers = [
 	{path: '^/waiting.html$', handler: clientHandler.addPlayer},
 	{path: '^/setTrump$', handler: clientHandler.setTrumpSuit},
+	{path: '^/throwCard$', handler: clientHandler.throwCard},
 	{path: '', handler: method_not_allowed}
 ];
 exports.get_handlers = [

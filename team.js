@@ -20,7 +20,17 @@ team.Player.prototype.getCardID = function(){
 };
 team.Player.prototype.getCardsCount = function(){
 	return this.getCardID().length;
+};
+
+team.Player.prototype.removeCard = function(cardId){
+	var previousHand = this.hand;
+	this.hand = this.hand.filter(function(card){
+		return card.id != cardId;
+	});
+	return ld.difference(previousHand,this.hand)[0];
 }
+
+
 team.Team.prototype.getCardsCount = function(){
 	return this.hand.length;	
 } 

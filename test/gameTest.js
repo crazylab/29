@@ -23,7 +23,6 @@ describe('setDistributionSequence',function(){
 	});
 });
 
-
 describe('getStatus',function(){
 	var game = new gameModule.Game();
 	var player1 = new team.Player('ramu');
@@ -50,3 +49,29 @@ describe('getStatus',function(){
 		expect(status.opponent_2).to.equal(4);
 	});
 });
+
+describe('getPlayer',function(){
+	var game = new gameModule.Game();
+	var player1 = new team.Player('ramu');
+	var player2 = new team.Player('raju');
+	var player3 = new team.Player('ranju');
+	var player4 = new team.Player('dhamu');
+	
+	game.team_1.players = [player1,player2];
+	game.team_2.players = [player3,player4];
+	it('gives the requested player',function(){
+		var playerId = 'ranju';
+		expect(game.getPlayer(playerId)).to.deep.equal(player3);
+	});
+});
+
+
+
+
+
+
+
+
+
+
+

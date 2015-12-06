@@ -55,4 +55,10 @@ gameExp.Game.prototype.getTrumpSuit = function () {
 	this.trump.open = true;
 	return this.trump.suit;
 };
+gameExp.Game.prototype.getPlayer = function(playerID){
+	var allPlayer = this.team_1.players.concat(this.team_2.players);
+	return allPlayer.filter(function(player){
+		return player.id == playerID;
+	})[0];
+};
 exports.game = gameExp;
