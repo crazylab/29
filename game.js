@@ -39,7 +39,8 @@ gameExp.Game.prototype.getStatus = function(playerID){
 			opponent_2 : getMyCard(this.playedCards, opponentTeam.players[0].id),
 			partner: getMyCard(this.playedCards, partner.id),
 			opponent_1 : getMyCard(this.playedCards, opponentTeam.players[1].id)
-		}
+		},
+		bid : this.getFinalBidStatus()
 	};
 };
 gameExp.Game.prototype.shuffle = function(){
@@ -71,7 +72,12 @@ gameExp.Game.prototype.getTrumpSuit = function () {
 gameExp.Game.prototype.setBidWinner = function(value,player){
 	this.bid.value = value;
 	this.bid.player = player;
-}
+};
+
+gameExp.Game.prototype.getFinalBidStatus = function(){
+	console.log(this.bid);
+	return this.bid;
+};
 
 gameExp.Game.prototype.getPlayer = function(playerID){
 	var allPlayer = this.team_1.players.concat(this.team_2.players);
@@ -79,4 +85,5 @@ gameExp.Game.prototype.getPlayer = function(playerID){
 		return player.id == playerID;
 	})[0];
 };
+
 exports.game = gameExp;

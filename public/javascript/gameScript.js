@@ -33,6 +33,11 @@ var showPlayedCards = function(cards){
 	return html;
 };
 
+var showBidStatus = function(bid){
+	console.log(bid);
+	return '<p> hiii </p>';
+};
+
 var updateChanges = function(changes){
 	var handler = {
 		'ownHand' : horizontalCards,
@@ -40,7 +45,8 @@ var updateChanges = function(changes){
 		'opponent_1' : verticalCards,
 		'opponent_2' : verticalCards,
 		'trump' : showTrump,
-		'playedCards' : showPlayedCards
+		'playedCards' : showPlayedCards,
+		'bidValue' : showBidStatus
 	};
 	_.forIn(changes, function(value, key){
 		var id = '#'+ key;

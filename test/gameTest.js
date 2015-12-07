@@ -38,7 +38,7 @@ describe('getStatus',function(){
 	var status = game.getStatus('ranju');
 	console.log(game.team_2.players[0].hand)
 	it('gives object with ownHand and length of partner, opponent_1, opponent_2 hand',function(){
-		expect(status).to.have.all.keys('ownHand', 'partner', 'opponent_1', 'opponent_2','trump','playedCards');
+		expect(status).to.have.all.keys('ownHand', 'partner', 'opponent_1', 'opponent_2','trump','playedCards','bid');
 	});
 	it('gives four card IDs for the requested player',function(){
 		expect(status.ownHand).to.have.length(4);
@@ -79,10 +79,32 @@ describe('setBidWinner',function(){
 	game.setBidWinner(16,player);
 	
 	it('sets the value of the highest bid as bid value',function(){
-		expect(game.bid.value).to.equal(16);
+		expect(game.bid.value).to.not.equal(null);
 	});
 
 	it('sets the player who has bid the maximum',function(){
-		expect(game.bid.player).to.have.property('id').and.to.equal('123');
+		expect(game.bid.player).to.not.equal(null);
+
 	});
 });	
+
+describe('getFinalBidStatus',function(){
+	var game = new gameModule.Game();
+	var player = {id : '123',
+					hand : {
+						Heart : [],
+						Spade : [],
+						Club : [],
+						Diamond : [],
+						},
+					hasPair : false
+	}
+	game.setBidWinner(16,player);
+	var bidStatus = game.getFinalBidStatus();
+	it('gets the highest bid value which has already fibed',function(){
+		expect(bidStatus.player).to.have.property('id').and.to.equal('123');
+	});
+	it('gets the bid value which has already fibed',function(){
+		expect(bidStatus.value).to.equal(16);
+	});
+});
