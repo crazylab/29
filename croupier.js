@@ -11,36 +11,6 @@ var shuffle = function(cards){
 	cards = ld.shuffle(cards);
 	return cards;	
 };
-croupier.getStatus = function(){
-
-}
-croupier.bid = {
-	value : null,
-	player : null
-};
-croupier.setBid = function (playerSequence) {
-	var self = this;
-	var index = 0;
-	return function (value) {
-		var challenger = index == 1;
-		var pass = value == 'pass';
-		if(pass){
-			ld.pull(playerSequence,playerSequence[index]);
-			index = 1 - index;
-			return;
-		}
-		if (self.bid.value >= value && challenger) {
-			return Error('Bid should be greater than ',self.bid.value);
-		};
-		if (value < 16 || value > 28) {
-			return Error('Bid should be between 16 & 28');
-		}
-		self.bid.value = value;
-		self.bid.player = playerSequence[index];
-		index = 1 - index;
-	}
-};
-
 croupier.getShuffledDeck = function(){
 	var deck = cardLib.generateCards();
 	var shuffledDeck = shuffle(deck);
@@ -111,3 +81,18 @@ croupier.assignPlayer = function(game,player){
 		game.team_2.addPlayer(player);
 	return game;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

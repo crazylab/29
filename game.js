@@ -14,6 +14,7 @@ var isTrumpSet = function () {
 	if (this.trump.suit) return true;
 	return false;
 };
+
 gameExp.Game.prototype.getStatus = function(playerID){
 	var ownTeam = this.team_1.hasPlayer(playerID) ? this.team_1:this.team_2;
 	var opponentTeam = this.team_1.hasPlayer(playerID) ? this.team_2:this.team_1;
@@ -73,4 +74,8 @@ gameExp.Game.getTrumpSuit = function () {
 	this.trump.open = true;
 	return this.trump.suit;
 };
+gameExp.Game.prototype.setBidWinner = function(value,player){
+	this.bid.value = value;
+	this.bid.player = player;
+}
 exports.game = gameExp;

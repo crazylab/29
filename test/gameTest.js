@@ -59,3 +59,26 @@ describe('assignTeam',function(){
 		expect(game.team_1.players[0].id).to.equal('1');
 	});
 });
+describe('setBidWinner',function(){
+	var game = new gameModule.Game();
+	var player = {id : '123',
+					hand : {
+						Heart : [],
+						Spade : [],
+						Club : [],
+						Diamond : [],
+						},
+					hasPair : false
+	}
+	game.setBidWinner(16,player);
+	
+	it('sets the value of the highest bid as bid value',function(){
+		expect(game.bid.value).to.equal(16);
+	});
+
+	it('sets the player who has bid the maximum',function(){
+		expect(game.bid.player).to.have.property('id').and.to.equal('123');
+	});
+});
+
+
