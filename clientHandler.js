@@ -85,7 +85,7 @@ m.throwCard = function (req, res) {
 		var playerId = req.headers.cookie;
 		var player = game.getPlayer(playerId);
 		var deletedCard = player.removeCard(cardID);
-		game.playedCards.push(deletedCard);
+		game.playedCards.push({player:player.id,card:deletedCard,trumpShown:game.trump.open});
 		console.log(cardID,'  has been removed from',player.id);
 		res.statusCode = 200;
 		res.end();

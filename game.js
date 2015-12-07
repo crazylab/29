@@ -16,6 +16,11 @@ var isTrumpSet = function () {
 	if (this.trump.suit) return true;
 	return false;
 };
+var getMyCard = function(playedCards, id){
+	return playedCards.filter(function(playedCard){
+		return playedCard.player == id;
+	})[0];
+}
 gameExp.Game.prototype.getStatus = function(playerID){
 	var ownTeam = this.team_1.hasPlayer(playerID) ? this.team_1:this.team_2;
 	var opponentTeam = this.team_1.hasPlayer(playerID) ? this.team_2:this.team_1;
@@ -27,7 +32,13 @@ gameExp.Game.prototype.getStatus = function(playerID){
 		partner : partner.getCardsCount(),
 		opponent_1 : opponentTeam.players[0].getCardsCount(),
 		opponent_2 : opponentTeam.players[1].getCardsCount(),
-		trump : this.trump.open && this.trump.suit
+		trump : this.trump.open && this.trump.suit,
+		playedCards : {
+			own: getMyCard(this.playedCards, player.id),
+			opponent_2 : getMyCard(this.playedCards, opponentTeam.players[0].id),
+			partner: getMyCard(this.playedCards, partner.id),
+			opponent_1 : getMyCard(this.playedCards, opponentTeam.players[1].id)
+		}
 	};
 };
 gameExp.Game.prototype.shuffle = function(){

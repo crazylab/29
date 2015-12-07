@@ -47,37 +47,27 @@
     height: 96px;
     border: 1px solid #73AD21;	
 }
-.topCard{
-	position: absolute;
-    top: 100px;
-    left: 364.5px;
+.card{
+    position: absolute;
     width: 71px;
     height: 95px;
-    border: 0px solid #73AD21;	
+    border: 0px solid #73AD21;
 }
-.bottomCard{
-	position: absolute;
+.partner{
+    bottom: 177.5px;
+    left: 277px; 	*/
+}
+.own{
+    top: 177.5px;
+    left: 277px;*/
+}
+.opponent_2{
     bottom: 100px;
-    left: 364.5px;
-    width: 71px;
-    height: 95px;
-    border: 0px solid #73AD21;	
+    right: 384.5px;
 }
-.leftCard{
-	position: absolute;
-    top: 177.5px;
-    left: 275px;
-    width: 71px;
-    height: 95px;
-    border: 0px solid #73AD21;	
-}
-.rightCard{
-	position: absolute;
-    top: 177.5px;
-    right: 275px;
-    width: 71px;
-    height: 95px;
-    border: 0px solid #73AD21;	
+.opponent_1{
+    bottom: 100px;
+    left: 370px;
 }
 .bidStatus{
 	position: absolute;

@@ -24,13 +24,23 @@ var showTrump = function(trump){
 		return '<img src="img/' + trump + '.png" />';
 	return '<img src="img/hidden.png" />';
 };
+
+var showPlayedCards = function(cards){
+	var html = '';
+	_.forIn(cards, function(value, key){
+		html += '<img class="'+key+' card" src="./img/'+value.card.id+'.png"/>';
+	});
+	return html;
+};
+
 var updateChanges = function(changes){
 	var handler = {
 		'ownHand' : horizontalCards,
 		'partner' : horizontalCards,
 		'opponent_1' : verticalCards,
 		'opponent_2' : verticalCards,
-		'trump' : showTrump
+		'trump' : showTrump,
+		'playedCards' : showPlayedCards
 	};
 	_.forIn(changes, function(value, key){
 		var id = '#'+ key;
@@ -41,7 +51,6 @@ var updateChanges = function(changes){
 var playCard = function(){
 	$('#ownHand').on('click','td',function(){
 		var id = $(this).attr('id');
-		$('#'+id).html('');
 		$.post("throwCard", id);
 	});
 }
@@ -54,12 +63,12 @@ var getStatus = function(){
 			updateChanges(status);
 		});
 	},3000);
-	playCard();
 }
 var onPageReady = function(){
 	$.get("status",function(status){
 		updateChanges(JSON.parse(status));
 	});
 	getStatus();
+	playCard();
 };
 $(document).ready(onPageReady);
