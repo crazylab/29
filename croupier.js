@@ -7,28 +7,12 @@ var gameLib = require('./game.js').game;
 var croupier = {};
 exports.croupier = croupier;
 
-var shuffle = function(cards){
-	cards = ld.shuffle(cards);
-	return cards;	
-};
-croupier.getShuffledDeck = function(){
-	var deck = cardLib.generateCards();
-	var shuffledDeck = shuffle(deck);
-	return shuffledDeck;
-};
-
-// croupier.makeTeams = function(uniqueIds){
-// 	var team_1 = new teamLib.Team(uniqueIds[0],uniqueIds[2]);
-// 	var team_2 = new teamLib.Team(uniqueIds[1],uniqueIds[3]);
-// 	return {team_1:team_1, team_2:team_2};
-// };
-
-croupier.dealCardsToAPlayer = function(dealtCards,player){
-	var existingHand = player.hand;
-	dealtCards.forEach(function(card){
-		existingHand[card.suit].push(card);
+croupier.distributeCards = function(game){
+	var sequence = game.distributionSequence;
+	sequence.forEach(function(player){
+		player.hand = game.deck.splice(0,4);
 	});
-	return player;
+	return game;
 };
 
 croupier.calculateTotalPoint = function(teamBucket){
@@ -55,7 +39,7 @@ var afterTrumpShow = function(comparingCard,startingSuit,standCard,trumpSuit){
 	else if(comparingCard.card.suit != trumpSuit && standCard.card.suit != trumpSuit)
 		standCard = beforeTrumpShow(comparingCard,startingSuit,standCard);
 	return standCard;
-}
+};
 
 croupier.roundWinner = function (playedCards,trumpSuit){
 	var startingSuit = playedCards[0].card.suit;
@@ -67,7 +51,6 @@ croupier.roundWinner = function (playedCards,trumpSuit){
 			standCard = afterTrumpShow(playedCards[i],startingSuit,standCard,trumpSuit);
 	};
 	return standCard.player;
-
 };
 
 croupier.countPlayer = function(game){
@@ -81,18 +64,3 @@ croupier.assignPlayer = function(game,player){
 		game.team_2.addPlayer(player);
 	return game;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

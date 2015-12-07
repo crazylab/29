@@ -36,9 +36,10 @@ m.addPlayer = function(req,res){
 			dummyGame = croupier.assignPlayer(dummyGame,player);
 			console.log('----> ',name,' has been added to a team.')
 		};
-		// if(players.length == 4){
-		// 	main.assignTeam(players).shuffle().distributeCards();
-		// }
+		if(croupier.countPlayer(game) == 4){
+			game.setDistributionSequence().shuffleDeck();
+			croupier.distributeCards(game);
+		}
 		res.writeHead(302,{Location:'waiting.html'});
 		res.end();
 	});
@@ -48,4 +49,51 @@ m.serveNeededCount = function(req,res){
 	res.statusCode = 200;
 	res.end(String(neededPlayer));	
 	console.log(req.method,res.statusCode,': Needed Count Has Been Served.')
-}
+};
+m.serveGameStatus = function(req,res,next){
+	if(croupier.countPlayer(game) != 4){
+		res.statusCode = 406;
+		console.log(req.method,res.statusCode,': Not Enough Player to Play.');
+		next();
+		return;
+	}
+	res.statusCode = 200;
+	console.log(res.statusCode,': Status Sent.');
+	var gameStatus = game.getStatus(req.headers.cookie);
+	console.log(gameStatus);
+	res.end(JSON.stringify(gameStatus));
+};
+
+m.setTrumpSuit = function (req, res) {
+	var data = '';
+	req.on('data',function(chunk){
+		data += chunk;
+	});
+	req.on('end',function(){
+		game.setTrumpSuit(data);
+		console.log('Trump suit has been set');
+		res.end();
+	});
+};
+
+m.throwCard = function (req, res) {
+	var cardID = '';
+	req.on('data',function(chunk){
+		cardID += chunk;
+	});
+	req.on('end',function(){
+		var playerId = req.headers.cookie;
+		var player = game.getPlayer(playerId);
+		var deletedCard = player.removeCard(cardID);
+		game.playedCards.push({player:player.id,card:deletedCard,trumpShown:game.trump.open});
+		console.log(cardID,'  has been removed from',player.id);
+		res.statusCode = 200;
+		res.end();
+	});
+};
+m.getTrumpSuit = function (req, res) {
+	res.statusCode = 200;
+	var data = game.getTrumpSuit();
+	console.log('Trump suit '+ data +' has been revealed');
+	res.end(data);
+};

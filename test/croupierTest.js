@@ -7,38 +7,6 @@ var chai = require('chai');
 var assert = chai.assert;
 var expect = chai.expect;
 
-describe('getShuffledDeck',function(){
-	var shuffledDeck = m.getShuffledDeck();
-	describe('shuffle',function(){
-		it('will get 32 cards after shuffling',function(){
-			expect(shuffledDeck).to.have.length(32);
-		});
-	});
-});
-
-// describe('setIdAndNames',function(){
-// 	var playerNames = ['10.2.45.178','10.2.45.173','10.2.45.192','10.4.45.191'];
-// 	var playersWithID = m.makeTeams(playerNames);
-// 	it('sets id for each player and asserts name to each',function(){
-// 		expect(playersWithID).to.have.all.keys('team_1','team_2');
-// 	});
-// });
-
-describe('dealCardsToAPlayer',function(){
-	var fourCards = [ { name: '10', suit: 'Heart', point: 1, rank: 4 },
-  						{ name: '9', suit: 'Spade', point: 2, rank: 2 },
-						{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
- 						{ name: '7', suit: 'Heart', point: 0, rank: 8 } ];
- 	var playerWithDetail = {name: 'ramu', id: '3', hand : {Heart:[],Spade:[],Club:[],Diamond:[]}, hasPair : false};
-	it('distributes four cards to a player',function(){
-		var player = m.dealCardsToAPlayer(fourCards,playerWithDetail);
-		expect(player.hand.Heart).to.have.length(2);
-		expect(player.hand.Club).to.have.length(0);
-		expect(player.hand.Diamond).to.have.length(1);
-		expect(player.hand.Spade).to.have.length(1);
-	});
-});
-
 describe('calculateTotalPoint',function(){
 	var teamBucket = [{ name: '10', suit: 'Heart', point: 1, rank: 4 },
   						{ name: '9', suit: 'Spade', point: 2, rank: 2 },
@@ -219,7 +187,7 @@ describe('roundWinner',function(){
 describe('makeGame',function(){
 	var newGame = new g.Game();
 	it('creates a new game with intial values',function(){
-		expect(newGame).to.have.all.keys('deck','trump','playedCards','bid','team_1','team_2');
+		expect(newGame).to.have.all.keys('deck','distributionSequence','roundSequence','trump','playedCards','bid','team_1','team_2');
 	});
 	it('creates a game whose deck is of 32 cards',function(){
 		expect(newGame.deck).to.have.length(32);
@@ -264,4 +232,29 @@ describe('assignPlayer',function(){
 		expect(game.team_2.players).to.have.length(2);
 		expect(game.team_2.players[1]).to.equal('Shibu');
 	});
+});
+describe('distribute',function(){
+	var game = new g.Game();
+	var player1 = new team.Player('ramu');
+	var player2 = new team.Player('raju');
+	var player3 = new team.Player('ranju');
+	var player4 = new team.Player('dhamu');
+	game.team_1.players = [player1,player2];
+	game.team_2.players = [player3,player4];
+	game.setDistributionSequence();
+	m.distributeCards(game);
+	it('gives four cards to each player from deck',function(){
+		var hand1 = game.team_1.players[0].hand;
+		var hand2 = game.team_1.players[1].hand;
+		var hand3 = game.team_2.players[0].hand;
+		var hand4 = game.team_2.players[1].hand;
+
+		expect(hand1).to.have.length(4);
+		expect(hand2).to.have.length(4);
+		expect(hand3).to.have.length(4);
+		expect(hand4).to.have.length(4);
+	});
+	it('after first time distribution there will be 16 cards left in deck',function(){
+		expect(game.deck).to.have.length(16);
+	})
 });

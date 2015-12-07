@@ -4,6 +4,8 @@ var team = require('./team.js').team;
 var gameExp = {};
 gameExp.Game = function(){
 	this.deck = card.generateCards(),
+	this.distributionSequence = [],
+	this.roundSequence = [],
 	this.trump = {suit: null, open: false},
 	this.playedCards = [],
 	this.bid = {value : null, player : null},
@@ -15,6 +17,11 @@ var isTrumpSet = function () {
 	return false;
 };
 
+var getMyCard = function(playedCards, id){
+	return playedCards.filter(function(playedCard){
+		return playedCard.player == id;
+	})[0];
+}
 gameExp.Game.prototype.getStatus = function(playerID){
 	var ownTeam = this.team_1.hasPlayer(playerID) ? this.team_1:this.team_2;
 	var opponentTeam = this.team_1.hasPlayer(playerID) ? this.team_2:this.team_1;
@@ -24,58 +31,52 @@ gameExp.Game.prototype.getStatus = function(playerID){
 	return {
 		ownHand : player.getCardID(),
 		partner : partner.getCardsCount(),
-		opponent_1 : opponentTeam.players[0].getCardsCount(),//opponent.player[0].hand.num_of_cards();
+		opponent_1 : opponentTeam.players[0].getCardsCount(),
 		opponent_2 : opponentTeam.players[1].getCardsCount(),
-		trumpStatus : this.trump.open
+		trump : this.trump.open && this.trump.suit,
+		playedCards : {
+			own: getMyCard(this.playedCards, player.id),
+			opponent_2 : getMyCard(this.playedCards, opponentTeam.players[0].id),
+			partner: getMyCard(this.playedCards, partner.id),
+			opponent_1 : getMyCard(this.playedCards, opponentTeam.players[1].id)
+		}
 	};
 };
-
-gameExp.Game.prototype.assignTeam = function(playerIDs){
-	this.team_1.addPlayer(new team.Player(playerIDs[0]));
-	this.team_1.addPlayer(new team.Player(playerIDs[1]));
-	this.team_2.addPlayer(new team.Player(playerIDs[2]));
-	this.team_2.addPlayer(new team.Player(playerIDs[3]));
-};
-
-var seperateCards = function(cards){
-	var allCards = {
-					'Heart' : [],
-					'Spade' : [],
-					'Club' : [],
-					'Diamond' : []
-				};
-	cards.forEach(function(card){
-		allCards[card.suit].push(card);
-	});
-	return allCards;
-}
 gameExp.Game.prototype.shuffle = function(){
 	this.deck = ld.shuffle(this.deck);
 	return this;	
+};	
+gameExp.Game.prototype.setDistributionSequence = function(){
+	if(this.distributionSequence.length == 0)
+		this.distributionSequence = [this.team_1.players[0],this.team_2.players[0],this.team_1.players[1],this.team_2.players[1]];
+	else{
+		var firstPlayer = this.distributionSequence.splice(0,1)[0];
+		this.distributionSequence.push(firstPlayer);
+	}
+	return this;
 };
-
-gameExp.Game.prototype.distributeCards = function(){
-	var self = this;
-	this.team_1.players.forEach(function(player){
-		var dealtCards = self.deck.splice(0,4);
-		player.hand = seperateCards(dealtCards);
-	});
-	this.team_2.players.forEach(function(player){
-		var dealtCards = self.deck.splice(0,4);
-		player.hand = seperateCards(dealtCards);
-	});
+gameExp.Game.prototype.shuffleDeck = function(){
+	this.deck = ld.shuffle(this.deck);
 	return this;
 };
 gameExp.Game.prototype.setTrumpSuit = function (suit) {
 	this.trump.suit = suit;
 };
 
-gameExp.Game.getTrumpSuit = function () {
+gameExp.Game.prototype.getTrumpSuit = function () {
 	this.trump.open = true;
 	return this.trump.suit;
 };
+
 gameExp.Game.prototype.setBidWinner = function(value,player){
 	this.bid.value = value;
 	this.bid.player = player;
 }
+
+gameExp.Game.prototype.getPlayer = function(playerID){
+	var allPlayer = this.team_1.players.concat(this.team_2.players);
+	return allPlayer.filter(function(player){
+		return player.id == playerID;
+	})[0];
+};
 exports.game = gameExp;

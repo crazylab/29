@@ -10,24 +10,27 @@ team.Team = function(){
 
 team.Player = function(id){
 	this.id = id;
-	this.hand = {
-		Heart : [],
-		Spade : [],
-		Club : [],
-		Diamond : [],
-	};
+	this.hand = [];
 	this.hasPair = false;
 };
 team.Player.prototype.getCardID = function(){
-	var allCards = ld.flattenDeep(ld.values(this.hand));
-		return allCards.map(function(card){
-			return card.id;
+	return this.hand.map(function(card){
+		return card.id;
 	});	
-	return allCards;
-}
+};
 team.Player.prototype.getCardsCount = function(){
 	return this.getCardID().length;
+};
+
+team.Player.prototype.removeCard = function(cardId){
+	var previousHand = this.hand;
+	this.hand = this.hand.filter(function(card){
+		return card.id != cardId;
+	});
+	return ld.difference(previousHand,this.hand)[0];
 }
+
+
 team.Team.prototype.getCardsCount = function(){
 	return this.hand.length;	
 } 
