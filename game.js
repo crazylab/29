@@ -1,6 +1,8 @@
 var ld = require('lodash');
 var card = require('./cards.js');
 var team = require('./team.js').team;
+var croupier = require('./croupier.js').croupier;
+
 var gameExp = {};
 gameExp.Game = function(){
 	this.deck = card.generateCards(),
@@ -92,19 +94,26 @@ gameExp.Game.prototype.setRoundSequence = function(roundWinner){
 	var playerIDs = this.roundSequence.map(function(player){
 		return player.id;
 	});
+	this.roundSequence[3].turn = false;
 	var winnerIndex = playerIDs.indexOf(roundWinner);
 	var first = this.roundSequence.splice(0,winnerIndex);
 	this.roundSequence = this.roundSequence.concat(first);
-	this.roundSequence[3].turn = false;
 	this.roundSequence[0].turn = true;
 	return this;
 }
 gameExp.Game.prototype.nextTurn = function(){
-	var permissions = this.roundSequence.map(function(player){
-		return player.turn;
-	});
-	var previousPlayerIndex = permissions.indexOf(true);
-	this.roundSequence[previousPlayerIndex].turn = false;
-	this.roundSequence[previousPlayerIndex+1].turn = true;
+	if(this.playedCards.length == 4){
+		var winner = croupier.roundWinner(this.playedCards,this.trump.suit);
+		this.setRoundSequence(winner); 
+		this.playedCards = [];
+	}
+	else{
+		var permissions = this.roundSequence.map(function(player){
+			return player.turn;
+		});
+		var previousPlayerIndex = permissions.indexOf(true);
+		this.roundSequence[previousPlayerIndex].turn = false;
+		this.roundSequence[previousPlayerIndex+1].turn = true;
+	};
 }
 exports.game = gameExp;

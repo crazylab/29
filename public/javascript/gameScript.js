@@ -70,12 +70,13 @@ var getStatus = function(){
 			updateChanges(status);
 			playCard();
 		});
-	},1000);
+	},3000);
 }
 var onPageReady = function(){
 	$.get("status",function(status){
 		var status = JSON.parse(status);
 		updateChanges(status);
+		playCard();
 	});
 	getStatus();
 };
