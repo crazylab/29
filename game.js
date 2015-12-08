@@ -118,4 +118,21 @@ gameExp.Game.prototype.nextTurn = function(){
 		this.roundSequence[previousPlayerIndex+1].turn = true;
 	};
 }
+var hasCardInHand = function(cardId,playerHand){
+	return playerHand.some(function(card){
+		return card.id == cardId;
+	});
+}
+gameExp.Game.prototype.isValidCardToThrow = function(cardId,playerHand){
+	if(this.playedCards.length==0)
+		return true;
+	var runningSuit = this.playedCards[0].card.id[0];
+	var requestedSuit = cardId[0];
+	var hasRunningSuit = playerHand.some(function(card){
+		return card.id[0] == runningSuit;
+	});
+	var isCardPresent = hasCardInHand(cardId,playerHand);
+	return isCardPresent && hasRunningSuit && (runningSuit == requestedSuit)	//read carefully
+			|| isCardPresent && !hasRunningSuit;
+};
 exports.game = gameExp;

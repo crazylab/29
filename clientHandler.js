@@ -84,7 +84,7 @@ m.throwCard = function (req, res) {
 	req.on('end',function(){
 		var playerId = req.headers.cookie;
 		var player = game.getPlayer(playerId);
-		if(player.turn){
+		if(player.turn && game.isValidCardToThrow(cardID,player.hand)){
 			var deletedCard = player.removeCard(cardID);		//Bad code
 			game.playedCards.push({player:player.id,card:deletedCard,trumpShown:game.trump.open});
 			game.nextTurn();

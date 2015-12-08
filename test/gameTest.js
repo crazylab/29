@@ -182,3 +182,38 @@ describe('getFinalBidStatus',function(){
 		expect(bidStatus.value).to.equal(16);
 	});
 });
+
+describe('isValidCardToThrow',function(){
+	var game;
+	beforeEach(function(){
+		game = new gameModule.Game();
+		var p1 = new team.Player('raju');
+		var p2 = new team.Player('ramu');
+		var p3 = new team.Player('raka');
+		var p4 = new team.Player('rahul');
+		p1.hand = [
+							{ id: 'H10', name: '10', suit: 'Heart', point: 1, rank: 4 },
+	  						{ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 },
+							{ id: 'C8', name: '8', suit: 'Club', point: 0, rank: 7 },
+	 						{ id: 'C7', name: '7', suit: 'Club', point: 0, rank: 8 } 
+	 				];
+		game.team_1.players = [p1,p3];
+		game.team_2.players = [p2,p4];
+	});
+	it('allows a player to play any card of his hand when playedCards bucket is empty',function(){
+		expect(game.isValidCardToThrow('S9',game.team_1.players[0].hand)).to.be.true;
+	});
+	it('only allows a player to play the running suit if he has that suit',function(){
+							
+		game.playedCards = [{card:{ id: 'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 }},
+							{card:{ id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }}];
+		expect(game.isValidCardToThrow('H10',game.team_1.players[0].hand)).to.be.true;
+		expect(game.isValidCardToThrow('S9',game.team_1.players[0].hand)).to.be.false;
+	});
+	it('allows a player to play any card of his hand if his hand doesn\'t contain running suit',function(){
+		game.playedCards = [{card:{ id: 'DJ', name: 'J', suit: 'Diamond', point: 3, rank: 1 }},
+							{card:{ id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }}];
+		expect(game.isValidCardToThrow('C8',game.team_1.players[0].hand)).to.be.true;
+	})
+
+});
