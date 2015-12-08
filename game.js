@@ -99,12 +99,14 @@ gameExp.Game.prototype.setRoundSequence = function(roundWinner){
 	this.roundSequence[0].turn = true;
 	return this;
 }
-gameExp.Game.prototype.nextTurn = function(){
+gameExp.Game.prototype.nextTurn = function(){			//ugly
 	if(this.playedCards.length == 4){
 		var winner = croupier.roundWinner(this.playedCards,this.trump.suit);
 		this.roundSequence[3].turn = false;
 		this.setRoundSequence(winner);
 		var game = this;
+		var roundWinningTeam = this.team_1.hasPlayer(winner) ? 'team_1':'team_2';
+		this[roundWinningTeam].wonCards = this[roundWinningTeam].wonCards.concat(this.playedCards);
 		setTimeout(function(){
 			game.playedCards = [];
 		},2500);
