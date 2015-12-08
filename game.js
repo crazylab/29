@@ -16,12 +16,12 @@ var isTrumpSet = function () {
 	if (this.trump.suit) return true;
 	return false;
 };
-var getMyCard = function(playedCards, id){
+gameExp.getMyCard = function(playedCards, id){
 	return playedCards.filter(function(playedCard){
 		return playedCard.player == id;
 	})[0];
 }
-gameExp.Game.prototype.getStatus = function(playerID){
+gameExp.Game.prototype.getStatus = function(playerID){		//Looking Ugly
 	var ownTeam = this.team_1.hasPlayer(playerID) ? this.team_1:this.team_2;
 	var opponentTeam = this.team_1.hasPlayer(playerID) ? this.team_2:this.team_1;
 
@@ -34,11 +34,12 @@ gameExp.Game.prototype.getStatus = function(playerID){
 		opponent_2 : opponentTeam.players[1].getCardsCount(),
 		trump : this.trump.open && this.trump.suit,
 		playedCards : {
-			own: getMyCard(this.playedCards, player.id),
-			opponent_2 : getMyCard(this.playedCards, opponentTeam.players[0].id),
-			partner: getMyCard(this.playedCards, partner.id),
-			opponent_1 : getMyCard(this.playedCards, opponentTeam.players[1].id)
-		}
+			own: gameExp.getMyCard(this.playedCards, player.id),
+			opponent_2 : gameExp.getMyCard(this.playedCards, opponentTeam.players[0].id),
+			partner: gameExp.getMyCard(this.playedCards, partner.id),
+			opponent_1 : gameExp.getMyCard(this.playedCards, opponentTeam.players[1].id)
+		},
+		turn : player.turn
 	};
 };
 gameExp.Game.prototype.shuffle = function(){
@@ -52,6 +53,9 @@ gameExp.Game.prototype.setDistributionSequence = function(){
 		var firstPlayer = this.distributionSequence.splice(0,1)[0];
 		this.distributionSequence.push(firstPlayer);
 	}
+	this.roundSequence = this.distributionSequence;
+	this.roundSequence[3].turn = false;
+	this.roundSequence[0].turn = true;
 	return this;
 };
 gameExp.Game.prototype.shuffleDeck = function(){
@@ -72,4 +76,23 @@ gameExp.Game.prototype.getPlayer = function(playerID){
 		return player.id == playerID;
 	})[0];
 };
+gameExp.Game.prototype.setRoundSequence = function(roundWinner){
+	var playerIDs = this.roundSequence.map(function(player){
+		return player.id;
+	});
+	var winnerIndex = playerIDs.indexOf(roundWinner);
+	var first = this.roundSequence.splice(0,winnerIndex);
+	this.roundSequence = this.roundSequence.concat(first);
+	this.roundSequence[3].turn = false;
+	this.roundSequence[0].turn = true;
+	return this;
+}
+gameExp.Game.prototype.nextTurn = function(){
+	var permissions = this.roundSequence.map(function(player){
+		return player.turn;
+	});
+	var previousPlayerIndex = permissions.indexOf(true);
+	this.roundSequence[previousPlayerIndex].turn = false;
+	this.roundSequence[previousPlayerIndex+1].turn = true;
+}
 exports.game = gameExp;

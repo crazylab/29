@@ -38,7 +38,7 @@ describe('Team',function(){
 describe('Player',function(){
 	var player = new m.Player();
 	it('creates player with properties',function(){
-		expect(player).to.have.all.keys('hand','hasPair','id');
+		expect(player).to.have.all.keys('hand','hasPair','turn','id');
 	});
 	describe('types',function(){
 		it('Properties are of different types',function(){

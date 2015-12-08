@@ -11,6 +11,7 @@ team.Team = function(){
 team.Player = function(id){
 	this.id = id;
 	this.hand = [];
+	this.turn = false,
 	this.hasPair = false;
 };
 team.Player.prototype.getCardID = function(){

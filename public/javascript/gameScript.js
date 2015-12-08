@@ -32,7 +32,9 @@ var showPlayedCards = function(cards){
 	});
 	return html;
 };
-
+var showTurn = function(turn){
+	console.log(turn);
+}
 var updateChanges = function(changes){
 	var handler = {
 		'ownHand' : horizontalCards,
@@ -40,7 +42,8 @@ var updateChanges = function(changes){
 		'opponent_1' : verticalCards,
 		'opponent_2' : verticalCards,
 		'trump' : showTrump,
-		'playedCards' : showPlayedCards
+		'playedCards' : showPlayedCards,
+		'turn' : showTurn
 	};
 	_.forIn(changes, function(value, key){
 		var id = '#'+ key;
@@ -58,17 +61,16 @@ var getStatus = function(){
 	setInterval(function(){
 		$.get("status",function(data){
 			var status = JSON.parse(data);
-			if(Object.keys(status).length == 0)
-				return;
 			updateChanges(status);
+			playCard();
 		});
-	},3000);
+	},2000);
 }
 var onPageReady = function(){
 	$.get("status",function(status){
-		updateChanges(JSON.parse(status));
+		var status = JSON.parse(status);
+		updateChanges(status);
 	});
 	getStatus();
-	playCard();
 };
 $(document).ready(onPageReady);
