@@ -10,7 +10,7 @@ exports.croupier = croupier;
 croupier.distributeCards = function(game){
 	var sequence = game.distributionSequence;
 	sequence.forEach(function(player){
-		player.hand = game.deck.splice(0,4);
+		player.hand = player.hand.concat(game.deck.splice(0,4));
 	});
 	return game;
 };

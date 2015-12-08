@@ -39,6 +39,7 @@ m.addPlayer = function(req,res){
 		if(croupier.countPlayer(game) == 4){
 			game.setDistributionSequence().shuffleDeck();
 			croupier.distributeCards(game);
+			croupier.distributeCards(game);	//Need to add bidding
 		}
 		res.writeHead(302,{Location:'waiting.html'});
 		res.end();
