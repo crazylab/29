@@ -28,17 +28,17 @@ var showTrump = function(trump){
 var showPlayedCards = function(cards){
 	var html = '';
 	_.forIn(cards, function(value, key){
-		console.log(value);
 		html += '<img class="'+key+' card" src="./img/'+value.card.id+'.png"/>';
 	});
 	return html;
 };
 var showTurn = function(turn){
 	$( ".bottom" ).toggleClass("turn_on", turn );
-	console.log(turn);
 }
 var showBidStatus = function(bid){
-	return '<p> hiii </p>';
+	var highestBid = '<label> Highest Bid : '+bid.value+'</label>';
+	var highestBidder = '<label> Highest Bidder : '+bid.player+'</label>';
+	return highestBid+'<br><br>'+highestBidder;
 };
 
 var updateChanges = function(changes){
@@ -50,7 +50,7 @@ var updateChanges = function(changes){
 		'trump' : showTrump,
 		'playedCards' : showPlayedCards,
 		'turn' : showTurn,
-		'bid' : showBidStatus
+		'bidValue' : showBidStatus
 	};
 	_.forIn(changes, function(value, key){
 		var id = '#'+ key;

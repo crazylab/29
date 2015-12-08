@@ -55,11 +55,11 @@
 }
 .partner{
     bottom: 177.5px;
-    left: 277px; 	*/
+    left: 277px;
 }
 .own{
     top: 177.5px;
-    left: 277px;*/
+    left: 277px;
 }
 .opponent_2{
     bottom: 100px;
@@ -69,7 +69,7 @@
     bottom: 100px;
     left: 370px;
 }
-.bidStatus{
+#bidValue{
 	position: absolute;
     top: 10px;
     left: 25px;
