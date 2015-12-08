@@ -42,7 +42,7 @@ gameExp.Game.prototype.getStatus = function(playerID){		//Looking Ugly
 			opponent_1 : gameExp.getMyCard(this.playedCards, opponentTeam.players[1].id)
 		},
 		turn : player.turn,
-		bid : this.getFinalBidStatus()
+		bidValue : this.getFinalBidStatus()
 	};
 };
 gameExp.Game.prototype.shuffle = function(){
@@ -80,7 +80,6 @@ gameExp.Game.prototype.setBidWinner = function(value,player){
 };
 
 gameExp.Game.prototype.getFinalBidStatus = function(){
-	console.log(this.bid);
 	return this.bid;
 };
 

@@ -37,7 +37,7 @@ describe('getStatus',function(){
 	croupier.distributeCards(game);
 	var status = game.getStatus('ranju');
 	it('gives object with ownHand and length of partner, opponent_1, opponent_2 hand',function(){
-		expect(status).to.have.all.keys('ownHand', 'partner', 'opponent_1', 'opponent_2','trump','playedCards','turn','bid');
+		expect(status).to.have.all.keys('ownHand', 'partner', 'opponent_1', 'opponent_2','trump','playedCards','turn','bidValue');
 	});
 	it('gives four card IDs for the requested player',function(){
 		expect(status.ownHand).to.have.length(4);

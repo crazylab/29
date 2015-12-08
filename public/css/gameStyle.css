@@ -69,7 +69,7 @@
     bottom: 100px;
     left: 370px;
 }
-.bidStatus{
+#bidValue{
 	position: absolute;
     top: 10px;
     left: 25px;
