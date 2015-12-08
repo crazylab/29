@@ -35,6 +35,11 @@ var showPlayedCards = function(cards){
 var showTurn = function(turn){
 	console.log(turn);
 }
+var showBidStatus = function(bid){
+	console.log(bid);
+	return '<p> hiii </p>';
+};
+
 var updateChanges = function(changes){
 	var handler = {
 		'ownHand' : horizontalCards,
@@ -43,7 +48,8 @@ var updateChanges = function(changes){
 		'opponent_2' : verticalCards,
 		'trump' : showTrump,
 		'playedCards' : showPlayedCards,
-		'turn' : showTurn
+		'turn' : showTurn,
+		'bid' : showBidStatus
 	};
 	_.forIn(changes, function(value, key){
 		var id = '#'+ key;
@@ -64,7 +70,7 @@ var getStatus = function(){
 			updateChanges(status);
 			playCard();
 		});
-	},2000);
+	},1000);
 }
 var onPageReady = function(){
 	$.get("status",function(status){

@@ -7,32 +7,6 @@ var gameLib = require('./game.js').game;
 var croupier = {};
 exports.croupier = croupier;
 
-croupier.bid = {
-	value : null,
-	player : null
-};
-croupier.setBid = function (playerSequence) {
-	var self = this;
-	var index = 0;
-	return function (value) {
-		var challenger = index == 1;
-		var pass = value == 'pass';
-		if(pass){
-			ld.pull(playerSequence,playerSequence[index]);
-			index = 1 - index;
-			return;
-		}
-		if (self.bid.value >= value && challenger) {
-			return Error('Bid should be greater than ',self.bid.value);
-		};
-		if (value < 16 || value > 28) {
-			return Error('Bid should be between 16 & 28');
-		}
-		self.bid.value = value;
-		self.bid.player = playerSequence[index];
-		index = 1 - index;
-	}
-};
 croupier.distributeCards = function(game){
 	var sequence = game.distributionSequence;
 	sequence.forEach(function(player){
@@ -65,7 +39,7 @@ var afterTrumpShow = function(comparingCard,startingSuit,standCard,trumpSuit){
 	else if(comparingCard.card.suit != trumpSuit && standCard.card.suit != trumpSuit)
 		standCard = beforeTrumpShow(comparingCard,startingSuit,standCard);
 	return standCard;
-}
+};
 
 croupier.roundWinner = function (playedCards,trumpSuit){
 	var startingSuit = playedCards[0].card.suit;
@@ -77,7 +51,6 @@ croupier.roundWinner = function (playedCards,trumpSuit){
 			standCard = afterTrumpShow(playedCards[i],startingSuit,standCard,trumpSuit);
 	};
 	return standCard.player;
-
 };
 
 croupier.countPlayer = function(game){

@@ -39,7 +39,8 @@ gameExp.Game.prototype.getStatus = function(playerID){		//Looking Ugly
 			partner: gameExp.getMyCard(this.playedCards, partner.id),
 			opponent_1 : gameExp.getMyCard(this.playedCards, opponentTeam.players[1].id)
 		},
-		turn : player.turn
+		turn : player.turn,
+		bid : this.getFinalBidStatus()
 	};
 };
 gameExp.Game.prototype.shuffle = function(){
@@ -70,6 +71,17 @@ gameExp.Game.prototype.getTrumpSuit = function () {
 	this.trump.open = true;
 	return this.trump.suit;
 };
+
+gameExp.Game.prototype.setBidWinner = function(value,player){
+	this.bid.value = value;
+	this.bid.player = player;
+};
+
+gameExp.Game.prototype.getFinalBidStatus = function(){
+	console.log(this.bid);
+	return this.bid;
+};
+
 gameExp.Game.prototype.getPlayer = function(playerID){
 	var allPlayer = this.team_1.players.concat(this.team_2.players);
 	return allPlayer.filter(function(player){

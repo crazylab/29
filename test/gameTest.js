@@ -37,7 +37,7 @@ describe('getStatus',function(){
 	croupier.distributeCards(game);
 	var status = game.getStatus('ranju');
 	it('gives object with ownHand and length of partner, opponent_1, opponent_2 hand',function(){
-		expect(status).to.have.all.keys('ownHand', 'partner', 'opponent_1', 'opponent_2','trump','playedCards','turn');
+		expect(status).to.have.all.keys('ownHand', 'partner', 'opponent_1', 'opponent_2','trump','playedCards','turn','bid');
 	});
 	it('gives four card IDs for the requested player',function(){
 		expect(status.ownHand).to.have.length(4);
@@ -63,7 +63,6 @@ describe('getPlayer',function(){
 		expect(game.getPlayer(playerId)).to.deep.equal(player3);
 	});
 });
-
 describe('getMyCard',function(){
 	var game = new gameModule.Game();
 	var playedCards = [{player:'sayan',
@@ -140,11 +139,46 @@ describe('nextTurn',function(){
 		expect(game.roundSequence[3].turn).to.be.false;
 	});
 })
+describe('setBidWinner',function(){
+	var game = new gameModule.Game();
+	var player = {id : '123',
+					hand : {
+						Heart : [],
+						Spade : [],
+						Club : [],
+						Diamond : [],
+						},
+					hasPair : false
+	}
+	game.setBidWinner(16,player);
+	
+	it('sets the value of the highest bid as bid value',function(){
+		expect(game.bid.value).to.not.equal(null);
+	});
 
+	it('sets the player who has bid the maximum',function(){
+		expect(game.bid.player).to.not.equal(null);
 
+	});
+});	
 
-
-
-
-
-
+describe('getFinalBidStatus',function(){
+	var game = new gameModule.Game();
+	var player = {id : '123',
+					hand : {
+						Heart : [],
+						Spade : [],
+						Club : [],
+						Diamond : [],
+						},
+					hasPair : false
+	}
+	game.setBidWinner(16,player);
+	var bidStatus = game.getFinalBidStatus();
+	it('gets the highest bid value which has already fibed',function(){
+		expect(bidStatus.player).to.have.property('id').and.to.equal('123');
+	});
+	it('gets the bid value which has already fibed',function(){
+		expect(bidStatus.value).to.equal(16);
+	});
+});
