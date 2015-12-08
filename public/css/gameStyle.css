@@ -80,12 +80,14 @@
     padding-top: 10px;	
 }
 .playerHand{
-	background-color: white;
+
 }
 .card{
 
 }
-
 .trump_suits{
     visibility: hidden;
+}
+.turn_on{
+    background-color: yellow;   
 }

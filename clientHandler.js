@@ -85,12 +85,13 @@ m.throwCard = function (req, res) {
 		var playerId = req.headers.cookie;
 		var player = game.getPlayer(playerId);
 		if(player.turn){
-			var deletedCard = player.removeCard(cardID);
+			var deletedCard = player.removeCard(cardID);		//Bad code
 			game.playedCards.push({player:player.id,card:deletedCard,trumpShown:game.trump.open});
 			game.nextTurn();
+			console.log(cardID,'  has been removed from',player.id);
+			res.statusCode = 200;
+			res.end();
 		}
-		console.log(cardID,'  has been removed from',player.id);
-		res.statusCode = 200;
 		res.end();
 	});
 };

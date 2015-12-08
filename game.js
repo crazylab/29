@@ -94,7 +94,6 @@ gameExp.Game.prototype.setRoundSequence = function(roundWinner){
 	var playerIDs = this.roundSequence.map(function(player){
 		return player.id;
 	});
-	this.roundSequence[3].turn = false;
 	var winnerIndex = playerIDs.indexOf(roundWinner);
 	var first = this.roundSequence.splice(0,winnerIndex);
 	this.roundSequence = this.roundSequence.concat(first);
@@ -104,8 +103,12 @@ gameExp.Game.prototype.setRoundSequence = function(roundWinner){
 gameExp.Game.prototype.nextTurn = function(){
 	if(this.playedCards.length == 4){
 		var winner = croupier.roundWinner(this.playedCards,this.trump.suit);
-		this.setRoundSequence(winner); 
-		this.playedCards = [];
+		this.roundSequence[3].turn = false;
+		this.setRoundSequence(winner);
+		var game = this;
+		setTimeout(function(){
+			game.playedCards = [];
+		},2500);
 	}
 	else{
 		var permissions = this.roundSequence.map(function(player){

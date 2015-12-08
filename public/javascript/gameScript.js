@@ -28,15 +28,16 @@ var showTrump = function(trump){
 var showPlayedCards = function(cards){
 	var html = '';
 	_.forIn(cards, function(value, key){
+		console.log(value);
 		html += '<img class="'+key+' card" src="./img/'+value.card.id+'.png"/>';
 	});
 	return html;
 };
 var showTurn = function(turn){
+	$( ".bottom" ).toggleClass("turn_on", turn );
 	console.log(turn);
 }
 var showBidStatus = function(bid){
-	console.log(bid);
 	return '<p> hiii </p>';
 };
 
@@ -70,7 +71,7 @@ var getStatus = function(){
 			updateChanges(status);
 			playCard();
 		});
-	},3000);
+	},1000);
 }
 var onPageReady = function(){
 	$.get("status",function(status){
