@@ -8,24 +8,56 @@ var assert = chai.assert;
 var expect = chai.expect;
 
 describe('calculateTotalPoint',function(){
-	var teamBucket = [{ name: '10', suit: 'Heart', point: 1, rank: 4 },
-  						{ name: '9', suit: 'Spade', point: 2, rank: 2 },
-						{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
- 						{ name: '7', suit: 'Club', point: 0, rank: 8 } ,
-						{ name: '8', suit: 'Heart', point: 0, rank: 7 },
-						{ name: 'Q', suit: 'Diamond', point: 0, rank: 6 },
-						{ name: '8', suit: 'Spade', point: 0, rank: 7 },
-						{ name: '8', suit: 'Club', point: 0, rank: 7 },
-						{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
-  						{ name: '7', suit: 'Spade', point: 0, rank: 8 },
-						{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
- 						{ name: 'J', suit: 'Club', point: 3, rank: 1 } ,
-						{ name: '10', suit: 'Diamond', point: 1, rank: 4 },
-						{ name: 'A', suit: 'Heart', point: 1, rank: 3 },
-						{ name: '10', suit: 'Club', point: 1, rank: 4 },
-						{ name: 'K', suit: 'Spade', point: 0, rank: 5 }];
+	var teamBucket = [{player:'10.4.20.173_sayan',
+						card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
+						trumpShown: false
+						},
+						{player:'10.4.20.163_sayani',
+						card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
+						trumpShown: false
+						},
+						{player:'10.4.20.143_brindaban',
+						card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
+						trumpShown: false
+						},
+						{player:'10.4.20.153_rahul',
+						card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
+						trumpShown: false
+						},
+						{player:'10.4.20.173_sayan',
+						card:{ name: '7', suit: 'Spade', point: 0, rank: 8 },
+						trumpShown: false
+						},
+						{player:'10.4.20.163_sayani',
+						card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
+						trumpShown: false
+						},
+						{player:'10.4.20.143_brindaban',
+						card:{ name: 'J', suit: 'Spade', point: 3, rank: 1 },
+						trumpShown: false
+						},
+						{player:'10.4.20.153_rahul',
+						card:{ name: '9', suit: 'Spade', point: 2, rank: 2 },
+						trumpShown: false
+						},
+						{player:'10.4.20.173_sayan',
+						card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
+						trumpShown: false
+						},
+						{player:'10.4.20.163_sayani',
+						card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
+						trumpShown: true
+						},
+						{player:'10.4.20.143_brindaban',
+						card:{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
+						trumpShown: true
+						},
+						{player:'10.4.20.153_rahul',
+						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
+						trumpShown: true
+						}];
 	it('calculate TotalPoint of a team',function(){
-		assert.equal(14,m.calculateTotalPoint(teamBucket));
+		assert.equal(18,m.calculateTotalPoint(teamBucket));
 	});
 
 });
@@ -176,14 +208,7 @@ describe('roundWinner',function(){
 
 	})
 });
-/*describe('assignAPlayer',function(){
-	it('assigns a player to a team',function(){
-		var player_id1 = 'one';
-		var game = game.newGame();
 
-
-	});
-});*/
 describe('makeGame',function(){
 	var newGame = new g.Game();
 	it('creates a new game with intial values',function(){
@@ -257,4 +282,79 @@ describe('distribute',function(){
 	it('after first time distribution there will be 16 cards left in deck',function(){
 		expect(game.deck).to.have.length(16);
 	})
+});
+
+describe('updateScore',function(){
+	var game = new g.Game();
+	var player1 = new team.Player('ramu');
+	var player2 = new team.Player('raju');
+	var player3 = new team.Player('ranju');
+	var player4 = new team.Player('dhamu');
+	game.team_1.players = [player1,player2];
+	game.team_2.players = [player3,player4];
+	game.team_1.wonCards = [{player:'10.4.20.173_sayan',
+						card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
+						trumpShown: false
+						},
+						{player:'10.4.20.163_sayani',
+						card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
+						trumpShown: false
+						},
+						{player:'10.4.20.143_brindaban',
+						card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
+						trumpShown: false
+						},
+						{player:'10.4.20.153_rahul',
+						card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
+						trumpShown: false
+						},
+						{player:'10.4.20.173_sayan',
+						card:{ name: '7', suit: 'Spade', point: 0, rank: 8 },
+						trumpShown: false
+						},
+						{player:'10.4.20.163_sayani',
+						card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
+						trumpShown: false
+						},
+						{player:'10.4.20.143_brindaban',
+						card:{ name: 'J', suit: 'Spade', point: 3, rank: 1 },
+						trumpShown: false
+						},
+						{player:'10.4.20.153_rahul',
+						card:{ name: '9', suit: 'Spade', point: 2, rank: 2 },
+						trumpShown: false
+						},
+						{player:'10.4.20.173_sayan',
+						card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
+						trumpShown: false
+						},
+						{player:'10.4.20.163_sayani',
+						card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
+						trumpShown: true
+						},
+						{player:'10.4.20.143_brindaban',
+						card:{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
+						trumpShown: true
+						},
+						{player:'10.4.20.153_rahul',
+						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
+						trumpShown: true
+						}];
+	it('increases the score of the bidding team when they gain the bidding point',function() {
+		game.bid = {value : 18, player : player2};
+		m.updateScore(game);
+		expect(game.team_1.score).to.equal(1);
+	});
+
+	it('increases the score of the bidding team when they gain more than the bidding point',function() {
+		game.bid = {value : 17, player : player2};
+		m.updateScore(game);
+		expect(game.team_1.score).to.equal(2);
+	});
+
+	it('decreases the score of the bidding team when they gain less than the bidding point',function() {
+		game.bid = {value : 19, player : player2};
+		m.updateScore(game);
+		expect(game.team_1.score).to.equal(1);
+	});
 });

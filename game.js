@@ -110,6 +110,11 @@ gameExp.Game.prototype.nextTurn = function(){			//ugly
 		setTimeout(function(){
 			game.playedCards = [];
 		},2500);
+		if (this.team_1.wonCards.length + this.team_2.wonCards.length == 32) {
+			croupier.updateScore(game);
+			this.team_1.wonCards = [];
+			this.team_2.wonCards = [];
+		};
 	}
 	else{
 		var permissions = this.roundSequence.map(function(player){
