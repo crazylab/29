@@ -59,7 +59,7 @@ m.serveGameStatus = function(req,res,next){
 		return;
 	}
 	res.statusCode = 200;
-	console.log(res.statusCode,': Status Sent.');
+	console.log(res.statusCode,': Status Sent to ',req.headers.cookie);
 	var gameStatus = game.getStatus(req.headers.cookie);
 	console.log(gameStatus);
 	res.end(JSON.stringify(gameStatus));

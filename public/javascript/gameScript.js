@@ -20,20 +20,21 @@ var verticalCards = function (numberOfCards){
 	return hand.join('');
 };
 var showTrump = function(trump){
+	var html = '<img src="img/hidden.png" />';
 	if(trump)
-		return '<img src="img/' + trump + '.png" />';
-	return '<img src="img/hidden.png" />';
+		html = '<img src="img/' + trump + '.png" />';
+	$('#trump').html(html);
 };
 
-var showPlayedCards = function(cards){
+var showPlayedCard = function(cards){
 	var html = '';
 	_.forIn(cards, function(value, key){
 		html += '<img class="'+key+' card" src="./img/'+value.card.id+'.png"/>';
 	});
-	return html;
+	$('#playedCards').html(html);
 };
-var showTurn = function(turn){
-	$( ".bottom" ).toggleClass("turn_on", turn );
+var showTurn = function(turn,player){
+	$( "#"+player).toggleClass("turn_on", turn );
 }
 var showBidStatus = function(bid){
 	var highestBid = '<label> Highest Bid : '+bid.value+'</label>';
@@ -42,24 +43,23 @@ var showBidStatus = function(bid){
 };
 
 var updateChanges = function(changes){
-	var handler = {
-		'ownHand' : horizontalCards,
+	var playerHandler = {
+		'me' : horizontalCards,
 		'partner' : horizontalCards,
 		'opponent_1' : verticalCards,
-		'opponent_2' : verticalCards,
-		'trump' : showTrump,
-		'playedCards' : showPlayedCards,
-		'turn' : showTurn,
-		'bidValue' : showBidStatus
+		'opponent_2' : verticalCards
 	};
-	_.forIn(changes, function(value, key){
-		var id = '#'+ key;
-		var html = handler[key](value);
+	_.forIn(playerHandler, function(action, player){
+		var id = '#'+ player;
+		var html = action(changes[player].hand);
 		$(id).html(html);
+		showTurn(changes[player].turn,player);
 	});
+	showPlayedCard(changes.playedCards);
+	showTrump(changes.trump);
 }
 var playCard = function(){
-	$('#ownHand').on('click','td',function(){
+	$('#me').on('click','td',function(){
 		var id = $(this).attr('id');
 		$.post("throwCard", id);
 	});

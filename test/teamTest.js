@@ -1,4 +1,6 @@
 var m = require('../team.js').team;
+var gameModule = require('../game.js').game;
+
 var chai = require('chai');
 var assert = chai.assert;
 var expect = chai.expect;
@@ -36,14 +38,36 @@ describe('Team',function(){
 });
 
 describe('Player',function(){
-	var player = new m.Player();
+	var player = new m.Player('Raju');
+	player.hand = [{id:'S4'},{id:'D5'},{id:'C9'},{id:'SK'}];
 	it('creates player with properties',function(){
-		expect(player).to.have.all.keys('hand','hasPair','turn','id');
+		expect(player).to.have.all.keys('hand','hasPair','turn','id','isFinalBidder');
 	});
 	describe('types',function(){
 		it('Properties are of different types',function(){
 			assert.typeOf(player.hand, 'array');
 			assert.typeOf(player.hasPair, 'boolean');
+			assert.typeOf(player.isFinalBidder, 'boolean');
+		});
+	});
+	describe('getStatus',function(){
+		it('gives the player\'s status with card IDs when the player is not third party',function(){
+			var status = player.getStatus(false);
+			var expectedStatus = {
+				hand : ['S4','D5','C9','SK'],
+				turn : false,
+				isBidder : false
+			};
+			expect(status).to.deep.equal(expectedStatus);
+		});
+		it('gives the player\'s status with number of cards in hand when the player is third party',function(){
+			var status = player.getStatus(true);
+			var expectedStatus = {
+				hand : 4,
+				turn : false,
+				isBidder : false
+			};
+			expect(status).to.deep.equal(expectedStatus);
 		});
 	});
 });
@@ -91,7 +115,33 @@ describe('removeCard',function(){
 	})
 });
 
-
+describe('getMyCard',function(){
+	var game = new gameModule.Game();
+	var player = new m.Player('sayan');
+	var playedCards = [{player:'sayan',
+						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
+						trumpShown: false
+						},
+						{player:'sayani',
+						card:{ name: '10', suit: 'Spade', point: 1, rank: 4 },
+						trumpShown: false
+						},
+						{player:'brindaban',
+						card:{ name: '8', suit: 'Spade', point: 0, rank: 7 },
+						trumpShown: true
+						},
+						{player:'rahul',
+						card:{ name: 'A', suit: 'Heart', point: 1, rank: 3 },
+						trumpShown: true
+						}];
+	it('returns a card played by the requested player',function(){
+		var expected = {player:'sayan',
+						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
+						trumpShown: false
+						};
+		expect(player.getMyCard(playedCards)).to.deep.equal(expected);
+	});
+});
 
 
 

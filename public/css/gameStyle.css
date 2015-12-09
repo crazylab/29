@@ -57,19 +57,19 @@
     bottom: 177.5px;
     left: 277px;
 }
-.own{
+.me{
     top: 177.5px;
     left: 277px;
 }
 .opponent_2{
     bottom: 100px;
-    right: 384.5px;
+    left: 370px;
 }
 .opponent_1{
     bottom: 100px;
-    left: 370px;
+    right: 384.5px;
 }
-#bidValue{
+#bid{
 	position: absolute;
     top: 10px;
     left: 25px;

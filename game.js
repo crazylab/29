@@ -8,9 +8,12 @@ gameExp.Game = function(){
 	this.deck = card.generateCards(),
 	this.distributionSequence = [],
 	this.roundSequence = [],
-	this.trump = {suit: null, open: false},
+	this.trump = {suit: undefined, open: false},
 	this.playedCards = [],
-	this.bid = {value : null, player : null},
+	this.bid = {
+		value : undefined, 
+		player : {id: undefined}
+	},
 	this.team_1 = team.generateTeam(),
 	this.team_2 = team.generateTeam()	
 }
@@ -18,33 +21,41 @@ var isTrumpSet = function () {
 	if (this.trump.suit) return true;
 	return false;
 };
-gameExp.getMyCard = function(playedCards, id){
-	return playedCards.filter(function(playedCard){
-		return playedCard.player == id;
-	})[0];
-}
-gameExp.Game.prototype.getStatus = function(playerID){		//Looking Ugly
-	var ownTeam = this.team_1.hasPlayer(playerID) ? this.team_1:this.team_2;
-	var opponentTeam = this.team_1.hasPlayer(playerID) ? this.team_2:this.team_1;
 
-	var partner = ownTeam.getPartner(playerID);
-	var player = ownTeam.getPlayer(playerID);
-	return {
-		ownHand : player.getCardID(),
-		partner : partner.getCardsCount(),
-		opponent_1 : opponentTeam.players[0].getCardsCount(),
-		opponent_2 : opponentTeam.players[1].getCardsCount(),
-		trump : this.trump.open && this.trump.suit,
-		playedCards : {
-			own: gameExp.getMyCard(this.playedCards, player.id),
-			opponent_2 : gameExp.getMyCard(this.playedCards, opponentTeam.players[0].id),
-			partner: gameExp.getMyCard(this.playedCards, partner.id),
-			opponent_1 : gameExp.getMyCard(this.playedCards, opponentTeam.players[1].id)
-		},
-		turn : player.turn,
-		bidValue : this.getFinalBidStatus()
-	};
+gameExp.Game.prototype.getRelationship = function(playerID){
+	var relation = {};
+	relation.team = this.team_1.hasPlayer(playerID) ? this.team_1 : this.team_2;
+	relation.me = relation.team.getPlayer(playerID);
+	relation.partner = relation.team.getPartner(playerID);
+
+	relation.opponentTeam = this.team_1.hasPlayer(playerID) ? this.team_2 : this.team_1;
+	relation.opponent_1 = relation.opponentTeam.players[0];
+	relation.opponent_2 = relation.opponentTeam.players[1];
+	return relation;
 };
+
+gameExp.Game.prototype.getStatus = function(playerID){		
+	var relationship = this.getRelationship(playerID);
+	var status = {};
+	status.me = relationship.me.getStatus(false);
+
+	status.partner = relationship.partner.getStatus(true);
+	status.opponent_1 = relationship.opponent_1.getStatus(true);
+	status.opponent_2 = relationship.opponent_2.getStatus(true);
+	
+	status.bid = this.getFinalBidStatus();
+	status.trump = this.trump.open && this.trump.suit;
+
+	var players = ['me','partner','opponent_1','opponent_2'];
+	var playedCards = this.playedCards;
+	status.playedCards = {};
+
+	players.forEach(function(player){
+		status.playedCards[player] = relationship[player].getMyCard(playedCards);
+	});
+	return status;
+};
+
 gameExp.Game.prototype.shuffle = function(){
 	this.deck = ld.shuffle(this.deck);
 	return this;	
