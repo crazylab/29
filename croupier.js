@@ -17,7 +17,7 @@ croupier.distributeCards = function(game){
 
 croupier.calculateTotalPoint = function(teamBucket){
 	return teamBucket.reduce(function(init,secondCard){
-		return init + secondCard.point;
+		return init + secondCard.card.point;
 	},0);
 };
 
@@ -62,5 +62,17 @@ croupier.assignPlayer = function(game,player){
 		game.team_1.addPlayer(player);
 	else
 		game.team_2.addPlayer(player);
+	return game;
+};
+
+croupier.updateScore = function (game) {
+	var bidWinner = game.bid.player.id;
+	var bidValue = game.bid.value;
+	var bidWinningTeam = game.team_1.hasPlayer(bidWinner) ? 'team_1':'team_2';
+	var gainPoint = croupier.calculateTotalPoint(game[bidWinningTeam].wonCards);
+	if (bidValue <= gainPoint)
+		game[bidWinningTeam].score += 1;
+	else
+		game[bidWinningTeam].score -= 1;
 	return game;
 };
