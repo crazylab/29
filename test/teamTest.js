@@ -113,6 +113,7 @@ describe('removeCard',function(){
 	it('returns the deleted card',function(){
 		expect(deletedCard).to.deep.equal({ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 });
 	})
+
 });
 
 describe('getMyCard',function(){
@@ -142,6 +143,4 @@ describe('getMyCard',function(){
 		expect(player.getMyCard(playedCards)).to.deep.equal(expected);
 	});
 });
-
-
 
