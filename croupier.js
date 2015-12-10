@@ -65,11 +65,34 @@ croupier.assignPlayer = function(game,player){
 	return game;
 };
 
+croupier.manipulateBidValueForPair = function (game,bidWinningTeam, opponentTeam) {
+	var hasPairOfBidWinningTeam = game[bidWinningTeam].players.filter(function(player) {
+		return player.hasPair == true;
+	})[0] != undefined;
+	var hasPairOfOpponentTeam = game[opponentTeam].players.filter(function(player) {
+		return player.hasPair == true;
+	})[0] != undefined;
+	if (hasPairOfBidWinningTeam) {
+		if (game.bid.value < 21)
+			game.bid.value = 16;
+		else
+			game.bid.value -= 4;
+	}
+	else if (hasPairOfOpponentTeam) {
+		if (game.bid.value > 23)
+			game.bid.value = 28;
+		else
+			game.bid.value += 4;
+	};
+};
+
 croupier.updateScore = function (game) {
 	var bidWinner = game.bid.player.id;
-	var bidValue = game.bid.value;
 	var bidWinningTeam = game.team_1.hasPlayer(bidWinner) ? 'team_1':'team_2';
+	var opponentTeam = game.team_1.hasPlayer(bidWinner) ? 'team_2':'team_1';
 	var gainPoint = croupier.calculateTotalPoint(game[bidWinningTeam].wonCards);
+	croupier.manipulateBidValueForPair(game,bidWinningTeam,opponentTeam);
+	var bidValue = game.bid.value;
 	if (bidValue <= gainPoint)
 		game[bidWinningTeam].score += 1;
 	else

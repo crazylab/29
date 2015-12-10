@@ -99,6 +99,7 @@ m.throwCard = function (req, res) {
 m.getTrumpSuit = function (req, res) {
 	res.statusCode = 200;
 	var data = game.getTrumpSuit();
+	croupier.pairChecking(game);
 	console.log('Trump suit '+ data +' has been revealed');
 	res.end(data);
 };
