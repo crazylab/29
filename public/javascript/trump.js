@@ -2,7 +2,7 @@ var onReady = function () {
 	var postTrump = function () {
 		var content = '<img src="img/hidden.png" />';
 		$.post("setTrump", $(this).attr('id'));
-		$('#trumps').addClass('trump_suits');
+		$('#select_trumps').addClass('trump_suits');
 		$('.trump').html(content);
 	};
 	$(function () {
@@ -15,7 +15,7 @@ var onReady = function () {
 	// this function is related to the highest bidder.Use if necessary
 	$(function () {
 		$('#highestBidder').click(function (){
-			$('#trumps').removeClass('trump_suits');
+			$('#select_trumps').removeClass('trump_suits');
 		});
 	});
 	var showTrump = function(){

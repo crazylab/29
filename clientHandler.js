@@ -37,10 +37,13 @@ m.addPlayer = function(req,res){
 			console.log('----> ',name,' has been added to a team.')
 		};
 		if(croupier.countPlayer(game) == 4){
-			game.setDistributionSequence().shuffleDeck();
+			game
+				.setDistributionSequence()
+				.shuffleDeck();
 			croupier.distributeCards(game);
-			croupier.distributeCards(game);	//Need to add bidding
+			dummyGame.bid.player = dummyGame.distributionSequence[0]; 	//Need to add bidding
 		}
+
 		res.writeHead(302,{Location:'waiting.html'});
 		res.end();
 	});
@@ -72,6 +75,8 @@ m.setTrumpSuit = function (req, res) {
 	});
 	req.on('end',function(){
 		game.setTrumpSuit(data);
+		croupier.distributeCards(game);
+		game.setRoundSequence();
 		console.log('Trump suit has been set');
 		res.end();
 	});

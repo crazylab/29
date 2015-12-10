@@ -95,6 +95,7 @@ describe('setRoundSequence',function(){
 	game.team_1.players = [p1,p3];
 	game.team_2.players = [p2,p4];
 	game.setDistributionSequence();
+	game.setRoundSequence();
 	it('initially roundSequence is equal to distribution sequence',function(){
 		expect(game.roundSequence).to.deep.equal(game.distributionSequence);
 	});
@@ -122,6 +123,7 @@ describe('nextTurn',function(){
 	game.team_1.players = [p1,p3];
 	game.team_2.players = [p2,p4];
 	game.setDistributionSequence();
+	game.setRoundSequence();
 	game.nextTurn();
 	it('gives the trun permission true of the next player',function(){
 		expect(game.roundSequence[0].turn).to.be.false;
@@ -214,7 +216,7 @@ describe('isValidCardToThrow',function(){
 	});
 });
 
-describe('getRealtionship',function(){
+describe('getRelationship',function(){
 	var game = new gameModule.Game();
 	var player1 = new team.Player('ramu');
 	var player2 = new team.Player('raju');
