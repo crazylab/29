@@ -35,17 +35,39 @@ describe('getStatus',function(){
 	game.distributionSequence = [player1,player3,player2,player4];
 	
 	croupier.distributeCards(game);
+	game.playedCards = [{player:'ramu',
+						card:{ id:'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 },
+						trumpShown: false
+						},
+						{player:'raju',
+						card:{ id:'S10', name: '10', suit: 'Spade', point: 1, rank: 4 },
+						trumpShown: false
+						},
+						{player:'ranju',
+						card:{ id:'S8', name: '8', suit: 'Spade', point: 0, rank: 7 },
+						trumpShown: true
+						},
+						{player:'dhamu',
+						card:{ id:'HA', name: 'A', suit: 'Heart', point: 1, rank: 3 },
+						trumpShown: true
+						}];
 	var status = game.getStatus('ranju');
 	it('gives object with ownHand and length of partner, opponent_1, opponent_2 hand',function(){
-		expect(status).to.have.all.keys('ownHand', 'partner', 'opponent_1', 'opponent_2','trump','playedCards','turn','bidValue');
+		expect(status).to.have.all.keys('me', 'partner', 'opponent_1', 'opponent_2','trump','bid','playedCards');
 	});
 	it('gives four card IDs for the requested player',function(){
-		expect(status.ownHand).to.have.length(4);
+		expect(status.me.hand).to.have.length(4);
 	});
 	it('gives 4 cards for the 3 other player',function(){
-		expect(status.partner).to.equal(4);
-		expect(status.opponent_1).to.equal(4);
-		expect(status.opponent_2).to.equal(4);
+		expect(status.partner.hand).to.equal(4);
+		expect(status.opponent_1.hand).to.equal(4);
+		expect(status.opponent_2.hand).to.equal(4);
+	});
+	it('gives all the cards that has already been played by a player',function(){
+		expect(status.playedCards.me.card.id).to.equal('S8');
+		expect(status.playedCards.partner.card.id).to.equal('HA');
+		expect(status.playedCards.opponent_1.card.id).to.equal('HJ');
+		expect(status.playedCards.opponent_2.card.id).to.equal('S10');
 	});
 });
 
@@ -63,32 +85,7 @@ describe('getPlayer',function(){
 		expect(game.getPlayer(playerId)).to.deep.equal(player3);
 	});
 });
-describe('getMyCard',function(){
-	var game = new gameModule.Game();
-	var playedCards = [{player:'sayan',
-						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
-						trumpShown: false
-						},
-						{player:'sayani',
-						card:{ name: '10', suit: 'Spade', point: 1, rank: 4 },
-						trumpShown: false
-						},
-						{player:'brindaban',
-						card:{ name: '8', suit: 'Spade', point: 0, rank: 7 },
-						trumpShown: true
-						},
-						{player:'rahul',
-						card:{ name: 'A', suit: 'Heart', point: 1, rank: 3 },
-						trumpShown: true
-						}];
-	it('returns a card played by the requested player',function(){
-		var expected = {player:'sayan',
-						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
-						trumpShown: false
-						};
-		expect(gameModule.getMyCard(playedCards,'sayan')).to.deep.equal(expected);
-	});
-});
+
 describe('setRoundSequence',function(){
 	var game = new gameModule.Game();
 	var p1 = new team.Player('raju');
@@ -214,6 +211,29 @@ describe('isValidCardToThrow',function(){
 		game.playedCards = [{card:{ id: 'DJ', name: 'J', suit: 'Diamond', point: 3, rank: 1 }},
 							{card:{ id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }}];
 		expect(game.isValidCardToThrow('C8',game.team_1.players[0].hand)).to.be.true;
-	})
+	});
+});
 
+describe('getRealtionship',function(){
+	var game = new gameModule.Game();
+	var player1 = new team.Player('ramu');
+	var player2 = new team.Player('raju');
+	var player3 = new team.Player('ranju');
+	var player4 = new team.Player('dhamu');
+	
+	game.team_1.players = [player1,player2];
+	game.team_2.players = [player3,player4];
+
+	it('gets the relationship from a player\'s view',function(){
+		var relation = game.getRelationship('ramu');
+		var expectedRelation = {
+			team : game.team_1,
+			me : player1,
+			partner : player2,
+			opponentTeam : game.team_2,
+			opponent_1 : player3,
+			opponent_2 : player4
+		};
+		expect(relation).to.deep.equal(expectedRelation);
+	});
 });
