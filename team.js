@@ -71,8 +71,9 @@ team.Team.prototype.addPlayer = function(player ){
 }
 
 team.Team.prototype.getPlayer = function(playerID){
-	if(!this.hasPlayer(playerID))
+	if(!this.hasPlayer(playerID)){
 		return;
+	}
 	var players = this.players.filter(function(player){
 		return player.id == playerID;
 	});

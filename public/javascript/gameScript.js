@@ -41,7 +41,6 @@ var showBidStatus = function(bid){
 	var highestBidder = '<label> Highest Bidder : '+bid.player+'</label>';
 	return highestBid+'<br><br>'+highestBidder;
 };
-
 var updateChanges = function(changes){
 	var playerHandler = {
 		'me' : horizontalCards,
@@ -73,10 +72,15 @@ var getStatus = function(){
 		});
 	},1000);
 }
+var showTrumpSelectionBox = function(status){
+	if(status)
+		$('#select_trumps').removeClass('trump_suits');
+}
 var onPageReady = function(){
 	$.get("status",function(status){
 		var status = JSON.parse(status);
 		updateChanges(status);
+		showTrumpSelectionBox(status.isBidWinner);
 		playCard();
 	});
 	getStatus();

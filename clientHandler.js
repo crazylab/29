@@ -30,17 +30,20 @@ m.addPlayer = function(req,res){
 			return;
 		};
 
-		if(!req.headers.cookie && count < 4){
+		if(count < 4){
 			res.setHeader('set-cookie',[id = name]);
 			var player = new team.Player(name);
 			dummyGame = croupier.assignPlayer(dummyGame,player);
 			console.log('----> ',name,' has been added to a team.')
 		};
 		if(croupier.countPlayer(game) == 4){
-			game.setDistributionSequence().shuffleDeck();
+			game
+				.setDistributionSequence()
+				.shuffleDeck();
 			croupier.distributeCards(game);
-			croupier.distributeCards(game);	//Need to add bidding
+			dummyGame.bid.player = dummyGame.distributionSequence[0]; 	//Need to add bidding
 		}
+
 		res.writeHead(302,{Location:'waiting.html'});
 		res.end();
 	});
@@ -58,6 +61,12 @@ m.serveGameStatus = function(req,res,next){
 		next();
 		return;
 	}
+	if(!game.getPlayer(req.headers.cookie)){
+		res.statusCode = 401;
+		console.log(res.statusCode,':',req.headers.cookie,'is not authorized.');
+		res.end('Not authorized to access.');
+		return;
+	}
 	res.statusCode = 200;
 	console.log(res.statusCode,': Status Sent to ',req.headers.cookie);
 	var gameStatus = game.getStatus(req.headers.cookie);
@@ -72,6 +81,8 @@ m.setTrumpSuit = function (req, res) {
 	});
 	req.on('end',function(){
 		game.setTrumpSuit(data);
+		croupier.distributeCards(game);
+		game.setRoundSequence();
 		console.log('Trump suit has been set');
 		res.end();
 	});

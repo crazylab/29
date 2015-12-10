@@ -11,14 +11,15 @@ gameExp.Game = function(){
 	this.trump = {suit: undefined, open: false},
 	this.playedCards = [],
 	this.bid = {
-		value : undefined, 
+		value : 18, 
 		player : {id: undefined}
 	},
 	this.team_1 = team.generateTeam(),
 	this.team_2 = team.generateTeam()	
 }
-var isTrumpSet = function () {
-	if (this.trump.suit) return true;
+gameExp.Game.prototype.isTrumpSet = function () {
+	if (this.trump.suit) 
+		return true;
 	return false;
 };
 
@@ -42,14 +43,14 @@ gameExp.Game.prototype.getStatus = function(playerID){
 	status.partner = relationship.partner.getStatus(true);
 	status.opponent_1 = relationship.opponent_1.getStatus(true);
 	status.opponent_2 = relationship.opponent_2.getStatus(true);
-	
 	status.bid = this.getFinalBidStatus();
+	var topBidder = this.bid.player.id == playerID;
+	status.isBidWinner = topBidder && !this.isTrumpSet();
 	status.trump = this.trump.open && this.trump.suit;
 
-	var players = ['me','partner','opponent_1','opponent_2'];
-	var playedCards = this.playedCards;
 	status.playedCards = {};
-
+	var playedCards = this.playedCards;
+	var players = ['me','partner','opponent_1','opponent_2'];
 	players.forEach(function(player){
 		status.playedCards[player] = relationship[player].getMyCard(playedCards);
 	});
@@ -68,8 +69,8 @@ gameExp.Game.prototype.setDistributionSequence = function(){
 		this.distributionSequence.push(firstPlayer);
 	}
 	this.roundSequence = this.distributionSequence;
-	this.roundSequence[3].turn = false;
-	this.roundSequence[0].turn = true;
+	// this.roundSequence[3].turn = false;
+	// this.roundSequence[0].turn = true;
 	return this;
 };
 gameExp.Game.prototype.shuffleDeck = function(){
@@ -78,6 +79,7 @@ gameExp.Game.prototype.shuffleDeck = function(){
 };
 gameExp.Game.prototype.setTrumpSuit = function (suit) {
 	this.trump.suit = suit;
+	return this;
 };
 
 gameExp.Game.prototype.getTrumpSuit = function () {
@@ -98,9 +100,13 @@ gameExp.Game.prototype.getPlayer = function(playerID){
 	var allPlayer = this.team_1.players.concat(this.team_2.players);
 	return allPlayer.filter(function(player){
 		return player.id == playerID;
-	})[0];
+	})[0] || false;
 };
 gameExp.Game.prototype.setRoundSequence = function(roundWinner){
+	if(roundWinner == undefined){
+		this.roundSequence[0].turn = true;
+		return this;
+	}
 	var playerIDs = this.roundSequence.map(function(player){
 		return player.id;
 	});
