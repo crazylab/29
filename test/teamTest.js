@@ -1,4 +1,5 @@
 var m = require('../team.js').team;
+var g = require('../game.js').game;
 var chai = require('chai');
 var assert = chai.assert;
 var expect = chai.expect;
@@ -90,8 +91,3 @@ describe('removeCard',function(){
 		expect(deletedCard).to.deep.equal({ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 });
 	})
 });
-
-
-
-
-

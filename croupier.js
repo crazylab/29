@@ -76,3 +76,11 @@ croupier.updateScore = function (game) {
 		game[bidWinningTeam].score -= 1;
 	return game;
 };
+croupier.pairChecking = function (game) {
+	game.team_1.players.forEach(function(player){
+		player.checkPair(game);
+	});
+	game.team_2.players.forEach(function(player){
+		player.checkPair(game);
+	});
+};
