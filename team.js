@@ -15,6 +15,10 @@ team.Player = function(id){
 	this.hasPair = false;
 	this.isFinalBidder = false;
 };
+team.generateTeam = function(){
+	return new team.Team();
+}
+
 team.Player.prototype.getCardID = function(){
 	return this.hand.map(function(card){
 		return card.id;
@@ -23,13 +27,21 @@ team.Player.prototype.getCardID = function(){
 team.Player.prototype.getCardsCount = function(){
 	return this.getCardID().length;
 };
-
 team.Player.prototype.removeCard = function(cardId){
 	var previousHand = this.hand;
 	this.hand = this.hand.filter(function(card){
 		return card.id != cardId;
 	});
 	return ld.difference(previousHand,this.hand)[0];
+};
+team.Player.prototype.checkPair = function (game) {
+	var hand = this.hand;
+	var suit = game.trump.suit;
+	var filteredCards = hand.filter(function(card) {
+		return card.suit[0] == suit[0] && (card.name == 'K' || card.name == 'Q');
+	});
+	if (filteredCards.length == 2)
+		this.hasPair = true;
 };
 
 team.Player.prototype.getMyCard = function(playedCards){
@@ -51,11 +63,8 @@ team.Player.prototype.getStatus = function(thirdParty){
 team.Team.prototype.getCardsCount = function(){
 	return this.hand.length;	
 } 
-team.generateTeam = function(){
-	return new team.Team();
-}
 
-team.Team.prototype.addPlayer = function(player){
+team.Team.prototype.addPlayer = function(player ){
 	if(this.players.length == 2)
 		throw (new Error('not enough space'));
 	this.players.push(player);
