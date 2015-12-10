@@ -46,10 +46,9 @@ gameExp.Game.prototype.getStatus = function(playerID){
 	status.bid = this.getFinalBidStatus();
 	status.trump = this.trump.open && this.trump.suit;
 
-	var players = ['me','partner','opponent_1','opponent_2'];
-	var playedCards = this.playedCards;
 	status.playedCards = {};
-
+	var playedCards = this.playedCards;
+	var players = ['me','partner','opponent_1','opponent_2'];
 	players.forEach(function(player){
 		status.playedCards[player] = relationship[player].getMyCard(playedCards);
 	});
@@ -98,7 +97,7 @@ gameExp.Game.prototype.getPlayer = function(playerID){
 	var allPlayer = this.team_1.players.concat(this.team_2.players);
 	return allPlayer.filter(function(player){
 		return player.id == playerID;
-	})[0];
+	})[0] || false;
 };
 gameExp.Game.prototype.setRoundSequence = function(roundWinner){
 	var playerIDs = this.roundSequence.map(function(player){

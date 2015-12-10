@@ -30,7 +30,7 @@ m.addPlayer = function(req,res){
 			return;
 		};
 
-		if(!req.headers.cookie && count < 4){
+		if(count < 4){
 			res.setHeader('set-cookie',[id = name]);
 			var player = new team.Player(name);
 			dummyGame = croupier.assignPlayer(dummyGame,player);
@@ -56,6 +56,12 @@ m.serveGameStatus = function(req,res,next){
 		res.statusCode = 406;
 		console.log(req.method,res.statusCode,': Not Enough Player to Play.');
 		next();
+		return;
+	}
+	if(!game.getPlayer(req.headers.cookie)){
+		res.statusCode = 401;
+		console.log(res.statusCode,':',req.headers.cookie,'is not authorized.');
+		res.end('Not authorized to access.');
 		return;
 	}
 	res.statusCode = 200;
