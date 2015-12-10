@@ -53,7 +53,7 @@ describe('getStatus',function(){
 						}];
 	var status = game.getStatus('ranju');
 	it('gives object with ownHand and length of partner, opponent_1, opponent_2 hand',function(){
-		expect(status).to.have.all.keys('me', 'partner', 'opponent_1', 'opponent_2','trump','bid','playedCards');
+		expect(status).to.have.all.keys('me', 'partner', 'opponent_1', 'opponent_2','trump','bid','playedCards',"isBidWinner");
 	});
 	it('gives four card IDs for the requested player',function(){
 		expect(status.me.hand).to.have.length(4);
