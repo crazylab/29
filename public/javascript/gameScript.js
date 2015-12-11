@@ -77,7 +77,8 @@ var showTrumpSelectionBox = function(status){
 		$('#select_trumps').removeClass('trump_suits');
 }
 var onPageReady = function(){
-	$.get("status",function(status){
+	$('#playerName').html(document.cookie.toUpperCase());
+	$.get('status',function(status){
 		var status = JSON.parse(status);
 		updateChanges(status);
 		showTrumpSelectionBox(status.isBidWinner);
