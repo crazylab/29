@@ -198,12 +198,64 @@ describe('roundWinner',function(){
 						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 						trumpShown: true
 						}];
+		var playedCardsSet_6 = [{player:'10.4.20.173_sayan',
+						card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
+						trumpShown: true
+						},
+						{player:'10.4.20.163_sayani',
+						card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
+						trumpShown: true
+						},
+						{player:'10.4.20.143_brindaban',
+						card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
+						trumpShown: true
+						},
+						{player:'10.4.20.153_rahul',
+						card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
+						trumpShown: true
+						}];
+		var playedCardsSet_7 = [{player:'10.4.20.173_sayan',
+						card:{ name: 'K', suit: 'Club', point: 0, rank: 5 },
+						trumpShown: true
+						},
+						{player:'10.4.20.163_sayani',
+						card:{ name: 'Q', suit: 'Heart', point: 0, rank: 6 },
+						trumpShown: true
+						},
+						{player:'10.4.20.143_brindaban',
+						card:{ name: '8', suit: 'Spade', point: 0, rank: 7 },
+						trumpShown: true
+						},
+						{player:'10.4.20.153_rahul',
+						card:{ name: 'K', suit: 'Diamond', point: 0, rank: 5 },
+						trumpShown: true
+						}];
+		var playedCardsSet_8 = [{player:'10.4.20.173_sayan',
+						card:{ name: 'K', suit: 'Club', point: 0, rank: 5 },
+						trumpShown: true
+						},
+						{player:'10.4.20.163_sayani',
+						card:{ name: 'Q', suit: 'Heart', point: 0, rank: 6 },
+						trumpShown: true
+						},
+						{player:'10.4.20.143_brindaban',
+						card:{ name: 'K', suit: 'Heart', point: 0, rank: 5 },
+						trumpShown: true
+						},
+						{player:'10.4.20.153_rahul',
+						card:{ name: 'K', suit: 'Diamond', point: 0, rank: 5 },
+						trumpShown: true
+						}];
 
 		assert.equal('10.4.20.163_sayani',m.roundWinner(playedCardsSet_1,'Diamond'));
 		assert.equal('10.4.20.143_brindaban',m.roundWinner(playedCardsSet_2,'Spade'));
 		assert.equal('10.4.20.163_sayani',m.roundWinner(playedCardsSet_3,'Diamond'));
 		assert.equal('10.4.20.143_brindaban',m.roundWinner(playedCardsSet_4,'Diamond'));
 		assert.equal('10.4.20.153_rahul',m.roundWinner(playedCardsSet_5,'Club'));
+		assert.equal('10.4.20.163_sayani',m.roundWinner(playedCardsSet_6,'Diamond'));
+		assert.equal('10.4.20.163_sayani',m.roundWinner(playedCardsSet_7,'Heart'));
+		assert.equal('10.4.20.143_brindaban',m.roundWinner(playedCardsSet_8,'Heart'));
+
 
 
 	})

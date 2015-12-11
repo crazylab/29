@@ -69,8 +69,7 @@ gameExp.Game.prototype.setDistributionSequence = function(){
 		this.distributionSequence.push(firstPlayer);
 	}
 	this.roundSequence = this.distributionSequence;
-	// this.roundSequence[3].turn = false;
-	// this.roundSequence[0].turn = true;
+	
 	return this;
 };
 gameExp.Game.prototype.shuffleDeck = function(){

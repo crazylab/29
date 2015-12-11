@@ -22,7 +22,7 @@ croupier.calculateTotalPoint = function(teamBucket){
 };
 
 var beforeTrumpShow = function(comparingCard,startingSuit,standCard){
-	if (startingSuit == comparingCard.card.suit) {
+	if (startingSuit == comparingCard.card.suit[0]) {
 		if (standCard.card.rank > comparingCard.card.rank)
 			standCard = comparingCard;
 	};
@@ -30,19 +30,22 @@ var beforeTrumpShow = function(comparingCard,startingSuit,standCard){
 };
 
 var afterTrumpShow = function(comparingCard,startingSuit,standCard,trumpSuit){
-	if (comparingCard.card.suit == trumpSuit && standCard.trumpShown==false)
+	if (comparingCard.card.suit[0] == trumpSuit && standCard.trumpShown==false)
 		standCard = comparingCard;
-	else if(comparingCard.card.suit == trumpSuit && standCard.trumpShown==true){
-		if(standCard.card.rank > comparingCard.card.rank)
+	else if(comparingCard.card.suit[0] == trumpSuit && standCard.trumpShown==true){
+		if(standCard.card.suit[0] != trumpSuit)
+			standCard = comparingCard;
+		if(standCard.card.rank > comparingCard.card.rank && standCard.card.suit[0] == trumpSuit)
 			standCard = comparingCard;
 	}
-	else if(comparingCard.card.suit != trumpSuit && standCard.card.suit != trumpSuit)
+	else if(comparingCard.card.suit[0] != trumpSuit && standCard.card.suit[0] != trumpSuit)
 		standCard = beforeTrumpShow(comparingCard,startingSuit,standCard);
 	return standCard;
 };
 
-croupier.roundWinner = function (playedCards,trumpSuit){
-	var startingSuit = playedCards[0].card.suit;
+croupier.roundWinner = function (playedCards,trumpID){
+	var trumpSuit = trumpID && trumpID[0];
+	var startingSuit = playedCards[0].card.suit[0];
 	var standCard = playedCards[0];
 	for (var i = 1;i < playedCards.length;i++){
 		if (playedCards[i].trumpShown == false || startingSuit == trumpSuit)
