@@ -441,6 +441,7 @@ describe('pairChecking', function() {
 		game.trump = {suit: 'Heart', open: true};
 		m.pairChecking(game);
 		expect(game.team_2.players[0].hasPair).to.be.true;
+		expect(game.team_2.players[1].hasPair).to.be.false;
 	});
 	it('will not set hasPair true for the player not having trump suit pair, but having pair of another suit', function() {
 		game.trump = {suit: 'Heart', open: true};

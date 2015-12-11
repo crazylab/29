@@ -80,12 +80,17 @@ croupier.manipulateBidValueForPair = function (game,bidWinningTeam, opponentTeam
 			game.bid.value = 16;
 		else
 			game.bid.value -= 4;
+		game[bidWinningTeam].players[0].hasPair = false;
+		game[bidWinningTeam].players[1].hasPair = false;
+
 	}
 	else if (hasPairOfOpponentTeam) {
 		if (game.bid.value > 23)
 			game.bid.value = 28;
 		else
 			game.bid.value += 4;
+		game[opponentTeam].players[0].hasPair = false;
+		game[opponentTeam].players[1].hasPair = false;
 	};
 };
 
