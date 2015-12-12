@@ -69,8 +69,7 @@ gameExp.Game.prototype.setDistributionSequence = function(){
 		this.distributionSequence.push(firstPlayer);
 	}
 	this.roundSequence = this.distributionSequence;
-	// this.roundSequence[3].turn = false;
-	// this.roundSequence[0].turn = true;
+	
 	return this;
 };
 gameExp.Game.prototype.shuffleDeck = function(){
@@ -115,7 +114,8 @@ gameExp.Game.prototype.setRoundSequence = function(roundWinner){
 	this.roundSequence = this.roundSequence.concat(first);
 	this.roundSequence[0].turn = true;
 	return this;
-}
+};
+
 gameExp.Game.prototype.nextTurn = function(){			//ugly
 	if(this.playedCards.length == 4){
 		var winner = croupier.roundWinner(this.playedCards,this.trump.suit);
@@ -129,8 +129,7 @@ gameExp.Game.prototype.nextTurn = function(){			//ugly
 		},2500);
 		if (this.team_1.wonCards.length + this.team_2.wonCards.length == 32) {
 			croupier.updateScore(game);
-			this.team_1.wonCards = [];
-			this.team_2.wonCards = [];
+			this.gameInitializer();
 		};
 	}
 	else{
@@ -141,6 +140,24 @@ gameExp.Game.prototype.nextTurn = function(){			//ugly
 		this.roundSequence[previousPlayerIndex].turn = false;
 		this.roundSequence[previousPlayerIndex+1].turn = true;
 	};
+};
+gameExp.Game.prototype.gameInitializer = function(){
+	var team_1Cards = this.team_1.wonCards.map(function(thrownCard){
+		return thrownCard.card;
+	});
+	var team_2Cards = this.team_2.wonCards.map(function(thrownCard){
+		return thrownCard.card;
+	});
+	this.deck = team_1Cards.concat(team_2Cards);
+	this.trump = {suit: undefined, open: false};
+	this.team_1.wonCards = [];
+	this.team_2.wonCards = [];
+	this.bid = {
+		value : 18, 
+		player : {id: undefined}
+	}
+
+
 }
 var hasCardInHand = function(cardId,playerHand){
 	return playerHand.some(function(card){
