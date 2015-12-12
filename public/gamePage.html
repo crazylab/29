@@ -10,15 +10,28 @@
 		<script type="text/javascript" src="javascript/trump.js"></script>
 	</head> 
 	<body>
-		<h1 class="heading"> Let's Play 29 </h1>
-		<center>
-			<div class="game" id="table">
-				<div id="bid" align="left"></div>
+		<div class="game" align="center">
+			<div id="bid_status" align="left"></div>
 			<div class="horizontalBox top" id="partner"></div>
+			<br><br><br><br><br><br>
+			<div class="name">TOP</div>
 			<div class="verticalBox left" id="opponent_1"></div>
+			<section align="left" class="name" style="position: relative; top: 25%; float: left; margin-left: 10px;">
+				L<br>
+				E<br>
+				F<br>
+				T
+			</section>
 			<div class="verticalBox right" id="opponent_2"></div>
+			<section align="right" class="name" style="position: relative; top: 24%; float: right; margin-right: 10px">
+				R<br>
+				I<br>
+				G<br>
+				H<br>
+				T
+			</section>
 			<div class="table">
-				<div class="trump" id="trump"></div>
+				<div class="trump rotate-45-degree" id="trump"></div>
 				<div id="playedCards"></div>
 				<div id="select_trumps" align= "center" class="trump_suits">
  						<table>
@@ -39,5 +52,5 @@
 				<table class="playerHand" id="me"></table>
 			</div>
 		</div>
-	</center>
-</body>
+	</body>
+</html>

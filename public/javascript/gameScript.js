@@ -37,9 +37,10 @@ var showTurn = function(turn,player){
 	$( "#"+player).toggleClass("turn_on", turn );
 }
 var showBidStatus = function(bid){
-	var highestBid = '<label> Highest Bid : '+bid.value+'</label>';
-	var highestBidder = '<label> Highest Bidder : '+bid.player+'</label>';
-	return highestBid+'<br><br>'+highestBidder;
+	var highestBid = '<b> Top Bid : '+bid.value+'</b>';
+	var highestBidder = '<b> Top Bidder : '+bid.player.id.toUpperCase()+'</b>';
+	var html = highestBid+'<br><br>'+highestBidder;
+	$('#bid_status').html(html);
 };
 var updateChanges = function(changes){
 	var playerHandler = {
@@ -83,6 +84,7 @@ var onPageReady = function(){
 		updateChanges(status);
 		showTrumpSelectionBox(status.isBidWinner);
 		playCard();
+		showBidStatus(status.bid)
 	});
 	getStatus();
 };
