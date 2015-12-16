@@ -115,3 +115,12 @@ croupier.pairChecking = function (game) {
 		player.checkPair(game);
 	});
 };
+
+croupier.ableToAskForTrumpSuit = function(playerHand,playedCards){
+	if(playedCards.length == 0)
+		return false;
+	var runningSuit = playedCards[0].card.suit;
+	return !playerHand.some(function(card){
+		return runningSuit == card.suit;
+	});
+};

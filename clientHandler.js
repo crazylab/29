@@ -109,8 +109,13 @@ m.throwCard = function (req, res) {
 };
 m.getTrumpSuit = function (req, res) {
 	res.statusCode = 200;
-	var data = game.getTrumpSuit();
-	croupier.pairChecking(game);
-	console.log('Trump suit '+ data +' has been revealed');
-	res.end(data);
+	var playerId = req.headers.cookie;
+	var playerHand = game.getPlayer(playerId).hand;	
+
+	if(croupier.ableToAskForTrumpSuit(playerHand,game.playedCards)){
+		var data = game.getTrumpSuit();
+		croupier.pairChecking(game);
+		console.log('Trump suit '+ data +' has been revealed');
+		res.end(data);
+	}
 };

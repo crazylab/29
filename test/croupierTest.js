@@ -532,3 +532,57 @@ describe('manipulateBidValueForPair',function() {
 	});
 });
 
+describe("ableToAskForTrumpSuit",function(){
+	it("prevents a player to see the trump suit if the player has the running suit",function(){
+
+		var playedCards = [{player:'ramu',
+						card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
+						trumpShown: false
+						},
+						{player:'ranju',
+						card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
+						trumpShown: false
+						}];
+
+		var playerHand = [{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
+						{ name: '7', suit: 'Heart', point: 0, rank: 8 },
+						{ name: '9', suit: 'Club', point: 2, rank: 2 },
+						{ name: '7', suit: 'Diamond', point: 0, rank: 8 }];
+
+		var expectedResult = m.ableToAskForTrumpSuit(playerHand,playedCards);
+		expect(expectedResult).to.be.false;
+	});
+
+	it("prevents a player to see the trump suit if he is the first player of the round",function(){
+
+		var playedCards = [];
+
+		var playerHand = [{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
+						{ name: '7', suit: 'Heart', point: 0, rank: 8 },
+						{ name: '9', suit: 'Club', point: 2, rank: 2 },
+						{ name: '7', suit: 'Diamond', point: 0, rank: 8 }];
+
+		var expectedResult = m.ableToAskForTrumpSuit(playerHand,playedCards);
+		expect(expectedResult).to.be.false;
+	});
+
+	it("allows a player to see the trump suit if the player doesn't have the running suit",function(){
+
+		var playedCards = [{player:'ramu',
+						card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
+						trumpShown: false
+						},
+						{player:'ranju',
+						card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
+						trumpShown: false
+						}];
+
+		var playerHand = [{ name: '7', suit: 'Diamond', point: 0, rank: 8 },
+						{ name: '7', suit: 'Heart', point: 0, rank: 8 },
+						{ name: '7', suit: 'Spade', point: 0, rank: 8 },
+						{ name: '7', suit: 'Diamond', point: 0, rank: 8 }];
+
+		var expectedResult = m.ableToAskForTrumpSuit(playerHand,playedCards);
+		expect(expectedResult).to.be.true;
+	});
+});
