@@ -36,6 +36,7 @@ gameExp.Game.prototype.getRelationship = function(playerID){
 };
 
 gameExp.Game.prototype.getStatus = function(playerID){		
+
 	var relationship = this.getRelationship(playerID);
 	var status = {};
 	status.me = relationship.me.getStatus(false);
@@ -54,6 +55,9 @@ gameExp.Game.prototype.getStatus = function(playerID){
 	players.forEach(function(player){
 		status.playedCards[player] = relationship[player].getMyCard(playedCards);
 	});
+
+	status.score = {myScore: relationship.team.score, opponentScore : relationship.opponentTeam.score};
+
 	return status;
 };
 

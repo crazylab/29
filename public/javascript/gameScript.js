@@ -42,6 +42,14 @@ var showBidStatus = function(bid){
 	var html = highestBid+'<br><br>'+highestBidder;
 	$('#bid_status').html(html);
 };
+
+var showScoreCard = function(score){
+	var myScore = '<td> Your Team</td><td>' + score.myScore +  '</td>'
+	var opponentScore = '<td> Opponent Team</td><td>' + score.opponentScore +  '</td>'
+	$('#myTeamScore').html(myScore);
+	$('#opponentTeamScore').html(opponentScore);
+};
+
 var updateChanges = function(changes){
 	var playerHandler = {
 		'me' : horizontalCards,
@@ -57,6 +65,8 @@ var updateChanges = function(changes){
 	});
 	showPlayedCard(changes.playedCards);
 	showTrump(changes.trump);
+	showScoreCard(changes.score);
+
 }
 var playCard = function(){
 	$('#me').on('click','td',function(){
@@ -77,6 +87,8 @@ var showTrumpSelectionBox = function(status){
 	if(status)
 		$('#select_trumps').removeClass('trump_suits');
 }
+
+
 var onPageReady = function(){
 	$('#playerName').html(document.cookie.toUpperCase());
 	$.get('status',function(status){
@@ -84,7 +96,7 @@ var onPageReady = function(){
 		updateChanges(status);
 		showTrumpSelectionBox(status.isBidWinner);
 		playCard();
-		showBidStatus(status.bid)
+		showBidStatus(status.bid);
 	});
 	getStatus();
 };
