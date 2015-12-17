@@ -1,7 +1,7 @@
 .game{
     position: relative;
     width: 100%;
-    height: 750px;
+    height: 800px;
     border: 3px solid #73AD21;
 }
 .horizontalBox {
@@ -46,29 +46,34 @@
     left: 13%;
     width: 71px;
     height: 96px;
-    border: 1px solid #73AD21;	
 }
-.card{
+#playedCards{
     position: absolute;
-    width: 71px;
-    height: 95px;
-    border: 0px solid #73AD21;
+    height: 250px;
+    width: 300px;
+    top: 100px;
+    left: 265px;
+    border: 1px solid black;
 }
 .partner{
-    top: 15%;
-    left: 46%;
+    position: absolute;
+    top: 5px;
+    left: 110px;
 }
 .me{
-    bottom: 15%;
-    left: 46%;
+    position: absolute;
+    bottom: 5px;
+    left: 110px;
 }
 .opponent_2{
-    bottom: 40%;
-    right: 30%;
+    position: absolute;
+    bottom: 75px;
+    right: 10px;
 }
 .opponent_1{
-    bottom: 40%;
-    left: 30%;
+    position: absolute;
+    bottom: 75px;
+    left: 10px;
 }
 #bid_status{
 	position: absolute;
@@ -87,21 +92,21 @@
     visibility: hidden;
 }
 .turn_on{
-    background-color: yellow;  
+    background-color: green;  
     z-index: -1;
 }
 .name {
     font-family: monospace;
     text-decoration: bold;
-    font-size: 25px;
+    font-size: 30px;
     z-index: 1;
 }
 .rotate-45-degree{
-     -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
+     -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
 }
 .rotate-90-degree{
      -webkit-transform: rotate(90deg);

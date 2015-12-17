@@ -4,26 +4,28 @@
 		<title>Welcome </title>
 		<link rel="stylesheet" type="text/css" href="css/gameStyle.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" type="text/css" href="css/cards.css">
 		<script type="text/javascript" src="javascript/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="javascript/lodash.min.js"></script>
 		<script type="text/javascript" src="javascript/gameScript.js"></script>
 		<script type="text/javascript" src="javascript/trump.js"></script>
+		<script type="text/javascript" src="javascript/cards.js"></script>
 	</head> 
 	<body>
 		<div class="game" align="center">
 			<div id="bid_status" align="left"></div>
-			<div class="horizontalBox top" id="partner"></div>
+			<table class="horizontalBox top" id="partner"></table>
 			<br><br><br><br><br><br>
 			<div class="name">TOP</div>
 			<div class="verticalBox left" id="opponent_1"></div>
-			<section align="left" class="name" style="position: relative; top: 25%; float: left; margin-left: 10px;">
+			<section align="left" class="name" style="position: relative; top: 20%; float: left; margin-left: 10px;">
 				L<br>
 				E<br>
 				F<br>
 				T
 			</section>
 			<div class="verticalBox right" id="opponent_2"></div>
-			<section align="right" class="name" style="position: relative; top: 24%; float: right; margin-right: 10px">
+			<section align="right" class="name" style="position: relative; top: 18%; float: right; margin-right: 10px">
 				R<br>
 				I<br>
 				G<br>
@@ -37,19 +39,19 @@
  						<table>
  				      		<tr></tr>
 						  	<tr>
-							    <td id="C2"><img src="img/C2.png" ></td>
-					        	<td id="D2"><img src="img/D2.png" ></td>
+							    <td id="C2"></td>
+					        	<td id="D2"></td>
 					        </tr>
 					        <tr>
-					        	<td id="S2"><img src="img/S2.png" ></td>   
-							    <td id="H2"><img src="img/H2.png" ></td>		
+					        	<td id="S2"></td>   
+							    <td id="H2"></td>		
  						    </tr>
  						</table>
  				  	</div>
 			</div>
-			<div class="horizontalBox bottom">
+			<div class="horizontalBox bottom" id="mySide">
 				<div class= "name" id="playerName">You</div>
-				<table class="playerHand" id="me"></table>
+				<div id="me"></div>
 			</div>
 		</div>
 	</body>

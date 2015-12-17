@@ -34,7 +34,6 @@ gameExp.Game.prototype.getRelationship = function(playerID){
 	relation.opponent_2 = relation.opponentTeam.players[1];
 	return relation;
 };
-
 gameExp.Game.prototype.getStatus = function(playerID){		
 	var relationship = this.getRelationship(playerID);
 	var status = {};

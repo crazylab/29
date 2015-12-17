@@ -54,7 +54,12 @@ describe('Player',function(){
 		it('gives the player\'s status with card IDs when the player is not third party',function(){
 			var status = player.getStatus(false);
 			var expectedStatus = {
-				hand : ['S4','D5','C9','SK'],
+				hand : [
+					{id:'S4'},
+					{id:'D5'},
+					{id:'C9'},
+					{id:'SK'}
+				],
 				turn : false,
 				isBidder : false
 			};

@@ -54,7 +54,7 @@ team.Player.prototype.getMyCard = function(playedCards){
 team.Player.prototype.getStatus = function(thirdParty){
 	var status = {};
 	var cardIDs = this.getCardID();
-	status.hand = thirdParty ? cardIDs.length : cardIDs;
+	status.hand = thirdParty ? cardIDs.length : this.hand;
 	status.turn = this.turn;
 	status.isBidder = this.isFinalBidder;
 	return status;
