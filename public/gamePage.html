@@ -13,8 +13,18 @@
 	</head> 
 	<body>
 		<div class="game" align="center">
-			<div id="bid_status" align="left"></div>
-			<table class="horizontalBox top" id="partner"></table>
+			<div id="bid_status" class="score_and_bid_box" align="left"></div>
+			<div class="horizontalBox top" id="partner"></div> 
+			<div id="score_board" class="score_and_bid_box">
+				<table cellspacing="10px">
+					<tr>
+						<td><u><b>Team </b></u></td>
+						<td><u><b>Score </b></u></td>
+					</tr>
+					<tr id="myTeamScore"></tr>
+					<tr id="opponentTeamScore"></tr>
+				</table>
+			</div>
 			<br><br><br><br><br><br>
 			<div class="name">TOP</div>
 			<div class="verticalBox left" id="opponent_1"></div>
@@ -49,9 +59,9 @@
  						</table>
  				  	</div>
 			</div>
-			<div class="horizontalBox bottom" id="mySide">
-				<div class= "name" id="playerName">You</div>
-				<div id="me"></div>
+			<div id="me" class="horizontalBox bottom">
+				<div class="name" id="playerName">You</div>
+				<div class="playerHand"></div>
 			</div>
 		</div>
 	</body>

@@ -9,6 +9,7 @@
     left: 30%;
     width: 40%;
     height: 18%;
+    padding: 10px; 
     border: 1px solid #73AD21;
 }
 .top {
@@ -53,7 +54,6 @@
     width: 300px;
     top: 100px;
     left: 265px;
-    border: 1px solid black;
 }
 .partner{
     position: absolute;
@@ -76,14 +76,20 @@
     left: 10px;
 }
 #bid_status{
-	position: absolute;
-    top: 10px;
     left: 25px;
+}
+
+#score_board{
+    right: 25px;
+}
+.score_and_bid_box{
+    position: absolute;
+    top: 10px;
     width: 180px;
-    height: 75px;
+    height: 100px;
     border: 3px solid #73AD21;
     padding-left: 10px;
-    padding-top: 10px;	
+    padding-top: 10px;
 }
 .playerHand{
     

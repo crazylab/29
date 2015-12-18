@@ -30,9 +30,14 @@ var showPlayedCards = function(cards){
 	});
 	$('#playedCards').html(html);
 };
-var showTurn = function(turn,player){
-	var id = player == 'me' ? 'mySide' : player;
-	$( "#"+id).toggleClass('turn_on', turn);
+var playCard = function(){
+	$('#me > .playerHand > div').on('click',function(){
+		var id = $(this).attr('id');
+		$.post("throwCard", id);
+	});
+}
+var showTurn = function(turn,id){
+	$(id).toggleClass('turn_on', turn);
 }
 var showBidStatus = function(bid){
 	var highestBid = '<b> Top Bid : '+bid.value+'</b>';
@@ -40,9 +45,16 @@ var showBidStatus = function(bid){
 	var html = highestBid+'<br><br>'+highestBidder;
 	$('#bid_status').html(html);
 };
+
+var showScoreCard = function(score){
+	var myScore = '<td> Your Team</td><td>' + score.myScore +  '</td>'
+	var opponentScore = '<td> Opponent Team</td><td>' + score.opponentScore +  '</td>'
+	$('#myTeamScore').html(myScore);
+	$('#opponentTeamScore').html(opponentScore);
+};
+
 var updateChanges = function(changes){
 	var playerHandler = {
-		me : showMyHand,
 		partner : horizontalCards,
 		opponent_1: verticalCards,
 		opponent_2: verticalCards
@@ -52,38 +64,40 @@ var updateChanges = function(changes){
 		var id = '#'+ player;
 		var html = action(changes[player].hand);
 		$(id).html(html);
-		showTurn(changes[player].turn,player);
+		showTurn(changes[player].turn,id);
 	});
+	$('#me > .playerHand').html(showMyHand(changes.me.hand));
+	if(changes.me.turn)
+		$("#me").css("background-color","green");
+	else
+		$("#me").css("background-color","white");
+	playCard();
+
 	showPlayedCards(changes.playedCards);
 	showTrump(changes.trump);
-}
-var playCard = function(){
-	$('#me > div').on('click',function(){
-		var id = $(this).attr('id');
-		$.post("throwCard", id);
-	});
+	showScoreCard(changes.score);
+
 }
 var getStatus = function(){
 	setInterval(function(){
 		$.get("status",function(data){
 			var status = JSON.parse(data);
 			updateChanges(status);
-			playCard();
 		});
-	},8000);
+	},2000);
 }
 var showTrumpSelectionBox = function(status){
 	if(status)
 		$('#select_trumps').removeClass('trump_suits');
 }
+
 var onPageReady = function(){
 	$('#playerName').html(document.cookie.toUpperCase());
 	$.get('status',function(status){
 		var status = JSON.parse(status);
 		updateChanges(status);
 		showTrumpSelectionBox(status.isBidWinner);
-		playCard();
-		showBidStatus(status.bid)
+		showBidStatus(status.bid);
 	});
 	getStatus();
 };

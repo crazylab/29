@@ -1,5 +1,6 @@
 var shownCard = function(card, addedClass){
 	var cardColor = card.suit.match(/Heart|Diamond/g) ? 'red' : 'black';
+	addedClass = addedClass ? addedClass : '';
 	var suits = {
 		Heart : '&hearts;',
 		Diamond : '&diams;',
