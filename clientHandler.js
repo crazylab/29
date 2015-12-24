@@ -9,7 +9,7 @@ var m = {};
 exports.m = m;
 
 var game = new main.Game();
-
+exports.game = game;
 var noVacancy = function(req,res){
 	res.statusCode = 403;
 	// console.log(req.method,res.statusCode,': Four Players are Already Playing.')
@@ -109,14 +109,18 @@ m.throwCard = function (req, res) {
 	});
 };
 m.getTrumpSuit = function (req, res) {
-	res.statusCode = 200;
 	var playerId = req.headers.cookie;
 	var playerHand = game.getPlayer(playerId).hand;	
-
+	console.log(croupier.ableToAskForTrumpSuit(playerHand,game.playedCards))
 	if(croupier.ableToAskForTrumpSuit(playerHand,game.playedCards)){
+		res.statusCode = 200;
 		var data = game.getTrumpSuit();
 		croupier.pairChecking(game);
 		// console.log('Trump suit '+ data +' has been revealed');
 		res.end(data);
+	}
+	else{
+		res.statusCode = 406;
+		res.end('Not acceptable');
 	}
 };
