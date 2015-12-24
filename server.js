@@ -50,3 +50,5 @@ var requestHandler = function(req, res){
 http.createServer(requestHandler).listen(PORT).on('error',function(err){
 	console.log(err.message);
 });
+
+module.exports = requestHandler;

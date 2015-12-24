@@ -6,7 +6,7 @@ var clientHandler = require('./clientHandler.js').m;
 
 var method_not_allowed = function(req, res){
 	res.statusCode = 405;
-	console.log(req.method,res.statusCode,': Method Not Allowed.');
+	// console.log(req.method,res.statusCode,': Method Not Allowed.');
 	res.end('Method is not allowed');
 };
 var serveIndex = function(req, res, next){
@@ -18,7 +18,7 @@ var serveStaticFile = function(req, res, next){
 	fs.readFile(filePath, function(err, data){
 		if(data){
 			res.statusCode = 200;
-			console.log(req.method,res.statusCode,': '+filePath,'has been served');
+			// console.log(req.method,res.statusCode,': '+filePath,'has been served');
 			res.end(data);
 		}
 		else
@@ -28,7 +28,7 @@ var serveStaticFile = function(req, res, next){
 var fileNotFound = function(req, res){
 	res.statusCode = 404;
 	res.end('Not Found');
-	console.log(req.method,res.statusCode,': '+req.url,'Not Found.');
+	// console.log(req.method,res.statusCode,': '+req.url,'Not Found.');
 };
 
 var serveGamePage = function(req,res){

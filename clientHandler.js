@@ -12,12 +12,12 @@ var game = new main.Game();
 
 var noVacancy = function(req,res){
 	res.statusCode = 403;
-	console.log(req.method,res.statusCode,': Four Players are Already Playing.')
-	res.end();
+	// console.log(req.method,res.statusCode,': Four Players are Already Playing.')
+	res.end('4 players are already playing');
 }
 m.addPlayer = function(req,res){
 	var data = '';
-	console.log(req.url, 'URL');
+	// console.log(req.url, 'URL');
 	req.on('data',function(chunk){
 		data += chunk;
 	});
@@ -34,7 +34,7 @@ m.addPlayer = function(req,res){
 			res.setHeader('set-cookie',[id = name]);
 			var player = new team.Player(name);
 			dummyGame = croupier.assignPlayer(dummyGame,player);
-			console.log('----> ',name,' has been added to a team.')
+			// console.log('----> ',name,' has been added to a team.')
 		};
 		if(croupier.countPlayer(game) == 4){
 			game
@@ -52,25 +52,25 @@ m.serveNeededCount = function(req,res){
 	var neededPlayer = 4 - croupier.countPlayer(game);
 	res.statusCode = 200;
 	res.end(String(neededPlayer));	
-	console.log(req.method,res.statusCode,': Needed Count Has Been Served.')
+	// console.log(req.method,res.statusCode,': Needed Count Has Been Served.')
 };
 m.serveGameStatus = function(req,res,next){
 	if(croupier.countPlayer(game) != 4){
 		res.statusCode = 406;
-		console.log(req.method,res.statusCode,': Not Enough Player to Play.');
+		// console.log(req.method,res.statusCode,': Not Enough Player to Play.');
 		next();
 		return;
 	}
 	if(!game.getPlayer(req.headers.cookie)){
 		res.statusCode = 401;
-		console.log(res.statusCode,':',req.headers.cookie,'is not authorized.');
+		// console.log(res.statusCode,':',req.headers.cookie,'is not authorized.');
 		res.end('Not authorized to access.');
 		return;
 	}
 	res.statusCode = 200;
-	console.log(res.statusCode,': Status Sent to ',req.headers.cookie);
+	// console.log(res.statusCode,': Status Sent to ',req.headers.cookie);
 	var gameStatus = game.getStatus(req.headers.cookie);
-	console.log(gameStatus);
+	// console.log(gameStatus);
 	res.end(JSON.stringify(gameStatus));
 };
 
@@ -83,7 +83,8 @@ m.setTrumpSuit = function (req, res) {
 		game.setTrumpSuit(data);
 		croupier.distributeCards(game);
 		game.setRoundSequence();
-		console.log('Trump suit has been set');
+		res.statusCode = 202;
+		// console.log('Trump suit has been set');
 		res.end();
 	});
 };
@@ -100,7 +101,7 @@ m.throwCard = function (req, res) {
 			var deletedCard = player.removeCard(cardID);		//Bad code
 			game.playedCards.push({player:player.id,card:deletedCard,trumpShown:game.trump.open});
 			game.nextTurn();
-			console.log(cardID,'  has been removed from',player.id);
+			// console.log(cardID,'  has been removed from',player.id);
 			res.statusCode = 200;
 			res.end();
 		}
@@ -115,7 +116,7 @@ m.getTrumpSuit = function (req, res) {
 	if(croupier.ableToAskForTrumpSuit(playerHand,game.playedCards)){
 		var data = game.getTrumpSuit();
 		croupier.pairChecking(game);
-		console.log('Trump suit '+ data +' has been revealed');
+		// console.log('Trump suit '+ data +' has been revealed');
 		res.end(data);
 	}
 };
