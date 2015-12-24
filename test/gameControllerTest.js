@@ -1,11 +1,30 @@
 var request = require('supertest');
+var sinon = require('sinon');
+var chai = require('chai');
+var assert = chai.assert;
+var expect = chai.expect;
 
-var controller = require('../server');
-var game = require('../clientHandler').game;
+var gameController = require('../gameController');
 
 describe('controller', function(){
+	var game = {};
+	beforeEach(function(){
+		game = {
+			team_1 : {
+				players : [],
+				addPlayer : function(){}
+			},
+			team_2 : {
+				players : [],
+				addPlayer : function(){}
+			}
+		};
+	});
 	describe('GET: /',function(){
 		it('serves the login page', function(done){
+			var game = {};
+			var controller = gameController(game);
+			
 			request(controller)
 				.get('/')
 				.expect(/Join Game/)
@@ -14,34 +33,20 @@ describe('controller', function(){
 	});
 	describe('POST: /waiting.html', function(){
 		it('serves the waiting page when 1st player joins the game', function(done){
+			var controller = gameController(game);
 			request(controller)
 				.post('/waiting.html')
-				.set('Cookie', 'id=Rahul')
-				.send('name=Rahul')
-				.expect(302,done);
-		});
-		it('serves the waiting page when 2nd player joins the game', function(done){
-			request(controller)
-				.post('/waiting.html')
-				.set('Cookie', 'id=nandi')
-				.send('name=nandi')
-				.expect(302, done);
-		});
-		it('serves the waiting page when 3rd player joins the game', function(done){
-			request(controller)
-				.post('/waiting.html')
-				.set('Cookie', 'id=Prasun')
-				.send('name=Prasun')
-				.expect(302,done);
-		});		
-		it('serves the waiting page when 4th player joins the game', function(done){
-			request(controller)
-				.post('/waiting.html')
-				.set('Cookie', 'id=PK')
-				.send('name=PK')
-				.expect(302, done);
+				.send('Rahul')
+				.expect(302)
+				.end(done);
+
 		});
 		it('will complain for the request with status code 403 when already 4 players are playing', function(done){
+			game.team_1.players = [{},{}];
+			game.team_2.players = [{},{}];
+
+			var controller = gameController(game);
+			
 			request(controller)
 				.post('/waiting.html')
 				.send('id=P_K')
@@ -53,6 +58,13 @@ describe('controller', function(){
 	});
 	describe('POST: /setTrump',function(){
 		it('sets the trump suit',function(done){
+			var game = {
+				distributionSequence : [],
+				setTrumpSuit : sinon.spy(),
+				setRoundSequence : sinon.spy()
+			};
+			var controller = gameController(game);
+
 			request(controller)
 				.post('/setTrump')
 				.send('D2')
@@ -62,24 +74,50 @@ describe('controller', function(){
 	});
 	describe('GET: /waiting', function(){
 		it('gives the count of player needed to start the game', function(done){
+			var game = {
+				team_1: { players : [{},{}] },
+				team_2: { players : [] }
+			};
+			var controller = gameController(game);
+
 			request(controller)
 				.get('/waiting')
-				.expect('0')
+				.expect('2')
 				.expect(200, done);
 		});
 	});
 	describe('POST: /throwCard', function(){
 		it('removes a card from the player\'s hand',function(done){
+			var player = {
+				turn : true,
+				removeCard : function(){}
+			}
+			game = {
+				getPlayer : sinon.stub().returns(player),
+				isValidCardToThrow : sinon.stub().returns(true),
+				playedCards : [],
+				trump : sinon.stub().returns(true),
+				nextTurn : function(){}
+			};
+
+			var controller = gameController(game);
+
 			request(controller)
 				.post('/throwCard')
-				.send('DA')
 				.set('Cookie', 'Rahul')
+				.send('DA')
 				.expect(200, done);
 		});
 		it('removes a card when throwing conditions are satisfied',function(done){
-			game.team_2.players[1].turn = true;
-			game.team_2.players[1].hand = [{ id: 'C7', suit: 'Club', name: '7', point: 0, rank: 8 }];
-			game.playedCards = [];
+			game = {
+				getPlayer : sinon.stub().returns({}),
+				isValidCardToThrow : sinon.stub().returns(true),
+				playedCards : [],
+				trump : sinon.stub().returns(true),
+				nextTurn : function(){}
+			};
+			var controller = gameController(game);
+
 			request(controller)
 				.post('/throwCard')
 				.set('Cookie', 'PK')
@@ -91,6 +129,8 @@ describe('controller', function(){
 	});
 	describe('GET: /<static files>', function(){
 		it('gives the static files that is requested', function(done){
+			var controller = gameController(game);
+		
 			request(controller)
 				.get('/gamepage.html')
 				.expect(200,done);
@@ -99,6 +139,8 @@ describe('controller', function(){
 
 	describe('GET: /<file that is not present>', function(){
 		it('gives 404 statusCode', function(done){
+			var controller = gameController(game);
+		
 			request(controller)
 				.get('/status.js')
 				.expect(404,done);
@@ -107,6 +149,8 @@ describe('controller', function(){
 
 	describe('POST: /<invalid method>', function(){
 		it('will complain for the request with status code 405',function(done){
+			var controller = gameController(game);
+			
 			request(controller)
 				.post('/invalidMethod')
 				.expect(405, done);
@@ -115,6 +159,11 @@ describe('controller', function(){
 
 	describe('GET: /getTrump',function(){
 		it('does not give the trump that has been set when he does not satisfy the condition',function(done){
+			game = {
+				getPlayer : sinon.stub().returns({}),
+			};
+			var controller = gameController(game);
+			
 			game.playedCards=[];
 			request(controller)
 				.get('/getTrump')
@@ -124,14 +173,30 @@ describe('controller', function(){
 				.end(done);	
 		});
 		it('gives the trump when he satisfy the condition', function(done){
-			// setup
-			game.team_1.players[0].hand = [{ id: 'C7', suit: 'Club', name: '7', point: 0, rank: 8 }];
-			game.playedCards = [{
-				player: "PK",
-				card: { id: 'H7', suit: 'Heart', name: '7', point: 0, rank: 8 },
-				trumpShown : false
-			}];
-			//test
+			var player = {
+				id: 'Rahul',
+				hand: [{ id: 'C7', suit: 'Club', name: '7', point: 0, rank: 8 }],
+				checkPair : sinon.stub().returns(false)
+			};
+			game = {
+				team_1 : {
+					players: [player, player]
+				},
+				team_2 : {
+					players: [player, player]
+				},
+				getPlayer : sinon.stub().returns(player),
+				isValidCardToThrow : sinon.stub().returns(true),
+				playedCards : [{
+					player: "PK",
+					card: { id: 'H7', suit: 'Heart', name: '7', point: 0, rank: 8 },
+					trumpShown : false
+				}],
+				trump : sinon.stub().returns(true),
+				getTrumpSuit : sinon.stub().returns('D2')
+			};
+			var controller = gameController(game);
+			
 			request(controller)
 				.get('/getTrump')
 				.set('Cookie', 'Rahul')

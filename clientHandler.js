@@ -6,10 +6,13 @@ var croupier = require('./croupier.js').croupier;
 var team = require('./team.js').team;
 
 var m = {};
-exports.m = m;
+//exports.m = m;
 
-var game = new main.Game();
-exports.game = game;
+//var game = new main.Game();
+//exports.game = game;
+
+module.exports = m;
+
 var noVacancy = function(req,res){
 	res.statusCode = 403;
 	// console.log(req.method,res.statusCode,': Four Players are Already Playing.')
@@ -21,10 +24,10 @@ m.addPlayer = function(req,res){
 	req.on('data',function(chunk){
 		data += chunk;
 	});
-	var dummyGame = game;
+	var game = req.game;
 	req.on('end',function(){
 		var name = querystring.parse(data).name;
-		var count = croupier.countPlayer(dummyGame);
+		var count = croupier.countPlayer(game);
 		if(count == 4 && !req.headers.cookie){
 			noVacancy(req,res);
 			return;
@@ -33,7 +36,7 @@ m.addPlayer = function(req,res){
 		if(count < 4){
 			res.setHeader('set-cookie',[id = name]);
 			var player = new team.Player(name);
-			dummyGame = croupier.assignPlayer(dummyGame,player);
+			game = croupier.assignPlayer(game,player);
 			// console.log('----> ',name,' has been added to a team.')
 		};
 		if(croupier.countPlayer(game) == 4){
@@ -41,7 +44,7 @@ m.addPlayer = function(req,res){
 				.setDistributionSequence()
 				.shuffleDeck();
 			croupier.distributeCards(game);
-			dummyGame.bid.player = dummyGame.distributionSequence[0]; 	//Need to add bidding
+			game.bid.player = game.distributionSequence[0]; 	//Need to add bidding
 		}
 
 		res.writeHead(302,{Location:'waiting.html'});
@@ -49,19 +52,19 @@ m.addPlayer = function(req,res){
 	});
 };
 m.serveNeededCount = function(req,res){
-	var neededPlayer = 4 - croupier.countPlayer(game);
+	var neededPlayer = 4 - croupier.countPlayer(req.game);
 	res.statusCode = 200;
 	res.end(String(neededPlayer));	
 	// console.log(req.method,res.statusCode,': Needed Count Has Been Served.')
 };
 m.serveGameStatus = function(req,res,next){
-	if(croupier.countPlayer(game) != 4){
+	if(croupier.countPlayer(req.game) != 4){
 		res.statusCode = 406;
 		// console.log(req.method,res.statusCode,': Not Enough Player to Play.');
 		next();
 		return;
 	}
-	if(!game.getPlayer(req.headers.cookie)){
+	if(!req.game.getPlayer(req.headers.cookie)){
 		res.statusCode = 401;
 		// console.log(res.statusCode,':',req.headers.cookie,'is not authorized.');
 		res.end('Not authorized to access.');
@@ -69,7 +72,7 @@ m.serveGameStatus = function(req,res,next){
 	}
 	res.statusCode = 200;
 	// console.log(res.statusCode,': Status Sent to ',req.headers.cookie);
-	var gameStatus = game.getStatus(req.headers.cookie);
+	var gameStatus = req.game.getStatus(req.headers.cookie);
 	// console.log(gameStatus);
 	res.end(JSON.stringify(gameStatus));
 };
@@ -80,9 +83,9 @@ m.setTrumpSuit = function (req, res) {
 		data += chunk;
 	});
 	req.on('end',function(){
-		game.setTrumpSuit(data);
-		croupier.distributeCards(game);
-		game.setRoundSequence();
+		req.game.setTrumpSuit(data);
+		croupier.distributeCards(req.game);
+		req.game.setRoundSequence();
 		res.statusCode = 202;
 		// console.log('Trump suit has been set');
 		res.end();
@@ -95,6 +98,7 @@ m.throwCard = function (req, res) {
 		cardID += chunk;
 	});
 	req.on('end',function(){
+		var game = req.game;
 		var playerId = req.headers.cookie;
 		var player = game.getPlayer(playerId);
 		if(player.turn && game.isValidCardToThrow(cardID,player.hand)){
@@ -109,9 +113,10 @@ m.throwCard = function (req, res) {
 	});
 };
 m.getTrumpSuit = function (req, res) {
+	var game = req.game;
 	var playerId = req.headers.cookie;
 	var playerHand = game.getPlayer(playerId).hand;	
-	console.log(croupier.ableToAskForTrumpSuit(playerHand,game.playedCards))
+	// console.log(croupier.ableToAskForTrumpSuit(playerHand,game.playedCards))
 	if(croupier.ableToAskForTrumpSuit(playerHand,game.playedCards)){
 		res.statusCode = 200;
 		var data = game.getTrumpSuit();
