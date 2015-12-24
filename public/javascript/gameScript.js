@@ -18,8 +18,15 @@ var verticalCards = function (numberOfCards){
 };
 var showTrump = function(trump){
 	var html = '<div class="card hidden"/></div>';
-	if(trump)
-		html = '<img src="img/' + trump + '.png" />';
+	if(trump){
+		var cards = {
+			D2 : {id: 'D2', suit: 'Diamond', name: '2'},
+			C2 : {id: 'C2', suit: 'Club', name: '2'},
+			H2 : {id: 'H2', suit: 'Heart', name: '2'},
+			S2 : {id: 'S2', suit: 'Spade', name: '2'}
+		};
+		html = shownCard(cards[trump]);
+	}
 	$('#trump').html(html);
 };
 
