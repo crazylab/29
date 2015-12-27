@@ -34,9 +34,9 @@ team.Player.prototype.removeCard = function(cardId){
 	});
 	return ld.difference(previousHand,this.hand)[0];
 };
-team.Player.prototype.checkPair = function (game) {
+team.Player.prototype.checkPair = function (trumpSuit) {
 	var hand = this.hand;
-	var suit = game.trump.suit;
+	var suit = trumpSuit;
 	var filteredCards = hand.filter(function(card) {
 		return card.suit[0] == suit[0] && (card.name == 'K' || card.name == 'Q');
 	});

@@ -1,7 +1,8 @@
-var onReady = function () {
+	var onReady = function () {
 	var postTrump = function () {
 		var content = '<div class="card hidden"></div>';
-		$.post("setTrump", $(this).attr('id'));
+		var trumpSuit = $(this).attr('id');
+		$.post("setTrump", {trump: trumpSuit});
 		$('#select_trumps').addClass('trump_suits');
 		$('.trump').html(content);
 	};
@@ -12,7 +13,7 @@ var onReady = function () {
 			$('#select_trumps').removeClass('trump_suits');
 		});
 	});
-	var showTrump = function(){
+	var showTrumpOptions = function(){
 		$.get('getTrump',function(data) {
 			var cards = {
 				D2 : {id: 'D2', suit: 'Diamond', name: '2'},
@@ -25,32 +26,35 @@ var onReady = function () {
 		});
 	};
 
-	$(function () {
-		$('.trump').one('click', showTrump);
-	});
+	$('.trump').one('click', showTrumpOptions);
 
 	$('#C2').html(shownCard({
 		id : 'C2',
 		name: '2',
 		suit: 'Club'
-	}));
+	})).on("click", postTrump);
+
 	$('#D2').html(shownCard({
 		id : 'D2',
 		name: '2',
 		suit: 'Diamond'
-	}));$('#S2').html(shownCard({
+	})).on("click", postTrump);
+
+	$('#S2').html(shownCard({
 		id : 'S2',
 		name: '2',
 		suit: 'Spade'
-	}));$('#H2').html(shownCard({
+	})).on("click", postTrump);
+
+	$('#H2').html(shownCard({
 		id : 'H2',
 		name: '2',
 		suit: 'Heart'
-	}));
-	$('#C2').on("click", postTrump);
-	$('#D2').on("click", postTrump);
-	$('#S2').on("click", postTrump);
-	$('#H2').on("click", postTrump);
+	})).on("click", postTrump);
+	// $('#C2')
+	// $('#D2').on("click", postTrump);
+	// $('#S2').on("click", postTrump);
+	// $('#H2').on("click", postTrump);
 };
 
 $(document).ready(onReady);

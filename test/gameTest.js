@@ -175,7 +175,7 @@ describe('getFinalBidStatus',function(){
 	game.setBidWinner(16,player);
 	var bidStatus = game.getFinalBidStatus();
 	it('gets the highest bid value which has already fibed',function(){
-		expect(bidStatus.player).to.have.property('id').and.to.equal('123');
+		expect(bidStatus).to.have.property('player').and.to.equal('123');
 	});
 	it('gets the bid value which has already fibed',function(){
 		expect(bidStatus.value).to.equal(16);

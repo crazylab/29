@@ -1,93 +1,81 @@
-var fs = require('fs')
-var EventEmitter = require('events').EventEmitter;
+var fs = require('fs');
+var express = require('express');
+var queryString = require('querystring');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+
 var clientHandler = require('./clientHandler');
-var method_not_allowed = function(req, res){
-	res.statusCode = 405;
-	// console.log(req.method,res.statusCode,': Method Not Allowed.');
-	res.end('Method is not allowed');
-};
-var serveIndex = function(req, res, next){
-	req.url = '/index.html';
-	next();
-};
-var serveStaticFile = function(req, res, next){
-	var filePath = './public' + req.url;
-	fs.readFile(filePath, function(err, data){
-		if(data){
-			res.statusCode = 200;
-			// console.log(req.method,res.statusCode,': '+filePath,'has been served');
-			res.end(data);
-		}
-		else
-			next();
-	});
-};
-var fileNotFound = function(req, res){
-	res.statusCode = 404;
-	res.end('Not Found');
-	// console.log(req.method,res.statusCode,': '+req.url,'Not Found.');
-};
 
-var serveGamePage = function(req,res){
-	req.url = '/gamePage.html';
-	serveStaticFile(req,res);
-};
+var app = express();
 
-var post_handlers = [
-	{path: '^/waiting.html$', handler: clientHandler.addPlayer},
-	{path: '^/setTrump$', handler: clientHandler.setTrumpSuit},
-	{path: '^/throwCard$', handler: clientHandler.throwCard},
-	{path: '', handler: method_not_allowed}
-];
-var get_handlers = [
-	{path: '^/$', handler: serveIndex},
-	{path: '^/status$', handler: clientHandler.serveGameStatus},
-	{path: '^/getTrump$', handler: clientHandler.getTrumpSuit},
-	{path: '^/waiting$', handler: clientHandler.serveNeededCount},
-	{path: '', handler: serveStaticFile},
-	{path: '', handler: fileNotFound}
-];
-var rEmitter = new EventEmitter();
+app.use(express.static('./public'));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-var matchHandler = function(url){
-	return function(ph){
-		return url.match(new RegExp(ph.path));
-	};
-};
-rEmitter.on('next', function(handlers, req, res, next){
-	if(handlers.length == 0) 
-		return;
-	var ph = handlers.shift();
-	ph.handler(req, res, next);
+app.get('/',function(req,res){
+	res.sendFile('index.html');
 });
-var handle_all_post = function(req, res){
-	var handlers = post_handlers.filter(matchHandler(req.url));
-	var next = function(){
-		rEmitter.emit('next', handlers, req, res, next);
-	};
-	next();
-}; 
-var handle_all_get = function(req, res){
-	var handlers = get_handlers.filter(matchHandler(req.url));
-	var next = function(){
-		rEmitter.emit('next', handlers, req, res, next);
-	};
-	next();
-};
-
-var requestHandler = function(req, res){
-	if(req.method == 'GET')
-		handle_all_get(req, res);
-	else if(req.method == 'POST')
-		handle_all_post(req, res);
+app.post('/waiting.html', function(req, res){
+	var game = req.game;
+	var parameters = req.body;
+	var name = parameters.name;
+	res.cookie('name',name);
+	if(game.addPlayer(name)){
+		res.redirect('/waiting.html');
+	}
 	else
-		method_not_allowed(req, res);
-};
+		res.status(403).send('4 players are already playing');
+});
+app.get('/waiting',function(req,res){
+	var game = req.game;
+	var playerNeeded = 4 - game.playerCount();
+	res.send(playerNeeded.toString());
+
+});
+app.post('/setTrump',function(req,res){
+	var game = req.game;
+	var parameters = req.body;
+	var cardID = parameters.trump;
+	console.log(cardID)
+	game.setTrumpSuit(cardID);
+	res.status(202).end();
+});
+
+app.post('/throwCard', function(req, res){
+	var game = req.game;
+	var parameters = req.body;
+	var cardID = parameters.cardID;
+	var playerID = req.cookies.name;
+	var player = game.getPlayer(playerID);
+	if(player.turn && game.isValidCardToThrow(cardID,player.hand)){
+		var deletedCard = player.removeCard(cardID);
+		game.playedCards.push({player:player.id,card:deletedCard,trumpShown:game.trump.open});
+		game.nextTurn();
+	}
+	res.end();
+});
+
+app.get('/getTrump',function(req,res){
+	var game = req.game;
+	var playerID = req.cookies.name;
+	var player = game.getPlayer(playerID);
+	if(player.turn&&game.ableToAskForTrumpSuit(player.hand))
+		res.send(game.getTrumpSuit());
+	else
+		res.status(406).send('Not Allowed');
+});
+
+app.get('/status',function(req,res){
+	var game = req.game;
+	var playerID = req.cookies.name;
+	var gameStatus = game.getStatus(playerID);
+	res.send(JSON.stringify(gameStatus));
+})
 
 var GameController = function(game){
 	return function(req,res){
 		req.game = game;
-		requestHandler(req,res);
+		app(req,res);
 	};
 };
 

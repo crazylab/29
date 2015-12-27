@@ -108,11 +108,12 @@ croupier.updateScore = function (game) {
 	return game;
 };
 croupier.pairChecking = function (game) {
+	var trumpSuit = game.trump.suit;
 	game.team_1.players.forEach(function(player){
-		player.checkPair(game);
+		player.checkPair(trumpSuit);
 	});
 	game.team_2.players.forEach(function(player){
-		player.checkPair(game);
+		player.checkPair(trumpSuit);
 	});
 };
 

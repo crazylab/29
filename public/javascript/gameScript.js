@@ -40,7 +40,7 @@ var showPlayedCards = function(cards){
 var playCard = function(){
 	$('#me > .playerHand > div').on('click',function(){
 		var id = $(this).attr('id');
-		$.post("throwCard", id);
+		$.post("throwCard", {"cardID":id});
 	});
 }
 var showTurn = function(turn,id){
@@ -48,7 +48,7 @@ var showTurn = function(turn,id){
 }
 var showBidStatus = function(bid){
 	var highestBid = '<b> Top Bid : '+bid.value+'</b>';
-	var highestBidder = '<b> Top Bidder : '+bid.player.id.toUpperCase()+'</b>';
+	var highestBidder = '<b> Top Bidder : '+bid.player.toUpperCase()+'</b>';
 	var html = highestBid+'<br><br>'+highestBidder;
 	$('#bid_status').html(html);
 };
@@ -91,7 +91,7 @@ var getStatus = function(){
 			var status = JSON.parse(data);
 			updateChanges(status);
 		});
-	},2000);
+	},500);
 }
 var showTrumpSelectionBox = function(status){
 	if(status)

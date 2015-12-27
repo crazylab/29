@@ -12,7 +12,7 @@ gameExp.Game = function(){
 	this.playedCards = [],
 	this.bid = {
 		value : 18, 
-		player : {id: undefined}
+		player : undefined
 	},
 	this.team_1 = team.generateTeam(),
 	this.team_2 = team.generateTeam()	
@@ -28,6 +28,7 @@ gameExp.Game.prototype.getRelationship = function(playerID){
 	relation.team = this.team_1.hasPlayer(playerID) ? this.team_1 : this.team_2;
 	relation.me = relation.team.getPlayer(playerID);
 	relation.partner = relation.team.getPartner(playerID);
+	// console.log(this.deck,'<><><><><><><><><><><><>');
 
 	relation.opponentTeam = this.team_1.hasPlayer(playerID) ? this.team_2 : this.team_1;
 	relation.opponent_1 = relation.opponentTeam.players[0];
@@ -44,7 +45,7 @@ gameExp.Game.prototype.getStatus = function(playerID){
 	status.opponent_1 = relationship.opponent_1.getStatus(true);
 	status.opponent_2 = relationship.opponent_2.getStatus(true);
 	status.bid = this.getFinalBidStatus();
-	var topBidder = this.bid.player.id == playerID;
+	var topBidder = this.bid.player == playerID;
 	status.isBidWinner = topBidder && !this.isTrumpSet();
 	status.trump = this.trump.open && this.trump.suit;
 
@@ -81,17 +82,22 @@ gameExp.Game.prototype.shuffleDeck = function(){
 };
 gameExp.Game.prototype.setTrumpSuit = function (suit) {
 	this.trump.suit = suit;
+	this.distributeCards();
+	this.setRoundSequence();
 	return this;
 };
 
 gameExp.Game.prototype.getTrumpSuit = function () {
 	this.trump.open = true;
+	// this.distributeCards();
+	// this.setRoundSequence();
+	this.pairChecking();
 	return this.trump.suit;
 };
 
 gameExp.Game.prototype.setBidWinner = function(value,player){
 	this.bid.value = value;
-	this.bid.player = player;
+	this.bid.player = player.id;
 };
 
 gameExp.Game.prototype.getFinalBidStatus = function(){
@@ -119,7 +125,8 @@ gameExp.Game.prototype.setRoundSequence = function(roundWinner){
 	return this;
 };
 
-gameExp.Game.prototype.nextTurn = function(){			//ugly
+gameExp.Game.prototype.nextTurn = function(){
+console.log(this.playedCards)			//ugly
 	if(this.playedCards.length == 4){
 		var winner = croupier.roundWinner(this.playedCards,this.trump.suit);
 		this.roundSequence[3].turn = false;
@@ -178,5 +185,48 @@ gameExp.Game.prototype.isValidCardToThrow = function(cardId,playerHand){
 	var isCardPresent = hasCardInHand(cardId,playerHand);
 	return isCardPresent && hasRunningSuit && (runningSuit == requestedSuit)	//read carefully
 			|| isCardPresent && !hasRunningSuit;
+};
+gameExp.Game.prototype.playerCount = function(){
+	return this.team_1.players.length + this.team_2.players.length;
+};
+gameExp.Game.prototype.addPlayer = function(name){
+	if(this.playerCount() == 4)
+		return false;
+	if(this.playerCount() < 2 )
+		this.team_1.addPlayer(new team.Player(name));
+	else
+		this.team_2.addPlayer(new team.Player(name));
+	if(this.playerCount() == 4){
+		this.setDistributionSequence();
+		this.shuffleDeck();
+		this.distributeCards();
+		this.bid.player = this.distributionSequence[0].id;
+	}
+	return true;
+}
+gameExp.Game.prototype.distributeCards = function(){
+	var sequence = this.distributionSequence;
+	var self = this;
+	sequence.forEach(function(player){
+		player.hand = player.hand.concat(self.deck.splice(0,4));
+	});
+	return this;
+};
+gameExp.Game.prototype.ableToAskForTrumpSuit = function(playerHand){
+	if(this.playedCards.length == 0)
+		return false;
+	var runningSuit = this.playedCards[0].card.suit;
+	return !playerHand.some(function(card){
+		return runningSuit == card.suit;
+	});
+};
+gameExp.Game.pairChecking = function () {
+	var trumpSuit = this.trump.suit;
+	this.team_1.players.forEach(function(player){
+		player.checkPair(trumpSuit);
+	});
+	this.team_2.players.forEach(function(player){
+		player.checkPair(trumpSuit);
+	});
 };
 exports.game = gameExp;

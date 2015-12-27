@@ -32,11 +32,13 @@ describe('controller', function(){
 		});
 	});
 	describe('POST: /waiting.html', function(){
+
 		it('serves the waiting page when 1st player joins the game', function(done){
+			game.addPlayer=sinon.stub().returns(true);
 			var controller = gameController(game);
 			request(controller)
 				.post('/waiting.html')
-				.send('Rahul')
+				.send('name=Rahul')
 				.expect(302)
 				.end(done);
 
@@ -44,14 +46,15 @@ describe('controller', function(){
 		it('will complain for the request with status code 403 when already 4 players are playing', function(done){
 			game.team_1.players = [{},{}];
 			game.team_2.players = [{},{}];
+			game.addPlayer=sinon.stub().returns(false);
 
 			var controller = gameController(game);
 			
 			request(controller)
 				.post('/waiting.html')
-				.send('id=P_K')
+				.send('name=P_K')
 				.expect(403)
-				.expect(/4 players are already playing/)
+				.expect('4 players are already playing')
 				.end(done);
 		});
 
@@ -67,7 +70,7 @@ describe('controller', function(){
 
 			request(controller)
 				.post('/setTrump')
-				.send('D2')
+				.send('trump=D2')
 				.expect(202)
 				.end(done);
 		});
@@ -76,7 +79,8 @@ describe('controller', function(){
 		it('gives the count of player needed to start the game', function(done){
 			var game = {
 				team_1: { players : [{},{}] },
-				team_2: { players : [] }
+				team_2: { players : [{}] },
+				playerCount: sinon.stub().returns(2)
 			};
 			var controller = gameController(game);
 
@@ -105,7 +109,7 @@ describe('controller', function(){
 			request(controller)
 				.post('/throwCard')
 				.set('Cookie', 'Rahul')
-				.send('DA')
+				.send('trump=DA')
 				.expect(200, done);
 		});
 		it('removes a card when throwing conditions are satisfied',function(done){
@@ -153,7 +157,7 @@ describe('controller', function(){
 			
 			request(controller)
 				.post('/invalidMethod')
-				.expect(405, done);
+				.expect(404, done);
 		});
 	});	
 
@@ -161,6 +165,7 @@ describe('controller', function(){
 		it('does not give the trump that has been set when he does not satisfy the condition',function(done){
 			game = {
 				getPlayer : sinon.stub().returns({}),
+				ableToAskForTrumpSuit : sinon.stub().returns(false)
 			};
 			var controller = gameController(game);
 			
@@ -176,7 +181,8 @@ describe('controller', function(){
 			var player = {
 				id: 'Rahul',
 				hand: [{ id: 'C7', suit: 'Club', name: '7', point: 0, rank: 8 }],
-				checkPair : sinon.stub().returns(false)
+				checkPair : sinon.stub().returns(false),
+				turn:true
 			};
 			game = {
 				team_1 : {
@@ -193,7 +199,9 @@ describe('controller', function(){
 					trumpShown : false
 				}],
 				trump : sinon.stub().returns(true),
-				getTrumpSuit : sinon.stub().returns('D2')
+				getTrumpSuit : sinon.stub().returns('D2'),
+				ableToAskForTrumpSuit : sinon.stub().returns(true)
+
 			};
 			var controller = gameController(game);
 			
