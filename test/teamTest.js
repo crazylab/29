@@ -1,5 +1,4 @@
 var Team = require('../lib/team');
-var Game = require('../lib/game');
 var Player = require('../lib/player');
 
 var chai = require('chai');
@@ -7,16 +6,16 @@ var assert = chai.assert;
 var expect = chai.expect;
 
 describe('Team',function(){
-	var player_1 = 'abc';
-	var player_2 = 'def';
-	var player_3 = 'sss';
+	var player_1 = 'happy';
+	var player_2 = 'lisa';
+	var player_3 = 'prerna';
 
 	var team = new Team();
 
 	it('creates team with two players',function(){
 		expect(team).to.have.all.keys('players','score','wonCards');
 	});
-	it('adds one player into team when there is less than 2 player in the team.',function(){
+	it('adds beta player into team when there is less than 2 player in the team.',function(){
 		var player = new Player(player_1);
 		team.addPlayer(player);
 		expect(team.players).to.contain(player);
@@ -28,9 +27,8 @@ describe('Team',function(){
 		team.addPlayer(player2);
 		
 		try{
-			team.addPlayer('sdf',player3)			
-		}
-		catch(e){
+			team.addPlayer('peter',player3)			
+		}catch(e){
 			expect(e.message).to.equals('not enough space');
 		}
 		expect(team.players).to.contain(player2);
@@ -40,31 +38,31 @@ describe('Team',function(){
 
 describe('Team',function(){
 	var team = new Team();
-	var player_1 = new Player('one');
-	var player_2 = new Player('two');
+	var player_1 = new Player('beta');
+	var player_2 = new Player('alpha');
 	team.players.push(player_1);
 	team.players.push(player_2);
 	describe('getPlayer',function(){
 		it('gives player of the given id',function(){
-			expect(team.getPlayer('one')).to.deep.equals(player_1);
-			expect(team.getPlayer('two')).to.deep.equals(player_2);
+			expect(team.getPlayer('beta')).to.deep.equals(player_1);
+			expect(team.getPlayer('alpha')).to.deep.equals(player_2);
 		})
 	});
 	describe('getPartner',function(){
 		it('gives partner of the given id',function(){
-			expect(team.getPartner('one')).to.deep.equals(player_2);
-			expect(team.getPartner('two')).to.deep.equals(player_1);
+			expect(team.getPartner('beta')).to.deep.equals(player_2);
+			expect(team.getPartner('alpha')).to.deep.equals(player_1);
 		})
 	});
 	describe('hasPlayer',function(){
 		it('checks whether there is given player or not',function(){
-			expect(team.hasPlayer('one')).to.be.true;
+			expect(team.hasPlayer('beta')).to.be.true;
 		})
 	})
 });
 
 describe('removeCard',function(){
-	var player = new Player('ranju');
+	var player = new Player('ramu');
 	player.hand = [
 					{ id: 'H7', name: '7', suit: 'Heart', point: 0, rank: 8 },
 					{ id: 'D9', name: '9', suit: 'Diamond', point: 2, rank: 2 },
@@ -84,26 +82,25 @@ describe('removeCard',function(){
 });
 
 describe('getMyCard',function(){
-	var game = new Game();
-	var player = new Player('sayan');
-	var playedCards = [{player:'sayan',
+	var player = new Player('john');
+	var playedCards = [{player:'john',
 						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 						trumpShown: false
 						},
-						{player:'sayani',
+						{player:'piku',
 						card:{ name: '10', suit: 'Spade', point: 1, rank: 4 },
 						trumpShown: false
 						},
-						{player:'brindaban',
+						{player:'ritam',
 						card:{ name: '8', suit: 'Spade', point: 0, rank: 7 },
 						trumpShown: true
 						},
-						{player:'rahul',
+						{player:'rohan',
 						card:{ name: 'A', suit: 'Heart', point: 1, rank: 3 },
 						trumpShown: true
 						}];
 	it('returns a card played by the requested player',function(){
-		var expected = {player:'sayan',
+		var expected = {player:'john',
 						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 						trumpShown: false
 						};
