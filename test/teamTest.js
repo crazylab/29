@@ -1,5 +1,6 @@
-var m = require('../team.js').team;
-var gameModule = require('../game.js').game;
+var Team = require('../lib/team');
+var Game = require('../lib/game');
+var Player = require('../lib/player');
 
 var chai = require('chai');
 var assert = chai.assert;
@@ -10,19 +11,19 @@ describe('Team',function(){
 	var player_2 = 'def';
 	var player_3 = 'sss';
 
-	var team = new m.Team();
+	var team = new Team();
 
 	it('creates team with two players',function(){
 		expect(team).to.have.all.keys('players','score','wonCards');
 	});
 	it('adds one player into team when there is less than 2 player in the team.',function(){
-		var player = new m.Player(player_1);
+		var player = new Player(player_1);
 		team.addPlayer(player);
 		expect(team.players).to.contain(player);
 	});
 	it('can not have more than 2 players',function(){
-		var player2 = new m.Player(player_2);
-		var player3 = new m.Player(player_3);
+		var player2 = new Player(player_2);
+		var player3 = new Player(player_3);
 
 		team.addPlayer(player2);
 		
@@ -37,49 +38,10 @@ describe('Team',function(){
 	});
 });
 
-describe('Player',function(){
-	var player = new m.Player('Raju');
-	player.hand = [{id:'S4'},{id:'D5'},{id:'C9'},{id:'SK'}];
-	it('creates player with properties',function(){
-		expect(player).to.have.all.keys('hand','hasPair','turn','id','isFinalBidder');
-	});
-	describe('types',function(){
-		it('Properties are of different types',function(){
-			assert.typeOf(player.hand, 'array');
-			assert.typeOf(player.hasPair, 'boolean');
-			assert.typeOf(player.isFinalBidder, 'boolean');
-		});
-	});
-	describe('getStatus',function(){
-		it('gives the player\'s status with card IDs when the player is not third party',function(){
-			var status = player.getStatus(false);
-			var expectedStatus = {
-				hand : [
-					{id:'S4'},
-					{id:'D5'},
-					{id:'C9'},
-					{id:'SK'}
-				],
-				turn : false,
-				isBidder : false
-			};
-			expect(status).to.deep.equal(expectedStatus);
-		});
-		it('gives the player\'s status with number of cards in hand when the player is third party',function(){
-			var status = player.getStatus(true);
-			var expectedStatus = {
-				hand : 4,
-				turn : false,
-				isBidder : false
-			};
-			expect(status).to.deep.equal(expectedStatus);
-		});
-	});
-});
 describe('Team',function(){
-	var team = new m.Team();
-	var player_1 = new m.Player('one');
-	var player_2 = new m.Player('two');
+	var team = new Team();
+	var player_1 = new Player('one');
+	var player_2 = new Player('two');
 	team.players.push(player_1);
 	team.players.push(player_2);
 	describe('getPlayer',function(){
@@ -102,7 +64,7 @@ describe('Team',function(){
 });
 
 describe('removeCard',function(){
-	var player = new m.Player('ranju');
+	var player = new Player('ranju');
 	player.hand = [
 					{ id: 'H7', name: '7', suit: 'Heart', point: 0, rank: 8 },
 					{ id: 'D9', name: '9', suit: 'Diamond', point: 2, rank: 2 },
@@ -122,8 +84,8 @@ describe('removeCard',function(){
 });
 
 describe('getMyCard',function(){
-	var game = new gameModule.Game();
-	var player = new m.Player('sayan');
+	var game = new Game();
+	var player = new Player('sayan');
 	var playedCards = [{player:'sayan',
 						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 						trumpShown: false

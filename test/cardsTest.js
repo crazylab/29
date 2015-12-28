@@ -2,7 +2,7 @@ var chai = require('chai');
 var assert = chai.assert;
 var expect = chai.expect;
 
-var cards = require('../cards.js');
+var cards = require('../lib/cards.js');
 
 describe('generateCards',function(){
 	it('generates all playing cards and gives a deck of 32 cards',function(){

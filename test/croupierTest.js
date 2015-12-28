@@ -1,7 +1,6 @@
-var m = require('../croupier.js').croupier;
-var team = require('../team.js').team;
-var d = require('../cards.js').m;
-var g = require('../game.js').game;
+var m = require('../lib/croupier.js').croupier;
+var Player = require('../lib/player');
+var Game = require('../lib/game');
 
 var chai = require('chai');
 var assert = chai.assert;
@@ -262,7 +261,7 @@ describe('roundWinner',function(){
 });
 
 describe('makeGame',function(){
-	var newGame = new g.Game();
+	var newGame = new Game();
 	it('creates a new game with intial values',function(){
 		expect(newGame).to.have.all.keys('deck','distributionSequence','roundSequence','trump','playedCards','bid','team_1','team_2');
 	});
@@ -290,7 +289,7 @@ describe('countPlayer',function(){
 
 describe('assignPlayer',function(){
 	it('assigns a player to team_1 when there are no player in both the team',function(){
-		var game = new g.Game();
+		var game = new Game();
 		var player = 'Ramu';
 		var game = m.assignPlayer(game,player);
 		expect(game.team_1.players).to.have.length(1);
@@ -298,7 +297,7 @@ describe('assignPlayer',function(){
 		expect(game.team_1.players[0]).to.equal('Ramu');
 	});
 	it('assigns a player in team_2 when team_1 has two players and team_2 has one player already',function(){
-		var game = new g.Game();
+		var game = new Game();
 		game.team_1.players.push('ramu');
 		game.team_1.players.push('raju');
 		game.team_2.players.push('tanu');
@@ -311,11 +310,11 @@ describe('assignPlayer',function(){
 	});
 });
 describe('distribute',function(){
-	var game = new g.Game();
-	var player1 = new team.Player('ramu');
-	var player2 = new team.Player('raju');
-	var player3 = new team.Player('ranju');
-	var player4 = new team.Player('dhamu');
+	var game = new Game();
+	var player1 = new Player('ramu');
+	var player2 = new Player('raju');
+	var player3 = new Player('ranju');
+	var player4 = new Player('dhamu');
 	game.team_1.players = [player1,player2];
 	game.team_2.players = [player3,player4];
 	game.setDistributionSequence();
@@ -337,11 +336,11 @@ describe('distribute',function(){
 });
 
 describe('updateScore',function(){
-	var game = new g.Game();
-	var player1 = new team.Player('ramu');
-	var player2 = new team.Player('raju');
-	var player3 = new team.Player('ranju');
-	var player4 = new team.Player('dhamu');
+	var game = new Game();
+	var player1 = new Player('ramu');
+	var player2 = new Player('raju');
+	var player3 = new Player('ranju');
+	var player4 = new Player('dhamu');
 	game.team_1.players = [player1,player2];
 	game.team_2.players = [player3,player4];
 	game.team_1.wonCards = [{player:'10.4.20.173_sayan',
@@ -393,30 +392,30 @@ describe('updateScore',function(){
 						trumpShown: true
 						}];
 	it('increases the score of the bidding team when they gain the bidding point',function() {
-		game.bid = {value : 18, player : player2};
+		game.bid = {value : 18, player : 'raju'};
 		m.updateScore(game);
 		expect(game.team_1.score).to.equal(1);
 	});
 
 	it('increases the score of the bidding team when they gain more than the bidding point',function() {
-		game.bid = {value : 17, player : player2};
+		game.bid = {value : 17, player : 'raju'};
 		m.updateScore(game);
 		expect(game.team_1.score).to.equal(2);
 	});
 
 	it('decreases the score of the bidding team when they gain less than the bidding point',function() {
-		game.bid = {value : 19, player : player2};
+		game.bid = {value : 19, player : 'raju'};
 		m.updateScore(game);
 		expect(game.team_1.score).to.equal(1);
 	});
 });
 
 describe('pairChecking', function() {
-	var game = new g.Game();
-	var player1 = new team.Player('ramu');
-	var player2 = new team.Player('raju');
-	var player3 = new team.Player('ranju');
-	var player4 = new team.Player('dhamu');
+	var game = new Game();
+	var player1 = new Player('ramu');
+	var player2 = new Player('raju');
+	var player3 = new Player('ranju');
+	var player4 = new Player('dhamu');
 
 	player1.hand = [{id: 'H7', name: '7', suit: 'Heart', point: 0, rank: 8 },
 					{ id: 'DK', name: 'K', suit: 'Diamond', point: 0, rank: 5 },
@@ -458,11 +457,11 @@ describe('pairChecking', function() {
 describe('manipulateBidValueForPair',function() {
 	var game;
 	beforeEach(function(){
-		game = new g.Game();
-		var player1 = new team.Player('ramu');
-		var player2 = new team.Player('raju');
-		var player3 = new team.Player('ranju');
-		var player4 = new team.Player('dhamu');
+		game = new Game();
+		var player1 = new Player('ramu');
+		var player2 = new Player('raju');
+		var player3 = new Player('ranju');
+		var player4 = new Player('dhamu');
 
 		player1.hand = [{id: 'H7', name: '7', suit: 'Heart', point: 0, rank: 8 },
 						{ id: 'DK', name: 'K', suit: 'Diamond', point: 0, rank: 5 },
