@@ -99,7 +99,8 @@ var showTrumpSelectionBox = function(status){
 }
 
 var onPageReady = function(){
-	$('#playerName').html(document.cookie.toUpperCase());
+	var name = parseCookie(document.cookie).name;
+	$('#playerName').html(name.toUpperCase());
 	$.get('status',function(status){
 		var status = JSON.parse(status);
 		updateChanges(status);
