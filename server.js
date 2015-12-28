@@ -1,6 +1,6 @@
 var http = require('http');
-var Game = require('./game.js').game.Game;
-var GameController = require('./gameController');
+var Game = require('./lib/game');
+var GameController = require('./lib/gameController');
 var controller = GameController(new Game());
 const PORT = 3456;
 http.createServer(controller).listen(PORT).on('error',function(err){

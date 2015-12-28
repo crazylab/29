@@ -1,6 +1,8 @@
-var gameModule = require('../game.js').game;
-var team = require('../team.js').team;
-var croupier = require('../croupier.js').croupier;
+var Game = require('../lib/game');
+var team = require('../lib/team.js').team;
+var Player = require('../lib/player');
+
+var croupier = require('../lib/croupier.js').croupier;
 
 var chai = require('chai');
 var assert = chai.assert;
@@ -9,7 +11,7 @@ var expect = chai.expect;
 describe('setDistributionSequence',function(){
 	var game;
 	beforeEach(function(){
-		game = new gameModule.Game();
+		game = new Game();
 		game.team_1.players = [1,2];
 		game.team_2.players = [3,4];
 	});
@@ -24,11 +26,11 @@ describe('setDistributionSequence',function(){
 });
 
 describe('getStatus',function(){
-	var game = new gameModule.Game();
-	var player1 = new team.Player('ramu');
-	var player2 = new team.Player('raju');
-	var player3 = new team.Player('ranju');
-	var player4 = new team.Player('dhamu');
+	var game = new Game();
+	var player1 = new Player('ramu');
+	var player2 = new Player('raju');
+	var player3 = new Player('ranju');
+	var player4 = new Player('dhamu');
 	
 	game.team_1.players = [player1,player2];
 	game.team_2.players = [player3,player4];
@@ -72,11 +74,11 @@ describe('getStatus',function(){
 });
 
 describe('getPlayer',function(){
-	var game = new gameModule.Game();
-	var player1 = new team.Player('ramu');
-	var player2 = new team.Player('raju');
-	var player3 = new team.Player('ranju');
-	var player4 = new team.Player('dhamu');
+	var game = new Game();
+	var player1 = new Player('ramu');
+	var player2 = new Player('raju');
+	var player3 = new Player('ranju');
+	var player4 = new Player('dhamu');
 	
 	game.team_1.players = [player1,player2];
 	game.team_2.players = [player3,player4];
@@ -87,11 +89,11 @@ describe('getPlayer',function(){
 });
 
 describe('setRoundSequence',function(){
-	var game = new gameModule.Game();
-	var p1 = new team.Player('raju');
-	var p2 = new team.Player('ramu');
-	var p3 = new team.Player('raka');
-	var p4 = new team.Player('rahul');
+	var game = new Game();
+	var p1 = new Player('raju');
+	var p2 = new Player('ramu');
+	var p3 = new Player('raka');
+	var p4 = new Player('rahul');
 	game.team_1.players = [p1,p3];
 	game.team_2.players = [p2,p4];
 	game.setDistributionSequence();
@@ -115,11 +117,11 @@ describe('setRoundSequence',function(){
 });
 
 describe('nextTurn',function(){
-	var game = new gameModule.Game();
-	var p1 = new team.Player('raju');
-	var p2 = new team.Player('ramu');
-	var p3 = new team.Player('raka');
-	var p4 = new team.Player('rahul');
+	var game = new Game();
+	var p1 = new Player('raju');
+	var p2 = new Player('ramu');
+	var p3 = new Player('raka');
+	var p4 = new Player('rahul');
 	game.team_1.players = [p1,p3];
 	game.team_2.players = [p2,p4];
 	game.setDistributionSequence();
@@ -139,7 +141,7 @@ describe('nextTurn',function(){
 	});
 })
 describe('setBidWinner',function(){
-	var game = new gameModule.Game();
+	var game = new Game();
 	var player = {id : '123',
 					hand : {
 						Heart : [],
@@ -162,7 +164,7 @@ describe('setBidWinner',function(){
 });	
 
 describe('getFinalBidStatus',function(){
-	var game = new gameModule.Game();
+	var game = new Game();
 	var player = {id : '123',
 					hand : {
 						Heart : [],
@@ -185,11 +187,11 @@ describe('getFinalBidStatus',function(){
 describe('isValidCardToThrow',function(){
 	var game;
 	beforeEach(function(){
-		game = new gameModule.Game();
-		var p1 = new team.Player('raju');
-		var p2 = new team.Player('ramu');
-		var p3 = new team.Player('raka');
-		var p4 = new team.Player('rahul');
+		game = new Game();
+		var p1 = new Player('raju');
+		var p2 = new Player('ramu');
+		var p3 = new Player('raka');
+		var p4 = new Player('rahul');
 		p1.hand = [
 							{ id: 'H10', name: '10', suit: 'Heart', point: 1, rank: 4 },
 	  						{ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 },
@@ -217,11 +219,11 @@ describe('isValidCardToThrow',function(){
 });
 
 describe('getRelationship',function(){
-	var game = new gameModule.Game();
-	var player1 = new team.Player('ramu');
-	var player2 = new team.Player('raju');
-	var player3 = new team.Player('ranju');
-	var player4 = new team.Player('dhamu');
+	var game = new Game();
+	var player1 = new Player('ramu');
+	var player2 = new Player('raju');
+	var player3 = new Player('ranju');
+	var player4 = new Player('dhamu');
 	
 	game.team_1.players = [player1,player2];
 	game.team_2.players = [player3,player4];

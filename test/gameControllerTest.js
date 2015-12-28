@@ -4,7 +4,7 @@ var chai = require('chai');
 var assert = chai.assert;
 var expect = chai.expect;
 
-var gameController = require('../gameController');
+var gameController = require('../lib/gameController');
 
 describe('controller', function(){
 	var game = {};
