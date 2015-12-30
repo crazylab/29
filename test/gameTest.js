@@ -11,8 +11,8 @@ describe('Game', function(){
 		var game;
 		beforeEach(function(){
 			game = new Game();
-			game.team_1.players = [1,2];
-			game.team_2.players = [3,4];
+			game.team_1.players = ['peter','john'];
+			game.team_2.players = ['ramu','ritam'];
 		});
 		it('at first distribution sequence will be empty',function(){
 			expect(game.distributionSequence).to.be.empty;
@@ -20,7 +20,7 @@ describe('Game', function(){
 		it('set distribution sequence first time',function(){
 			game.setDistributionSequence();
 			expect(game.distributionSequence).to.have.length(4);
-			expect(game.distributionSequence).to.deep.equal([1,3,2,4]);
+			expect(game.distributionSequence).to.deep.equal(['peter','ramu','john','ritam']);
 		});
 	});
 
@@ -28,14 +28,14 @@ describe('Game', function(){
 		var game = new Game();
 		var player1 = new Player('ramu');
 		var player2 = new Player('raju');
-		var player3 = new Player('ranju');
+		var player3 = new Player('peter');
 		var player4 = new Player('dhamu');
 		
 		game.team_1.players = [player1,player2];
 		game.team_2.players = [player3,player4];
 		game.distributionSequence = [player1,player3,player2,player4];
 		
-		game.distributeCards(game);
+		game.distributeCards();
 		game.playedCards = [{player:'ramu',
 							card:{ id:'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 },
 							trumpShown: false
@@ -44,7 +44,7 @@ describe('Game', function(){
 							card:{ id:'S10', name: '10', suit: 'Spade', point: 1, rank: 4 },
 							trumpShown: false
 							},
-							{player:'ranju',
+							{player:'peter',
 							card:{ id:'S8', name: '8', suit: 'Spade', point: 0, rank: 7 },
 							trumpShown: true
 							},
@@ -52,7 +52,7 @@ describe('Game', function(){
 							card:{ id:'HA', name: 'A', suit: 'Heart', point: 1, rank: 3 },
 							trumpShown: true
 							}];
-		var status = game.getStatus('ranju');
+		var status = game.getStatus('peter');
 		it('gives object with ownHand and length of partner, opponent_1, opponent_2 hand',function(){
 			expect(status).to.have.all.keys('me', 'partner', 'opponent_1', 'opponent_2','trump','bid','playedCards',"isBidWinner","score");
 		});
@@ -76,13 +76,13 @@ describe('Game', function(){
 		var game = new Game();
 		var player1 = new Player('ramu');
 		var player2 = new Player('raju');
-		var player3 = new Player('ranju');
+		var player3 = new Player('peter');
 		var player4 = new Player('dhamu');
 		
 		game.team_1.players = [player1,player2];
 		game.team_2.players = [player3,player4];
 		it('gives the requested player',function(){
-			var playerId = 'ranju';
+			var playerId = 'peter';
 			expect(game.getPlayer(playerId)).to.deep.equal(player3);
 		});
 	});
@@ -221,7 +221,7 @@ describe('Game', function(){
 		var game = new Game();
 		var player1 = new Player('ramu');
 		var player2 = new Player('raju');
-		var player3 = new Player('ranju');
+		var player3 = new Player('peter');
 		var player4 = new Player('dhamu');
 		
 		game.team_1.players = [player1,player2];
@@ -299,12 +299,12 @@ describe('Game', function(){
 		var game = new Game();
 		var player1 = new Player('ramu');
 		var player2 = new Player('raju');
-		var player3 = new Player('ranju');
+		var player3 = new Player('peter');
 		var player4 = new Player('dhamu');
 		game.team_1.players = [player1,player2];
 		game.team_2.players = [player3,player4];
 		game.setDistributionSequence();
-		game.distributeCards(game);
+		game.distributeCards();
 		it('gives four cards to each player from deck',function(){
 			var hand1 = game.team_1.players[0].hand;
 			var hand2 = game.team_1.players[1].hand;
@@ -358,63 +358,152 @@ describe('Game', function(){
 		});
 	});
 	describe('gameInitializer',function(){
-		// it('sets the game after one game finish for next deal',function(){
-	// 
-		// });
+		it('sets the game after one game finish for next deal',function(){
+			var game = new Game();
+			game.team_1.wonCards = [{player:'peter',
+						card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
+						trumpShown: false
+						},
+						{player:'john',
+						card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
+						trumpShown: false
+						},
+						{player:'ramu',
+						card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
+						trumpShown: false
+						},
+						{player:'savio',
+						card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
+						trumpShown: false
+						},
+						{player:'peter',
+						card:{ name: '7', suit: 'Spade', point: 0, rank: 8 },
+						trumpShown: false
+						},
+						{player:'john',
+						card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
+						trumpShown: false
+						},
+						{player:'ramu',
+						card:{ name: 'J', suit: 'Spade', point: 3, rank: 1 },
+						trumpShown: false
+						},
+						{player:'savio',
+						card:{ name: '9', suit: 'Spade', point: 2, rank: 2 },
+						trumpShown: false
+						},
+						{player:'peter',
+						card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
+						trumpShown: false
+						},
+						{player:'john',
+						card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
+						trumpShown: true
+						},
+						{player:'ramu',
+						card:{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
+						trumpShown: true
+						},
+						{player:'savio',
+						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
+						trumpShown: true
+						}];
+			game.team_2.wonCards = 
+			[
+				{player:'peter',
+				card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
+				trumpShown: false
+				},
+				{player:'john',
+				card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
+				trumpShown: false
+				},
+				{player:'ramu',
+				card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
+				trumpShown: false
+				},
+				{player:'savio',
+				card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
+				trumpShown: false
+				}
+			];
+			game.bid = {value:19, player:'peter'};
+			game.deck = [];
+			game.trump = {suit: 'Heart', open: true};
+			game.team_2.score = 1;
+
+			game.gameInitializer();
+
+			expect(game.deck).to.have.length(16);
+			expect(game.team_1.wonCards).to.have.length(0);
+			expect(game.team_2.wonCards).to.have.length(0);
+			assert.deepEqual(game.bid, {value:18, player:undefined});
+			assert.deepEqual(game.trump, {suit: undefined, open: false});
+			expect(game.team_1.score).to.be.equal(0);
+			expect(game.team_2.score).to.be.equal(1);
+
+		});
 	});
 
 	describe('calculateTotalPoint',function(){
 		var game = new Game(); 
-		var teamBucket = [{player:'10.4.20.173_sayan',
+		var player1 = new Player('peter');
+		var player2 = new Player('john');
+		var player3 = new Player('ramu');
+		var player4 = new Player('savio');
+		game.team_1.players=[player1,player2];
+		game.team_2.players=[player3,player4];
+		game.bid.player = 'peter';
+		game.team_1.wonCards = [{player:'peter',
 						card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
 						trumpShown: false
 						},
-						{player:'10.4.20.163_sayani',
+						{player:'john',
 						card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
 						trumpShown: false
 						},
-						{player:'10.4.20.143_brindaban',
+						{player:'ramu',
 						card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
 						trumpShown: false
 						},
-						{player:'10.4.20.153_rahul',
+						{player:'savio',
 						card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
 						trumpShown: false
 						},
-						{player:'10.4.20.173_sayan',
+						{player:'peter',
 						card:{ name: '7', suit: 'Spade', point: 0, rank: 8 },
 						trumpShown: false
 						},
-						{player:'10.4.20.163_sayani',
+						{player:'john',
 						card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
 						trumpShown: false
 						},
-						{player:'10.4.20.143_brindaban',
+						{player:'ramu',
 						card:{ name: 'J', suit: 'Spade', point: 3, rank: 1 },
 						trumpShown: false
 						},
-						{player:'10.4.20.153_rahul',
+						{player:'savio',
 						card:{ name: '9', suit: 'Spade', point: 2, rank: 2 },
 						trumpShown: false
 						},
-						{player:'10.4.20.173_sayan',
+						{player:'peter',
 						card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
 						trumpShown: false
 						},
-						{player:'10.4.20.163_sayani',
+						{player:'john',
 						card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
 						trumpShown: true
 						},
-						{player:'10.4.20.143_brindaban',
+						{player:'ramu',
 						card:{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
 						trumpShown: true
 						},
-						{player:'10.4.20.153_rahul',
+						{player:'savio',
 						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 						trumpShown: true
 						}];
 		it('calculate TotalPoint of a team',function(){
-			assert.equal(18,game.calculateTotalPoint(teamBucket));
+			assert.equal(18,game.calculateTotalPoint());
 		});
 
 	});
@@ -422,197 +511,197 @@ describe('Game', function(){
 	describe('roundWinner',function(){
 		var game = new Game();
 		it('gives the id of the player who won the round before trumpShown',function(){
-			var playedCardsSet_1 = [{player:'10.4.20.173_sayan',
+			var playedCardsSet_1 = [{player:'peter',
 							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
 							trumpShown: false
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
 							trumpShown: false
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
 							trumpShown: false
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
 							trumpShown: false
 							}];
-			var playedCardsSet_2 = [{player:'10.4.20.173_sayan',
+			var playedCardsSet_2 = [{player:'peter',
 								card:{ name: '7', suit: 'Spade', point: 0, rank: 8 },
 								trumpShown: false
 								},
-								{player:'10.4.20.163_sayani',
+								{player:'john',
 								card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
 								trumpShown: false
 								},
-								{player:'10.4.20.143_brindaban',
+								{player:'ramu',
 								card:{ name: 'J', suit: 'Spade', point: 3, rank: 1 },
 								trumpShown: false
 								},
-								{player:'10.4.20.153_rahul',
+								{player:'savio',
 								card:{ name: '9', suit: 'Spade', point: 2, rank: 2 },
 								trumpShown: false
 								}];
-			var playedCardsSet_3 = [{player:'10.4.20.173_sayan',
+			var playedCardsSet_3 = [{player:'peter',
 							card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
 							trumpShown: false
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
 							trumpShown: false
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: 'J', suit: 'Spade', point: 3, rank: 2 },
 							trumpShown: false
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 							trumpShown: false
 							}];
-			assert.equal('10.4.20.153_rahul',game.roundWinner(playedCardsSet_1));
-			assert.equal('10.4.20.143_brindaban',game.roundWinner(playedCardsSet_2));
-			assert.equal('10.4.20.173_sayan',game.roundWinner(playedCardsSet_3));
+			assert.equal('savio',game.roundWinner(playedCardsSet_1));
+			assert.equal('ramu',game.roundWinner(playedCardsSet_2));
+			assert.equal('peter',game.roundWinner(playedCardsSet_3));
 
 		});
 		it('gives the id of the player who won the round after trumpShown',function(){
-			var playedCardsSet_1 = [{player:'10.4.20.173_sayan',
+			var playedCardsSet_1 = [{player:'peter',
 							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
 							trumpShown: false
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
 							trumpShown: true
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
 							trumpShown: true
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
 							trumpShown: true
 							}];
-			var playedCardsSet_2 = [{player:'10.4.20.173_sayan',
+			var playedCardsSet_2 = [{player:'peter',
 							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 							trumpShown: false
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: '10', suit: 'Spade', point: 1, rank: 4 },
 							trumpShown: false
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: '8', suit: 'Spade', point: 0, rank: 7 },
 							trumpShown: true
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: 'A', suit: 'Heart', point: 1, rank: 3 },
 							trumpShown: true
 							}];
-			var playedCardsSet_3 = [{player:'10.4.20.173_sayan',
+			var playedCardsSet_3 = [{player:'peter',
 							card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
 							trumpShown: false
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
 							trumpShown: true
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: 'K', suit: 'Diamond', point: 0, rank: 5 },
 							trumpShown: true
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 							trumpShown: true
 							}];
-			var playedCardsSet_4 = [{player:'10.4.20.173_sayan',
+			var playedCardsSet_4 = [{player:'peter',
 							card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
 							trumpShown: false
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
 							trumpShown: true
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
 							trumpShown: true
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 							trumpShown: true
 							}];
-			var playedCardsSet_5 = [{player:'10.4.20.173_sayan',
+			var playedCardsSet_5 = [{player:'peter',
 							card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
 							trumpShown: true
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
 							trumpShown: true
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: 'K', suit: 'Diamond', point: 0, rank: 5 },
 							trumpShown: true
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 							trumpShown: true
 							}];
-			var playedCardsSet_6 = [{player:'10.4.20.173_sayan',
+			var playedCardsSet_6 = [{player:'peter',
 							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
 							trumpShown: true
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
 							trumpShown: true
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
 							trumpShown: true
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
 							trumpShown: true
 							}];
-			var playedCardsSet_7 = [{player:'10.4.20.173_sayan',
+			var playedCardsSet_7 = [{player:'peter',
 							card:{ name: 'K', suit: 'Club', point: 0, rank: 5 },
 							trumpShown: true
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: 'Q', suit: 'Heart', point: 0, rank: 6 },
 							trumpShown: true
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: '8', suit: 'Spade', point: 0, rank: 7 },
 							trumpShown: true
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: 'K', suit: 'Diamond', point: 0, rank: 5 },
 							trumpShown: true
 							}];
-			var playedCardsSet_8 = [{player:'10.4.20.173_sayan',
+			var playedCardsSet_8 = [{player:'peter',
 							card:{ name: 'K', suit: 'Club', point: 0, rank: 5 },
 							trumpShown: true
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: 'Q', suit: 'Heart', point: 0, rank: 6 },
 							trumpShown: true
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: 'K', suit: 'Heart', point: 0, rank: 5 },
 							trumpShown: true
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: 'K', suit: 'Diamond', point: 0, rank: 5 },
 							trumpShown: true
 							}];
 
-			assert.equal('10.4.20.163_sayani',game.roundWinner(playedCardsSet_1,'Diamond'));
-			assert.equal('10.4.20.143_brindaban',game.roundWinner(playedCardsSet_2,'Spade'));
-			assert.equal('10.4.20.163_sayani',game.roundWinner(playedCardsSet_3,'Diamond'));
-			assert.equal('10.4.20.143_brindaban',game.roundWinner(playedCardsSet_4,'Diamond'));
-			assert.equal('10.4.20.153_rahul',game.roundWinner(playedCardsSet_5,'Club'));
-			assert.equal('10.4.20.163_sayani',game.roundWinner(playedCardsSet_6,'Diamond'));
-			assert.equal('10.4.20.163_sayani',game.roundWinner(playedCardsSet_7,'Heart'));
-			assert.equal('10.4.20.143_brindaban',game.roundWinner(playedCardsSet_8,'Heart'));
+			assert.equal('john',game.roundWinner(playedCardsSet_1,'Diamond'));
+			assert.equal('ramu',game.roundWinner(playedCardsSet_2,'Spade'));
+			assert.equal('john',game.roundWinner(playedCardsSet_3,'Diamond'));
+			assert.equal('ramu',game.roundWinner(playedCardsSet_4,'Diamond'));
+			assert.equal('savio',game.roundWinner(playedCardsSet_5,'Club'));
+			assert.equal('john',game.roundWinner(playedCardsSet_6,'Diamond'));
+			assert.equal('john',game.roundWinner(playedCardsSet_7,'Heart'));
+			assert.equal('ramu',game.roundWinner(playedCardsSet_8,'Heart'));
 		});
 	});
 
@@ -620,73 +709,73 @@ describe('Game', function(){
 		var game = new Game();
 		var player1 = new Player('ramu');
 		var player2 = new Player('raju');
-		var player3 = new Player('ranju');
+		var player3 = new Player('peter');
 		var player4 = new Player('dhamu');
 		game.team_1.players = [player1,player2];
 		game.team_2.players = [player3,player4];
-		game.team_1.wonCards = [{player:'10.4.20.173_sayan',
+		game.team_1.wonCards = [{player:'peter',
 							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
 							trumpShown: false
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
 							trumpShown: false
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
 							trumpShown: false
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
 							trumpShown: false
 							},
-							{player:'10.4.20.173_sayan',
+							{player:'peter',
 							card:{ name: '7', suit: 'Spade', point: 0, rank: 8 },
 							trumpShown: false
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
 							trumpShown: false
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: 'J', suit: 'Spade', point: 3, rank: 1 },
 							trumpShown: false
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: '9', suit: 'Spade', point: 2, rank: 2 },
 							trumpShown: false
 							},
-							{player:'10.4.20.173_sayan',
+							{player:'peter',
 							card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
 							trumpShown: false
 							},
-							{player:'10.4.20.163_sayani',
+							{player:'john',
 							card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
 							trumpShown: true
 							},
-							{player:'10.4.20.143_brindaban',
+							{player:'ramu',
 							card:{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
 							trumpShown: true
 							},
-							{player:'10.4.20.153_rahul',
+							{player:'savio',
 							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 							trumpShown: true
 							}];
 		it('increases the score of the bidding team when they gain the bidding point',function() {
 			game.bid = {value : 18, player : 'raju'};
-			game.updateScore(game);
+			game.updateScore();
 			expect(game.team_1.score).to.equal(1);
 		});
 
 		it('increases the score of the bidding team when they gain more than the bidding point',function() {
 			game.bid = {value : 17, player : 'raju'};
-			game.updateScore(game);
+			game.updateScore();
 			expect(game.team_1.score).to.equal(2);
 		});
 
 		it('decreases the score of the bidding team when they gain less than the bidding point',function() {
 			game.bid = {value : 19, player : 'raju'};
-			game.updateScore(game);
+			game.updateScore();
 			expect(game.team_1.score).to.equal(1);
 		});
 	});
@@ -697,7 +786,7 @@ describe('Game', function(){
 			game = new Game();
 			var player1 = new Player('ramu');
 			var player2 = new Player('raju');
-			var player3 = new Player('ranju');
+			var player3 = new Player('peter');
 			var player4 = new Player('dhamu');
 
 			player1.hand = [{id: 'H7', name: '7', suit: 'Heart', point: 0, rank: 8 },
@@ -721,49 +810,40 @@ describe('Game', function(){
 			game.team_2.players = [player3,player4];
 		});
 
-		it('fixes the bid value to 16, when a player of bid winning team has royal pair and bid bid value will be less than 21', function() {
-			game.bid.value = 19;
+		it('fixes the bid value to 16, when a player of bid winning team has royal pair and bid value will be less than 21', function() {
+			game.bid={value : 19, player : 'dhamu'};
 			game.trump = {suit: 'Heart', open: true};
-			var bidWinningTeam = 'team_2';
-			var opponentTeam = 'team_1';
-			game.pairChecking(game);
-			game.manipulateBidValueForPair(game, bidWinningTeam, opponentTeam);
+			console.log(game.bid)
+			game.pairChecking();
+			game.manipulateBidValueForPair();
 			expect(game.bid .value).to.be.equal(16);
 		});
-		it('decreases the bid value by 4, when a player of bid winning team has royal pair and bid bid value will be more than 20', function() {
-			game.bid.value = 23;
+		it('decreases the bid value by 4, when a player of bid winning team has royal pair and bid value will be more than 20', function() {
+			game.bid={value : 23, player : 'dhamu'};
 			game.trump = {suit: 'Heart', open: true};
-			var bidWinningTeam = 'team_2';
-			var opponentTeam = 'team_1';
 			game.pairChecking(game);
-			game.manipulateBidValueForPair(game, bidWinningTeam, opponentTeam);
+			game.manipulateBidValueForPair();
 			expect(game.bid .value).to.be.equal(19);
 		});
-		it('increases the bid value by 4, when a player of opponent team has royal pair and bid bid value will be less than 24', function() {
-			game.bid.value = 19;
+		it('increases the bid value by 4, when a player of opponent team has royal pair and bid value will be less than 24', function() {
+			game.bid={value : 19, player : 'ramu'};
 			game.trump = {suit: 'Heart', open: true};
-			var bidWinningTeam = 'team_1';
-			var opponentTeam = 'team_2';
-			game.pairChecking(game);
-			game.manipulateBidValueForPair(game, bidWinningTeam, opponentTeam);
+			game.pairChecking();
+			game.manipulateBidValueForPair();
 			expect(game.bid .value).to.be.equal(23);
 		});
 		it('fixes the bid value to 28, when a player of opponent team has royal pair and bid bid value will be more than 23', function() {
-			game.bid.value = 26;
+			game.bid={value : 26, player : 'raju'};
 			game.trump = {suit: 'Heart', open: true};
-			var bidWinningTeam = 'team_1';
-			var opponentTeam = 'team_2';
-			game.pairChecking(game);
-			game.manipulateBidValueForPair(game, bidWinningTeam, opponentTeam);
+			game.pairChecking();
+			game.manipulateBidValueForPair();
 			expect(game.bid .value).to.be.equal(28);
 		});
 		it('does not change the bid value when, both team do not have royal pair', function() {
-			game.bid.value = 20;
+			game.bid={value : 20, player : 'raju'};
 			game.trump = {suit: 'Club', open: true};
-			var bidWinningTeam = 'team_1';
-			var opponentTeam = 'team_2';
-			game.pairChecking(game);
-			game.manipulateBidValueForPair(game, bidWinningTeam, opponentTeam);
+			game.pairChecking();
+			game.manipulateBidValueForPair();
 			expect(game.bid .value).to.be.equal(20);
 		});
 	});
@@ -772,7 +852,7 @@ describe('Game', function(){
 		var game = new Game();
 		var player1 = new Player('ramu');
 		var player2 = new Player('raju');
-		var player3 = new Player('ranju');
+		var player3 = new Player('peter');
 		var player4 = new Player('dhamu');
 
 		player1.hand = [{id: 'H7', name: '7', suit: 'Heart', point: 0, rank: 8 },
@@ -796,18 +876,18 @@ describe('Game', function(){
 		game.team_2.players = [player3,player4];
 		it('will set hasPair true for the player having trump suit pair', function() {
 			game.trump = {suit: 'Heart', open: true};
-			game.pairChecking(game);
+			game.pairChecking();
 			expect(game.team_2.players[0].hasPair).to.be.true;
 			expect(game.team_2.players[1].hasPair).to.be.false;
 		});
 		it('will not set hasPair true for the player not having trump suit pair, but having pair of another suit', function() {
 			game.trump = {suit: 'Heart', open: true};
-			game.pairChecking(game);
+			game.pairChecking();
 			expect(game.team_2.players[1].hasPair).to.be.false;
 		});
 		it('will not set hasPair true for the player not having trump suit pair', function() {
 			game.trump = {suit: 'Heart', open: true};
-			game.pairChecking(game);
+			game.pairChecking();
 			expect(game.team_1.players[1].hasPair).to.be.false;
 		});
 	});
