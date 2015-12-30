@@ -16,19 +16,6 @@ var verticalCards = function (numberOfCards){
 	}
 	return hand.join('');
 };
-var showTrump = function(trump){
-	var html = '<div class="card hidden"/></div>';
-	if(trump){
-		var cards = {
-			D2 : {id: 'D2', suit: 'Diamond', name: '2'},
-			C2 : {id: 'C2', suit: 'Club', name: '2'},
-			H2 : {id: 'H2', suit: 'Heart', name: '2'},
-			S2 : {id: 'S2', suit: 'Spade', name: '2'}
-		};
-		html = shownCard(cards[trump]);
-	}
-	$('#trump').html(html);
-};
 
 var showPlayedCards = function(cards){
 	var html = '';
@@ -94,11 +81,14 @@ var getStatus = function(){
 	},500);
 }
 var showTrumpSelectionBox = function(status){
-	if(status)
+	if(status){
 		$('#select_trumps').removeClass('trump_suits');
+		showTrumpOptions();
+	}
 }
 
 var onPageReady = function(){
+	revealTrump();
 	var name = parseCookie(document.cookie).name;
 	$('#playerName').html(name.toUpperCase());
 	$.get('status',function(status){
