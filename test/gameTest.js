@@ -4,13 +4,18 @@ var Player = require('../lib/player');
 var chai = require('chai');
 var assert = chai.assert;
 var expect = chai.expect;
+var sinon = require('sinon');
 
+var deck = {
+	getCards : sinon.stub.returns([1,2,3]),
+	drawFourCards : sinon.stub().returns([{id: 'A'},{id: 'B'},{id: 'C'},{id: 'D'}])
+}
 describe('Game', function(){ 
 
 	describe('setDistributionSequence',function(){
 		var game;
 		beforeEach(function(){
-			game = new Game();
+			game = new Game(deck);
 			game.team_1.players = [1,2];
 			game.team_2.players = [3,4];
 		});
@@ -25,7 +30,7 @@ describe('Game', function(){
 	});
 
 	describe('getStatus',function(){
-		var game = new Game();
+		var game = new Game(deck);
 		var player1 = new Player('ramu');
 		var player2 = new Player('raju');
 		var player3 = new Player('ranju');
@@ -35,7 +40,7 @@ describe('Game', function(){
 		game.team_2.players = [player3,player4];
 		game.distributionSequence = [player1,player3,player2,player4];
 		
-		game.distributeCards(game);
+		game.distributeCards();
 		game.playedCards = [{player:'ramu',
 							card:{ id:'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 },
 							trumpShown: false
@@ -73,7 +78,7 @@ describe('Game', function(){
 	});
 
 	describe('getPlayer',function(){
-		var game = new Game();
+		var game = new Game(deck);
 		var player1 = new Player('ramu');
 		var player2 = new Player('raju');
 		var player3 = new Player('ranju');
@@ -88,7 +93,7 @@ describe('Game', function(){
 	});
 
 	describe('setRoundSequence',function(){
-		var game = new Game();
+		var game = new Game(deck);
 		var p1 = new Player('raju');
 		var p2 = new Player('ramu');
 		var p3 = new Player('raka');
@@ -116,7 +121,7 @@ describe('Game', function(){
 	});
 
 	describe('nextTurn',function(){
-		var game = new Game();
+		var game = new Game(deck);
 		var p1 = new Player('raju');
 		var p2 = new Player('ramu');
 		var p3 = new Player('raka');
@@ -140,7 +145,7 @@ describe('Game', function(){
 		});
 	})
 	describe('setBidWinner',function(){
-		var game = new Game();
+		var game = new Game(deck);
 		var player = {id : '123',
 						hand : {
 							Heart : [],
@@ -163,7 +168,7 @@ describe('Game', function(){
 	});	
 
 	describe('getFinalBidStatus',function(){
-		var game = new Game();
+		var game = new Game(deck);
 		var player = {id : '123',
 						hand : {
 							Heart : [],
@@ -186,7 +191,7 @@ describe('Game', function(){
 	describe('isValidCardToThrow',function(){
 		var game;
 		beforeEach(function(){
-			game = new Game();
+			game = new Game(deck);
 			var p1 = new Player('raju');
 			var p2 = new Player('ramu');
 			var p3 = new Player('raka');
@@ -218,7 +223,7 @@ describe('Game', function(){
 	});
 
 	describe('getRelationship',function(){
-		var game = new Game();
+		var game = new Game(deck);
 		var player1 = new Player('ramu');
 		var player2 = new Player('raju');
 		var player3 = new Player('ranju');
@@ -243,7 +248,7 @@ describe('Game', function(){
 
 	describe("ableToAskForTrumpSuit",function(){
 		it("prevents a player to see the trump suit if the player has the running suit",function(){
-			var game = new Game();
+			var game = new Game(deck);
 			game.playedCards = [{player:'ramu',
 							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
 							trumpShown: false
@@ -263,7 +268,7 @@ describe('Game', function(){
 		});
 
 		it("prevents a player to see the trump suit if he is the first player of the round",function(){
-			var game = new Game();
+			var game = new Game(deck);
 			game.playedCards = [];
 			var playerHand = [{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
 							{ name: '7', suit: 'Heart', point: 0, rank: 8 },
@@ -275,7 +280,7 @@ describe('Game', function(){
 		});
 
 		it("allows a player to see the trump suit if the player doesn't have the running suit",function(){
-			var game = new Game();
+			var game = new Game(deck);
 			game.playedCards = [{player:'ramu',
 							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
 							trumpShown: false
@@ -296,7 +301,7 @@ describe('Game', function(){
 	});
 
 	describe('distributeCards',function(){
-		var game = new Game();
+		var game = new Game(deck);
 		var player1 = new Player('ramu');
 		var player2 = new Player('raju');
 		var player3 = new Player('ranju');
@@ -316,14 +321,11 @@ describe('Game', function(){
 			expect(hand3).to.have.length(4);
 			expect(hand4).to.have.length(4);
 		});
-		it('after first time distribution there will be 16 cards left in deck',function(){
-			expect(game.deck).to.have.length(16);
-		});
 	});
 
 	describe('addPlayer',function(){
 		it('assigns a player to team_1 when there are no player in both the team',function(){
-			var game = new Game();
+			var game = new Game(deck);
 			var player = 'Ramu';
 			game.addPlayer(player);
 			expect(game.team_1.players).to.have.length(1);
@@ -331,7 +333,7 @@ describe('Game', function(){
 			expect(game.team_1.players[0].id).to.equal('Ramu');
 		});
 		it('assigns a player in team_2 when team_1 has two players and team_2 has no player',function(){
-			var game = new Game();
+			var game = new Game(deck);
 			game.team_1.players.push('ramu');
 			game.team_1.players.push('raju');
 
@@ -344,14 +346,14 @@ describe('Game', function(){
 	});
 	describe('playerCount',function(){
 		it('counts the number of player a game has',function(){
-			var game = new Game();
+			var game = new Game(deck);
 			game.team_1 = {players : ['Ramu','Mamu']},
 			game.team_2 = {players : ['Dada']}
 		
 			expect(game.playerCount(game)).to.equal(3);
 		});
 		it('gives zero when there is no player',function(){
-			var game = new Game();
+			var game = new Game(deck);
 			game.team_1 = {players : []},
 			game.team_2 = {players : []}
 			expect(game.playerCount(game)).to.equal(0);
@@ -364,7 +366,7 @@ describe('Game', function(){
 	});
 
 	describe('calculateTotalPoint',function(){
-		var game = new Game(); 
+		var game = new Game(deck); 
 		var teamBucket = [{player:'10.4.20.173_sayan',
 						card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
 						trumpShown: false
@@ -420,7 +422,7 @@ describe('Game', function(){
 	});
 
 	describe('roundWinner',function(){
-		var game = new Game();
+		var game = new Game(deck);
 		it('gives the id of the player who won the round before trumpShown',function(){
 			var playedCardsSet_1 = [{player:'10.4.20.173_sayan',
 							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
@@ -617,7 +619,7 @@ describe('Game', function(){
 	});
 
 	describe('updateScore',function(){
-		var game = new Game();
+		var game = new Game(deck);
 		var player1 = new Player('ramu');
 		var player2 = new Player('raju');
 		var player3 = new Player('ranju');
@@ -694,7 +696,7 @@ describe('Game', function(){
 	describe('manipulateBidValueForPair',function() {
 		var game;
 		beforeEach(function(){
-			game = new Game();
+			game = new Game(deck);
 			var player1 = new Player('ramu');
 			var player2 = new Player('raju');
 			var player3 = new Player('ranju');
@@ -769,7 +771,7 @@ describe('Game', function(){
 	});
 
 	describe('pairChecking', function() {
-		var game = new Game();
+		var game = new Game(deck);
 		var player1 = new Player('ramu');
 		var player2 = new Player('raju');
 		var player3 = new Player('ranju');
