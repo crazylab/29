@@ -8,7 +8,8 @@ var sinon = require('sinon');
 
 var deck = {
 	getCards : sinon.stub.returns([1,2,3]),
-	drawFourCards : sinon.stub().returns([{id: 'A'},{id: 'B'},{id: 'C'},{id: 'D'}])
+	drawFourCards : sinon.stub().returns([{id: 'A'},{id: 'B'},{id: 'C'},{id: 'D'}]),
+	recollectCards : function(){}
 }
 describe('Game', function(){ 
 
@@ -26,6 +27,12 @@ describe('Game', function(){
 			game.setDistributionSequence();
 			expect(game.distributionSequence).to.have.length(4);
 			expect(game.distributionSequence).to.deep.equal(['peter','ramu','john','ritam']);
+		});
+		it('set distribution sequence second time',function(){
+			game.setDistributionSequence();
+			game.setDistributionSequence();
+			expect(game.distributionSequence).to.have.length(4);
+			expect(game.distributionSequence).to.deep.equal(['ramu','john','ritam','peter']);
 		});
 	});
 
@@ -58,9 +65,6 @@ describe('Game', function(){
 							trumpShown: true
 							}];
 		var status = game.getStatus('peter');
-		it('gives object with ownHand and length of partner, opponent_1, opponent_2 hand',function(){
-			expect(status).to.have.all.keys('me', 'partner', 'opponent_1', 'opponent_2','trump','bid','playedCards',"isBidWinner","score");
-		});
 		it('gives four card IDs for the requested player',function(){
 			expect(status.me.hand).to.have.length(4);
 		});
@@ -361,7 +365,11 @@ describe('Game', function(){
 	});
 	describe('gameInitializer',function(){
 		it('sets the game after one game finish for next deal',function(){
-			var game = new Game();
+			var game = new Game(deck);
+			game.distributionSequence = ['peter','john','ramu','savio'];
+			game.team_1.players=['peter','ramu'];
+			game.team_2.players=['john','savio']
+
 			game.team_1.wonCards = [{player:'peter',
 						card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
 						trumpShown: false
@@ -430,13 +438,14 @@ describe('Game', function(){
 				}
 			];
 			game.bid = {value:19, player:'peter'};
-			game.deck = [];
+			// game.deck = [];
 			game.trump = {suit: 'Heart', open: true};
 			game.team_2.score = 1;
 
 			game.gameInitializer();
 
-			expect(game.deck).to.have.length(16);
+			// expect(game.deck).to.have.length(16);
+			assert.deepEqual(game.distributionSequence,['john','ramu','savio','peter']);
 			expect(game.team_1.wonCards).to.have.length(0);
 			expect(game.team_2.wonCards).to.have.length(0);
 			assert.deepEqual(game.bid, {value:18, player:undefined});
@@ -449,7 +458,6 @@ describe('Game', function(){
 
 	describe('calculateTotalPoint',function(){
 		var game = new Game(deck); 
-		// var teamBucket = [{player:'10.4.20.173_sayan',
 		var player1 = new Player('peter');
 		var player2 = new Player('john');
 		var player3 = new Player('ramu');
@@ -816,7 +824,6 @@ describe('Game', function(){
 		it('fixes the bid value to 16, when a player of bid winning team has royal pair and bid value will be less than 21', function() {
 			game.bid={value : 19, player : 'dhamu'};
 			game.trump = {suit: 'Heart', open: true};
-			console.log(game.bid)
 			game.pairChecking();
 			game.manipulateBidValueForPair();
 			expect(game.bid .value).to.be.equal(16);

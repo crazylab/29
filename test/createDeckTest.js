@@ -69,4 +69,25 @@ describe('createDeck',function(){
 			expect(deck.getCards()).to.not.deep.equal(cards);
 		});
 	});
+	describe('recollectCards',function(){
+		it('collect all the cards from team 1 and team 2 and reset the cards on the deck',function(){
+			var cards = [];
+			var deck = createDeck(cards);
+
+			expect(deck.getCards()).to.deep.equal(cards);
+
+			var	team1_cards = [	{id : 'K'},
+								{id : '8'},
+								{id : 'Q'},
+								{id : '7'}];
+			var team2_cards = [	{id : 'J'},
+								{id : '2'},
+								{id : '4'},
+								{id : '9'}];
+			var all_cards = team1_cards.concat(team2_cards);
+
+			deck.recollectCards(team1_cards, team2_cards);
+			expect(deck.getCards()).to.deep.equal(all_cards);
+		});
+	});
 });

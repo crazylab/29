@@ -34,10 +34,10 @@ var showTurn = function(turn,id){
 	$(id).toggleClass('turn_on', turn);
 }
 var showBidStatus = function(bid){
-	var highestBid = '<b> Top Bid : '+bid.value+'</b>';
-	var highestBidder = '<b> Top Bidder : '+bid.player.toUpperCase()+'</b>';
-	var html = highestBid+'<br><br>'+highestBidder;
-	$('#bid_status').html(html);
+	// var highestBid = '<b> Top Bid : '+bid.value+'</b>';
+	// var highestBidder = '<b> Top Bidder : '+bid.player.toUpperCase()+'</b>';
+	// var html = highestBid+'<br><br>'+highestBidder;
+	// $('#bid_status').html(html);
 };
 
 var showScoreCard = function(score){
@@ -46,8 +46,13 @@ var showScoreCard = function(score){
 	$('#myTeamScore').html(myScore);
 	$('#opponentTeamScore').html(opponentScore);
 };
-
+var handleStarting = function(status){
+	if(status.isStart)
+		dealCard(status);	
+}
 var updateChanges = function(changes){
+	handleStarting(status);
+	showTrumpSelectionBox(changes.isBidWinner);
 	var playerHandler = {
 		partner : horizontalCards,
 		opponent_1: verticalCards,
@@ -86,15 +91,27 @@ var showTrumpSelectionBox = function(status){
 		showTrumpOptions();
 	}
 }
+var dealCard = function(status){
+	$('#deal').css("visibility","hidden");
+	if(status.isDealer){
+		$('#deal').css("visibility","visible");
+		$('#deal').click(function(){
+			$.post('deal', function(){
+				// $('#deal').css("visibility","hidden");
+			});
+		});
+	}
 
+}
 var onPageReady = function(){
 	revealTrump();
 	var name = parseCookie(document.cookie).name;
 	$('#playerName').html(name.toUpperCase());
 	$.get('status',function(status){
 		var status = JSON.parse(status);
-		updateChanges(status);
+		dealCard(status);
 		showTrumpSelectionBox(status.isBidWinner);
+		updateChanges(status);
 		showBidStatus(status.bid);
 	});
 	getStatus();
