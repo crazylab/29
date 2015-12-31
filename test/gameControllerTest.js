@@ -62,6 +62,7 @@ describe('controller', function(){
 	describe('POST: /setTrump',function(){
 		it('sets the trump suit',function(done){
 			var game = {
+				trump : {suit:undefined},
 				distributionSequence : [],
 				setTrumpSuit : sinon.spy(),
 				setRoundSequence : sinon.spy()
