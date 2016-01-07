@@ -91,6 +91,11 @@
     padding-left: 10px;
     padding-top: 10px;
 }
+#leave{
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+}
 .playerHand{
     
 }

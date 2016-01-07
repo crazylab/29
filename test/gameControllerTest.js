@@ -214,4 +214,16 @@ describe('controller', function(){
 				.end(done);	
 		});
 	});
+	describe("POST: /leaveGame",function() {
+		it("resets the game to initial condition",function(done){
+			var game = {};
+			var controller = gameController(game);
+			
+			request(controller)
+				.post('/leaveGame')
+				.expect(302)
+				.expect('Location',/leave_game.html/)
+				.end(done);
+		});
+	}); 
 });
