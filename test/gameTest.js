@@ -12,7 +12,6 @@ var deck = {
 	recollectCards : function(){}
 }
 describe('Game', function(){ 
-
 	describe('setDistributionSequence',function(){
 		var game;
 		beforeEach(function(){
@@ -347,6 +346,16 @@ describe('Game', function(){
 			expect(game.team_2.players).to.have.length(1);
 			expect(game.team_2.players[0].id).to.equal('Shibu');
 		});
+		it('returns false when four players are already filled', function(){ 
+			var game = new Game();
+			game.addPlayer('ramu');
+			game.addPlayer('peter');
+			game.addPlayer('john');
+			game.addPlayer('haru');
+
+			expect(game.addPlayer('dhanus')).to.equal.false;
+		});
+
 	});
 	describe('playerCount',function(){
 		it('counts the number of player a game has',function(){
@@ -899,6 +908,25 @@ describe('Game', function(){
 			game.trump = {suit: 'Heart', open: true};
 			game.pairChecking();
 			expect(game.team_1.players[1].hasPair).to.be.false;
+		});
+	});
+
+	describe('setTrumpSuit',function(){
+		it('sets the trump suit based on the given suit',function(){
+			var game = new Game(deck);
+			game.setRoundSequence = sinon.spy();
+			game.setTrumpSuit('H2');
+			expect(game.trump.suit).to.be.equal('H2');
+		});
+	});
+
+	describe('getTrumpSuit',function(){
+		it('gives the trump suit when player requests for it',function(){
+			var game = new Game(deck);
+			game.trump = {suit : 'H2', open : 'false'};
+			var trump = game.getTrumpSuit();
+			expect(trump).to.be.equal('H2');
+			expect(game.trump.open).to.equal.true;
 		});
 	});
 
