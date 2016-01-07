@@ -88,6 +88,7 @@ var getStatus = function(){
 		$.get("status",function(data){
 			var status = JSON.parse(data);
 			updateChanges(status);
+
 		});
 	},500);
 }
