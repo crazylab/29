@@ -50,11 +50,6 @@ var handleStarting = function(status){
 	if(status.isStart)
 		dealCard(status);
 }
-var redirect_to_leaveGame = function(endStatus){
-	if(endStatus)
-		window.location.assign('leave_game.html');
-}
-
 var updateChanges = function(changes){
 	redirect_to_leaveGame(changes.end)
 	handleStarting(status);
