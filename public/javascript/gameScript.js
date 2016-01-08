@@ -48,9 +48,10 @@ var showScoreCard = function(score){
 };
 var handleStarting = function(status){
 	if(status.isStart)
-		dealCard(status);	
+		dealCard(status);
 }
 var updateChanges = function(changes){
+	redirect_to_leaveGame(changes.end)
 	handleStarting(status);
 	showTrumpSelectionBox(changes.isBidWinner);
 	var playerHandler = {
@@ -82,6 +83,7 @@ var getStatus = function(){
 		$.get("status",function(data){
 			var status = JSON.parse(data);
 			updateChanges(status);
+
 		});
 	},500);
 }

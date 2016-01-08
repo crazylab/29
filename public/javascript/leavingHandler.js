@@ -1,7 +1,7 @@
-$(window).unload(function(){
-	var player = document.cookie;
-	$.post('leave_request', player, function(){
-		$(location).attr('href','index.html');
-		player = '';
-	});
-});
+var on_closing_tab = function(){
+	$.post('leaveGame');
+};
+var redirect_to_leaveGame = function(endStatus){
+	if(endStatus)
+		window.location.assign('leave_game.html');
+};
