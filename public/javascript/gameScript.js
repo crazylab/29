@@ -83,7 +83,7 @@ var getStatus = function(){
 		$.get("status",function(data){
 			var status = JSON.parse(data);
 			updateChanges(status);
-
+			dealCard(status);
 		});
 	},500);
 }
@@ -98,12 +98,10 @@ var dealCard = function(status){
 	if(status.isDealer){
 		$('#deal').css("visibility","visible");
 		$('#deal').click(function(){
-			$.post('deal', function(){
-				// $('#deal').css("visibility","hidden");
-			});
+			$.post('deal');
+			$('#deal').css("visibility","hidden");
 		});
 	}
-
 }
 var onPageReady = function(){
 	revealTrump();
