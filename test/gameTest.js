@@ -124,17 +124,17 @@ describe('Game', function(){
 	});
 
 	describe('nextTurn',function(){
-		var game = new Game(deck);
-		var p1 = new Player('raju');
-		var p2 = new Player('ramu');
-		var p3 = new Player('raka');
-		var p4 = new Player('rahul');
-		game.team_1.players = [p1,p3];
-		game.team_2.players = [p2,p4];
-		game.setDistributionSequence();
-		game.setRoundSequence();
-		game.nextTurn();
 		it('gives the trun permission true of the next player',function(){
+			var game = new Game(deck);
+			var p1 = new Player('raju');
+			var p2 = new Player('ramu');
+			var p3 = new Player('raka');
+			var p4 = new Player('rahul');
+			game.team_1.players = [p1,p3];
+			game.team_2.players = [p2,p4];
+			game.setDistributionSequence();
+			game.setRoundSequence();
+			game.nextTurn();
 			expect(game.roundSequence[0].turn).to.be.false;
 			expect(game.roundSequence[1].turn).to.be.true;
 			expect(game.roundSequence[2].turn).to.be.false;
@@ -146,7 +146,39 @@ describe('Game', function(){
 			expect(game.roundSequence[2].turn).to.be.true;
 			expect(game.roundSequence[3].turn).to.be.false;
 		});
-	})
+		it('turns the permission on for the player who won previous round after the round completes',function(){
+			var game = new Game(deck);
+			var p1 = new Player('raju');
+			var p2 = new Player('ramu');
+			var p3 = new Player('raka');
+			var p4 = new Player('rahul');
+			game.team_1.players = [p1,p2];
+			game.team_2.players = [p3,p4];
+			game.roundWinner = sinon.stub().returns('ramu');
+			game.setDistributionSequence();
+			game.playedCards = [{player:'raja',
+							card:{ id:'H8', name: '8', suit: 'Heart', point: 0, rank: 7 },
+							trumpShown: false
+							},
+							{player:'raka',
+							card:{ id:'S10', name: '10', suit: 'Spade', point: 1, rank: 4 },
+							trumpShown: false
+							},
+							{player:'ramu',
+							card:{ id:'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 },
+							trumpShown: false
+							},
+							{player:'rahul',
+							card:{ id:'HA', name: 'A', suit: 'Heart', point: 1, rank: 3 },
+							trumpShown: false
+							}]
+			game.roundSequence = [p1,p3,p2,p4];
+			game.team_2.players[1].turn = true;
+			game.nextTurn();
+			expect(game.team_1.players[1].turn).to.be.true;
+			expect(game.team_2.players[1].turn).to.be.false;
+		});
+	});
 	describe('setBidWinner',function(){
 		var game = new Game(deck);
 		var player = {id : '123',
@@ -579,9 +611,14 @@ describe('Game', function(){
 							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 							trumpShown: false
 							}];
-			assert.equal('savio',game.roundWinner(playedCardsSet_1));
-			assert.equal('ramu',game.roundWinner(playedCardsSet_2));
-			assert.equal('peter',game.roundWinner(playedCardsSet_3));
+			game.playedCards = playedCardsSet_1;
+			assert.equal('savio',game.roundWinner());
+			game.playedCards = playedCardsSet_2;
+
+			assert.equal('ramu',game.roundWinner());
+			game.playedCards = playedCardsSet_3;
+
+			assert.equal('peter',game.roundWinner());
 
 		});
 		it('gives the id of the player who won the round after trumpShown',function(){
@@ -713,14 +750,31 @@ describe('Game', function(){
 							card:{ name: 'K', suit: 'Diamond', point: 0, rank: 5 },
 							trumpShown: true
 							}];
+			game.playedCards = playedCardsSet_2;
+			game.trump = {suit:'Spade'};			
+			assert.equal('ramu',game.roundWinner(playedCardsSet_2,'Spade'));
+			game.playedCards = playedCardsSet_5;
+			game.trump = {suit:'Club'};
+			assert.equal('savio',game.roundWinner(playedCardsSet_5,'Club'));
+			game.playedCards = playedCardsSet_6;
+			game.trump = {suit:'Diamond'};
+			assert.equal('john',game.roundWinner(playedCardsSet_6,'Diamond'));
+			game.playedCards = playedCardsSet_1;
 
 			assert.equal('john',game.roundWinner(playedCardsSet_1,'Diamond'));
-			assert.equal('ramu',game.roundWinner(playedCardsSet_2,'Spade'));
+			game.playedCards = playedCardsSet_3;
+
 			assert.equal('john',game.roundWinner(playedCardsSet_3,'Diamond'));
+			game.playedCards = playedCardsSet_4;
+
 			assert.equal('ramu',game.roundWinner(playedCardsSet_4,'Diamond'));
-			assert.equal('savio',game.roundWinner(playedCardsSet_5,'Club'));
-			assert.equal('john',game.roundWinner(playedCardsSet_6,'Diamond'));
+			game.trump = {suit:'Heart'};			
+
+			game.playedCards = playedCardsSet_7;
+
 			assert.equal('john',game.roundWinner(playedCardsSet_7,'Heart'));
+			game.playedCards = playedCardsSet_8;
+
 			assert.equal('ramu',game.roundWinner(playedCardsSet_8,'Heart'));
 		});
 	});
