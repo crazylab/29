@@ -193,7 +193,7 @@ describe('Game', function(){
 		game.setBidWinner(16,player);
 
 		it('sets the value of the highest bid as bid value',function(){
-			expect(game.bid.value).to.not.equal(null);
+			expect(game.getBid().value).to.not.equal(null);
 		});
 
 		it('sets the player who has bid the maximum',function(){
@@ -1011,9 +1011,7 @@ describe('Game', function(){
 			expect(bid.value).not.to.equal(29);
 			expect(bid.player).not.to.equal('Zico');
 		});
-		it('has to be minimum 1 value more than the previous value', function(){
-			game.bid.value = 15;
-
+		it('sets the value only the bid value is minimum 1 value more than the previous value', function(){
 			game.setBid('Lucy', 16);
 			var bid = game.getBid();
 			expect(bid.value).to.equal(16);
@@ -1040,6 +1038,28 @@ describe('Game', function(){
 			expect(bid.player).not.to.equal('Lucy');
 			expect(bid.value).to.equal(28);
 			expect(bid.player).to.equal('Harry');
+		});
+		it('Keeps the last selected value as the bid value when "Pass" sent as value', function(){
+			game.setBid('Lucy', 16);
+			var bid = game.getBid();
+			expect(bid.value).to.equal(16);
+			expect(bid.player).to.equal('Lucy');
+
+			game.setBid('Zico', 18);
+			var bid = game.getBid();
+			expect(bid.value).to.equal(18);
+			expect(bid.player).to.equal('Zico');
+
+			game.setBid('Lucy', 'Pass');
+			var bid = game.getBid();
+			expect(bid.value).to.equal(18);
+			expect(bid.player).to.equal('Zico');
+		});
+		it('Keeps 16 as the bid value when last person sends "Pass" as value', function(){ //Later Modification of this test is needed
+			game.setBid('Lucy', 'Pass');
+			var bid = game.getBid();
+			expect(bid.value).to.equal(16);
+			expect(bid.player).to.equal('Lucy');
 		});
 	});
 });
