@@ -47,6 +47,8 @@ var showScoreCard = function(score){
 	$('#opponentTeamScore').html(opponentScore);
 };
 var handleStarting = function(status){
+	if(status.isDealer)
+		$('#deal').css("visibility","visible");
 	if(status.isStart)
 		dealCard(status);
 }
@@ -94,10 +96,8 @@ var showTrumpSelectionBox = function(status){
 	}
 }
 var dealCard = function(status){
-	$('#deal').css("visibility","hidden");
 	if(status.isDealer){
-		$('#deal').css("visibility","visible");
-		$('#deal').click(function(){
+		$('#deal').one('click', function(){
 			$.post('deal');
 			$('#deal').css("visibility","hidden");
 		});
@@ -109,6 +109,8 @@ var onPageReady = function(){
 	$('#playerName').html(name.toUpperCase());
 	$.get('status',function(status){
 		var status = JSON.parse(status);
+		if(status.isDealer)
+			$('#deal').css("visibility","visible");
 		dealCard(status);
 		showTrumpSelectionBox(status.isBidWinner);
 		updateChanges(status);
