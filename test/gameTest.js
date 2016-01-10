@@ -11,7 +11,7 @@ var deck = {
 	drawFourCards : sinon.stub().returns([{id: 'A'},{id: 'B'},{id: 'C'},{id: 'D'}]),
 	recollectCards : function(){}
 }
-describe('Game', function(){ 
+describe('Game', function(){
 	describe('setDistributionSequence',function(){
 		var game;
 		beforeEach(function(){
@@ -41,11 +41,11 @@ describe('Game', function(){
 		var player2 = new Player('raju');
 		var player3 = new Player('peter');
 		var player4 = new Player('dhamu');
-		
+
 		game.team_1.players = [player1,player2];
 		game.team_2.players = [player3,player4];
 		game.distributionSequence = [player1,player3,player2,player4];
-		
+
 		game.distributeCards();
 		game.playedCards = [{player:'ramu',
 							card:{ id:'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 },
@@ -86,7 +86,7 @@ describe('Game', function(){
 		var player2 = new Player('raju');
 		var player3 = new Player('peter');
 		var player4 = new Player('dhamu');
-		
+
 		game.team_1.players = [player1,player2];
 		game.team_2.players = [player3,player4];
 		it('gives the requested player',function(){
@@ -191,16 +191,16 @@ describe('Game', function(){
 						hasPair : false
 		}
 		game.setBidWinner(16,player);
-		
+
 		it('sets the value of the highest bid as bid value',function(){
-			expect(game.bid.value).to.not.equal(null);
+			expect(game.getBid().value).to.not.equal(null);
 		});
 
 		it('sets the player who has bid the maximum',function(){
 			expect(game.bid.player).to.not.equal(null);
 
 		});
-	});	
+	});
 
 	describe('getFinalBidStatus',function(){
 		var game = new Game(deck);
@@ -235,7 +235,7 @@ describe('Game', function(){
 								{ id: 'H10', name: '10', suit: 'Heart', point: 1, rank: 4 },
 		  						{ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 },
 								{ id: 'C8', name: '8', suit: 'Club', point: 0, rank: 7 },
-		 						{ id: 'C7', name: '7', suit: 'Club', point: 0, rank: 8 } 
+		 						{ id: 'C7', name: '7', suit: 'Club', point: 0, rank: 8 }
 		 				];
 			game.team_1.players = [p1,p3];
 			game.team_2.players = [p2,p4];
@@ -244,7 +244,7 @@ describe('Game', function(){
 			expect(game.isValidCardToThrow('S9',game.team_1.players[0].hand)).to.be.true;
 		});
 		it('only allows a player to play the running suit if he has that suit',function(){
-								
+
 			game.playedCards = [{card:{ id: 'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 }},
 								{card:{ id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }}];
 			expect(game.isValidCardToThrow('H10',game.team_1.players[0].hand)).to.be.true;
@@ -263,7 +263,7 @@ describe('Game', function(){
 		var player2 = new Player('raju');
 		var player3 = new Player('peter');
 		var player4 = new Player('dhamu');
-		
+
 		game.team_1.players = [player1,player2];
 		game.team_2.players = [player3,player4];
 
@@ -378,7 +378,7 @@ describe('Game', function(){
 			expect(game.team_2.players).to.have.length(1);
 			expect(game.team_2.players[0].id).to.equal('Shibu');
 		});
-		it('returns false when four players are already filled', function(){ 
+		it('returns false when four players are already filled', function(){
 			var game = new Game();
 			game.addPlayer('ramu');
 			game.addPlayer('peter');
@@ -394,7 +394,7 @@ describe('Game', function(){
 			var game = new Game(deck);
 			game.team_1 = {players : ['Ramu','Mamu']},
 			game.team_2 = {players : ['Dada']}
-		
+
 			expect(game.playerCount(game)).to.equal(3);
 		});
 		it('gives zero when there is no player',function(){
@@ -459,7 +459,7 @@ describe('Game', function(){
 						card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
 						trumpShown: true
 						}];
-			game.team_2.wonCards = 
+			game.team_2.wonCards =
 			[
 				{player:'peter',
 				card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
@@ -498,7 +498,7 @@ describe('Game', function(){
 	});
 
 	describe('calculateTotalPoint',function(){
-		var game = new Game(deck); 
+		var game = new Game(deck);
 		var player1 = new Player('peter');
 		var player2 = new Player('john');
 		var player3 = new Player('ramu');
@@ -751,7 +751,7 @@ describe('Game', function(){
 							trumpShown: true
 							}];
 			game.playedCards = playedCardsSet_2;
-			game.trump = {suit:'Spade'};			
+			game.trump = {suit:'Spade'};
 			assert.equal('ramu',game.roundWinner(playedCardsSet_2,'Spade'));
 			game.playedCards = playedCardsSet_5;
 			game.trump = {suit:'Club'};
@@ -768,7 +768,7 @@ describe('Game', function(){
 			game.playedCards = playedCardsSet_4;
 
 			assert.equal('ramu',game.roundWinner(playedCardsSet_4,'Diamond'));
-			game.trump = {suit:'Heart'};			
+			game.trump = {suit:'Heart'};
 
 			game.playedCards = playedCardsSet_7;
 
@@ -879,7 +879,7 @@ describe('Game', function(){
 							{ id: 'SQ', name: 'Q', suit: 'Spade', point: 0, rank: 6 },
 							{ id: 'SJ', name: 'J', suit: 'Spade', point: 3, rank: 1 },
 							{ id: 'SA', name: 'A', suit: 'Spade', point: 1, rank: 3 } ];
-																			
+
 			game.team_1.players = [player1,player2];
 			game.team_2.players = [player3,player4];
 		});
@@ -944,7 +944,7 @@ describe('Game', function(){
 						{ id: 'SQ', name: 'Q', suit: 'Spade', point: 0, rank: 6 },
 						{ id: 'SJ', name: 'J', suit: 'Spade', point: 3, rank: 1 },
 						{ id: 'SA', name: 'A', suit: 'Spade', point: 1, rank: 3 } ];
-																		
+
 		game.team_1.players = [player1,player2];
 		game.team_2.players = [player3,player4];
 		it('will set hasPair true for the player having trump suit pair', function() {
@@ -983,5 +983,83 @@ describe('Game', function(){
 			expect(game.trump.open).to.equal.true;
 		});
 	});
+	describe('setBid', function(){
+		var game;
+		beforeEach(function(){
+			game = new Game(deck);
+		});
+		it('sets the bid value for a given user', function(){
+			var playerID = 'SAM';
+			var bidValue = 21;
 
+			game.setBid(playerID, bidValue);
+			var bid = game.getBid();
+			expect(bid.value).to.equal(21);
+			expect(bid.player).to.equal('SAM');
+		});
+		it('does not sets the bid value less than 16 or greater than 28', function(){
+			var playerID = 'Zico';
+
+			game.setBid(playerID, 15);
+			var bid = game.getBid();
+
+			expect(bid.value).not.to.equal(15);
+			expect(bid.player).not.to.equal('Zico');
+
+			bid = game.getBid();
+			game.setBid(playerID, 29);
+			expect(bid.value).not.to.equal(29);
+			expect(bid.player).not.to.equal('Zico');
+		});
+		it('sets the value only the bid value is minimum 1 value more than the previous value', function(){
+			game.setBid('Lucy', 16);
+			var bid = game.getBid();
+			expect(bid.value).to.equal(16);
+			expect(bid.player).to.equal('Lucy');
+
+			game.setBid('Harry', 18);
+			bid = game.getBid();
+			expect(bid.value).to.equal(18);
+			expect(bid.player).to.equal('Harry');
+
+			game.setBid('Lucy', 18);
+			bid = game.getBid();
+			expect(bid.value).to.equal(18);
+			expect(bid.player).to.equal('Harry');
+
+			game.setBid('Harry', 28);
+			bid = game.getBid();
+			expect(bid.value).to.equal(28);
+			expect(bid.player).to.equal('Harry');
+
+			game.setBid('Lucy', 29);
+			bid = game.getBid();
+			expect(bid.value).not.to.equal(29);
+			expect(bid.player).not.to.equal('Lucy');
+			expect(bid.value).to.equal(28);
+			expect(bid.player).to.equal('Harry');
+		});
+		it('Keeps the last selected value as the bid value when "Pass" sent as value', function(){
+			game.setBid('Lucy', 16);
+			var bid = game.getBid();
+			expect(bid.value).to.equal(16);
+			expect(bid.player).to.equal('Lucy');
+
+			game.setBid('Zico', 18);
+			var bid = game.getBid();
+			expect(bid.value).to.equal(18);
+			expect(bid.player).to.equal('Zico');
+
+			game.setBid('Lucy', 'Pass');
+			var bid = game.getBid();
+			expect(bid.value).to.equal(18);
+			expect(bid.player).to.equal('Zico');
+		});
+		it('Keeps 16 as the bid value when last person sends "Pass" as value', function(){ //Later Modification of this test is needed
+			game.setBid('Lucy', 'Pass');
+			var bid = game.getBid();
+			expect(bid.value).to.equal(16);
+			expect(bid.player).to.equal('Lucy');
+		});
+	});
 });

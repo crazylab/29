@@ -5,6 +5,7 @@
 		<link rel="stylesheet" type="text/css" href="css/gameStyle.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/cards.css">
+		<link rel="stylesheet" type="text/css" href="css/bidding.css">
 		<script type="text/javascript" src="javascript/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="javascript/lodash.min.js"></script>
 		<script type="text/javascript" src="javascript/gameScript.js"></script>
@@ -12,8 +13,9 @@
 		<script type="text/javascript" src="javascript/cards.js"></script>
 		<script type="text/javascript" src="javascript/cookie_parser.js"></script>
 		<script type="text/javascript" src="javascript/leavingHandler.js"></script>
+		<script type="text/javascript" src="javascript/bid.js"></script>
 	</head>
-	<body onunload="on_closing_tab()" >
+	<body>
 		<div class="game" align="center">
 			<div id="bid_status" class="score_and_bid_box" align="left"></div>
 			<div class="horizontalBox top" id="partner"></div>
@@ -45,10 +47,40 @@
 				T
 			</section>
 			<div class="table">
+				<div id="overlay">
+		            <div class="highlight">Select a value to Bid</div>
+		            <table class="select_bid" align="center">
+		                <tr>
+		                    <td value="16">16</td>
+		                    <td value="17">17</td>
+		                    <td value="18">18</td>
+		                    <td value="19">19</td>
+		                </tr>
+		                <tr>
+		                    <td value="20">20</td>
+		                    <td value="21">21</td>
+		                    <td value="22">22</td>
+		                    <td value="23">23</td>
+		                </tr>
+		                <tr>
+		                    <td value="24">24</td>
+		                    <td value="25">25</td>
+		                    <td value="26">26</td>
+		                    <td value="27">27</td>
+		                </tr>
+		                <tr>
+		                    <td value="28">28</td>
+		                    <td value="pass" width="175px" align="center">
+		                        <a href="#">Pass</a>
+		                    </td>
+		                </tr>
+		            </table>
+		        </div>
+		        <div id="cover" > </div>
 				<div class="trump rotate-45-degree" id="trump"></div>
 				<div id="playedCards"></div>
 				<div id="select_trumps" align= "center" class="trump_suits">
-					<button id = "deal">Deal</button>
+					<button id="deal" onclick="window.location.href='#overlay'">Deal</button>
  						<table>
 						  	<tr>
 							    <td id="C2"></td>

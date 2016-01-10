@@ -24,7 +24,7 @@ describe('controller', function(){
 		it('serves the login page', function(done){
 			var game = {};
 			var controller = gameController(game);
-			
+
 			request(controller)
 				.get('/')
 				.expect(/Join Game/)
@@ -49,7 +49,7 @@ describe('controller', function(){
 			game.addPlayer=sinon.stub().returns(false);
 
 			var controller = gameController(game);
-			
+
 			request(controller)
 				.post('/waiting.html')
 				.send('name=P_K')
@@ -135,7 +135,7 @@ describe('controller', function(){
 	describe('GET: /<static files>', function(){
 		it('gives the static files that is requested', function(done){
 			var controller = gameController(game);
-		
+
 			request(controller)
 				.get('/gamepage.html')
 				.expect(200,done);
@@ -145,7 +145,7 @@ describe('controller', function(){
 	describe('GET: /<file that is not present>', function(){
 		it('gives 404 statusCode', function(done){
 			var controller = gameController(game);
-		
+
 			request(controller)
 				.get('/status.js')
 				.expect(404,done);
@@ -155,12 +155,12 @@ describe('controller', function(){
 	describe('POST: /<invalid method>', function(){
 		it('will complain for the request with status code 405',function(done){
 			var controller = gameController(game);
-			
+
 			request(controller)
 				.post('/invalidMethod')
 				.expect(404, done);
 		});
-	});	
+	});
 
 	describe('GET: /getTrump',function(){
 		it('does not give the trump that has been set when he does not satisfy the condition',function(done){
@@ -169,14 +169,14 @@ describe('controller', function(){
 				ableToAskForTrumpSuit : sinon.stub().returns(false)
 			};
 			var controller = gameController(game);
-			
+
 			game.playedCards=[];
 			request(controller)
 				.get('/getTrump')
 				.set('Cookie', 'Rahul')
 				.expect(406)
 				.expect(/Not/)
-				.end(done);	
+				.end(done);
 		});
 		it('gives the trump when he satisfy the condition', function(done){
 			var player = {
@@ -205,25 +205,38 @@ describe('controller', function(){
 
 			};
 			var controller = gameController(game);
-			
+
 			request(controller)
 				.get('/getTrump')
 				.set('Cookie', 'Rahul')
 				.expect(200)
 				.expect(/D2/)
-				.end(done);	
+				.end(done);
 		});
 	});
 	describe("POST: /leaveGame",function() {
 		it("resets the game to initial condition",function(done){
 			var game = {};
 			var controller = gameController(game);
-			
+
 			request(controller)
 				.post('/leaveGame')
 				.expect(302)
 				.expect('Location',/leave_game.html/)
 				.end(done);
 		});
-	}); 
+	});
+	describe("POST: /bid", function(){
+		it("sets the bid value for a player", function(done){
+			var game = {setBid : sinon.spy()};
+			var controller = gameController(game);
+
+			request(controller)
+				.post('/bid')
+				.set('Cookie','name=XYZ')
+				.send('bid=20')
+				.expect(202)
+				.end(done);
+		});
+	});
 });
