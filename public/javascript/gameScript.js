@@ -117,7 +117,6 @@ var onPageReady = function(){
 		dealCard(status);
 		showTrumpSelectionBox(status.isBidWinner);
 		updateChanges(status);
-		console.log(status.bid.player);
 	});
 	getStatus();
 };

@@ -63,6 +63,14 @@ describe('Game', function(){
 							card:{ id:'HA', name: 'A', suit: 'Heart', point: 1, rank: 3 },
 							trumpShown: true
 							}];
+		it('gives true as isDealer for ramu',function(){
+			var status = game.getStatus('ramu');
+			expect(status.isDealer).to.be.true;
+			var status = game.getStatus('peter');
+			expect(status.isDealer).to.be.false;
+
+
+		});
 		var status = game.getStatus('peter');
 		it('gives four card IDs for the requested player',function(){
 			expect(status.me.hand).to.have.length(4);
