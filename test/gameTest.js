@@ -497,7 +497,7 @@ describe('Game', function(){
 			assert.deepEqual(game.distributionSequence,['john','ramu','savio','peter']);
 			expect(game.team_1.wonCards).to.have.length(0);
 			expect(game.team_2.wonCards).to.have.length(0);
-			assert.deepEqual(game.bid, {value:18, player:undefined});
+			assert.deepEqual(game.bid, {value:0, player:undefined});
 			assert.deepEqual(game.trump, {suit: undefined, open: false});
 			expect(game.team_1.score).to.be.equal(0);
 			expect(game.team_2.score).to.be.equal(1);
