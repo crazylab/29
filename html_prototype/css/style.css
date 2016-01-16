@@ -1,0 +1,15 @@
+.heading{
+    font-family: sans-serif;
+    text-align: center;
+}
+.button{
+	height: 50px;
+	width: 100px;
+	margin: 20px 780px;
+	font-size: 18px;
+}
+.screen_center{
+    position: absolute;
+    top: 48%;
+    left: 38%;
+}
