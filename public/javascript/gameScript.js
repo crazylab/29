@@ -17,25 +17,6 @@ var verticalCards = function (numberOfCards){
 	return hand.join('');
 };
 
-var showPlayedCards = function(cards){
-	var html = '';
-	_.forIn(cards, function(value, relation){
-		html += getShownCard(value.card, relation);
-	});
-	$('#playedCards').html(html);
-};
-var playCard = function(){
-	$('#me > .playerHand > div').on('click',function(){
-		var id = $(this).attr('id');
-		$.post("throwCard", {"cardID":id});
-	});
-}
-var showTurn = function(status){
-	$('#you').toggleClass('turn_on', status.me.turn);
-	$('#partner').toggleClass('turn_on', status.partner.turn);
-	$('#right').toggleClass('turn_on', status.opponent_1.turn);
-	$('#left').toggleClass('turn_on', status.opponent_2.turn);
-}
 var showBidStatus = function(bid){
 	if(!bid.player) return;
 	var highestBid = '<b> Top Bid : '+bid.value+'</b>';

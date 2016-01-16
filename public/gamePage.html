@@ -11,6 +11,7 @@
 		<script type="text/javascript" src="javascript/gameScript.js"></script>
 		<script type="text/javascript" src="javascript/cookie_parser.js"></script>
 		<script type="text/javascript" src="javascript/cards.js"></script>
+		<script type="text/javascript" src="javascript/playingCard.js"></script>
 		<script type="text/javascript" src="javascript/trump.js"></script>
 		<script type="text/javascript" src="javascript/leavingHandler.js"></script>
 	</head>
@@ -51,15 +52,10 @@
 			</table>
 			<div class="table">
 				<div id="trump" class="trump_card"></div>
-				<button id="deal" onclick="window.location.href='#trump_suits'">Deal</button>
+				<button id="deal" onclick="window.location.href='#trump_options'">Deal</button>
 				<div id="trump_options">
 						<div>Select Trump</div>
-						<span class="center">
-							<div class="card"></div>
-							<div class="card"></div>
-							<div class="card"></div>
-							<div class="card"></div>
-						</span>
+						<span class="center"></span>
 				</div>
 				<div id="bid">
 					<div>Select Bid</div>
@@ -82,7 +78,7 @@
 				</div>
 		        <div id="cover" > </div>
 
-				<div class="played_cards">
+				<div id="played_cards">
 					<div class="card top_card">TOP</div>
 					<div class="card left_card">LEFT</div>
 					<div class="card bottom_card">BOTTOM</div>
