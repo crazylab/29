@@ -20,7 +20,7 @@ var verticalCards = function (numberOfCards){
 var showPlayedCards = function(cards){
 	var html = '';
 	_.forIn(cards, function(value, relation){
-		html += shownCard(value.card, relation);
+		html += getShownCard(value.card, relation);
 	});
 	$('#playedCards').html(html);
 };
@@ -57,19 +57,7 @@ var updateChanges = function(changes){
 	redirect_to_leaveGame(changes.end)
 	handleStarting(status);
 	showTrumpSelectionBox(changes.isBidWinner);
-	var playerHandler = {
-		partner : horizontalCards,
-		opponent_1: verticalCards,
-		opponent_2: verticalCards
-	}
-
-	_.forIn(playerHandler, function(action, player){
-		var id = '#'+ player;
-		var html = action(changes[player].hand);
-		$(id).html(html);
-		showTurn(changes[player].turn,id);
-	});
-	$('#me > .playerHand').html(showMyHand(changes.me.hand));
+	showCards(changes);
 	if(changes.me.turn)
 		$("#me").css("background-color","green");
 	else
@@ -109,7 +97,7 @@ var dealCard = function(status){
 var onPageReady = function(){
 	revealTrump();
 	var name = parseCookie(document.cookie).name;
-	$('#playerName').html(name.toUpperCase());
+	$('#you > .name').html(name.toUpperCase());
 	$.get('status',function(status){
 		var status = JSON.parse(status);
 		if(status.isDealer)

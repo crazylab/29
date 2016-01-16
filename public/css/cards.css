@@ -1,8 +1,9 @@
 .card {
+	display: inline-block;
 	text-align: center;
 	font-family: monospace;
 	font-size: 20px;
-	border-color: red;
+	border-color: black;
 	border-width: 1px;
 	height: 100px;
 	width: 70px;
@@ -12,6 +13,9 @@
 	margin: 1px;
 	float: left;
 	background-color: white;
+	-webkit-box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.75);
+	-moz-box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.75);
+	box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.75);
 }
 .red{
 	color: red;
@@ -20,6 +24,20 @@
 	color: black;
 }
 .hidden {
-	background-color: skyblue;
-	border-color: white;
+	background-color: white;
+	border-color: black;
+	-webkit-box-shadow: inset 0px 0px 50px 0px rgba(100,100,100,0.74);
+	-moz-box-shadow: inset 0px 0px 50px 0px rgba(100,100,100,0.74);
+	box-shadow: inset 0px 0px 50px 0px rgba(100,100,100,0.74);
+}
+.hand {
+	width: auto;
+	height: auto;
+}
+#you > .hand > .card:hover {
+	height: 110px;
+	width: 77px;
+	/*-webkit-box-shadow: 0px 0px 5px 5px rgba(255,0,0,1);
+	-moz-box-shadow: 0px 0px 5px 5px rgba(255,0,0,1);
+	box-shadow: 0px 0px 5px 5px rgba(255,0,0,1);*/
 }

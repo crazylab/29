@@ -1,131 +1,200 @@
+body{
+    background-color: #fdfdfd;
+}
+
 .game{
-    position: relative;
-    width: 100%;
-    height: 800px;
-    border: 3px solid #73AD21;
+    position: fixed;
+    width: 1660px;
+    height: 850px;
 }
-.horizontalBox {
+
+.table{
     position: absolute;
-    left: 30%;
-    width: 40%;
-    height: 18%;
-    padding: 10px;
-    border: 1px solid #73AD21;
+    top: 205px;
+    left: 550px;
+    width: 550px;
+    height: 410px;
+    background-color: #45a357;
+    border-radius: 100px 100px 100px 100px;
+    -moz-border-radius: 100px 100px 100px 100px;
+    -webkit-border-radius: 100px 100px 100px 100px;
+    border: 3px solid #000000;
+    -webkit-box-shadow: 8px 15px 10px 5px rgba(0,0,0,0.75);
+    -moz-box-shadow: 8px 15px 10px 5px rgba(0,0,0,0.75);
+    box-shadow: 8px 15px 10px 5px rgba(0,0,0,0.75);
 }
-.top {
+
+.played_cards {
+    position: absolute;
+    top: 115px;
+    left: 190px;
+    width: 180px;
+    height: 180px;
+}
+
+.top_card {
+    position: absolute;
+    top: 2px;
+    left: 45px;
+}
+
+.bottom_card {
+    position: absolute;
+    bottom: 2px;
+    left: 58px;
+}
+
+.left_card {
+    position: absolute;
+    top: 32px;
+    left: 2px;
+}
+
+.right_card {
+    position: absolute;
+    top: 48px;
+    right: 2px;
+}
+
+.trump_card {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    -webkit-transform: rotate(40deg);
+    -moz-transform: rotate(40deg);
+    -o-transform: rotate(40deg);
+    -ms-transform: rotate(40deg);
+    transform: rotate(40deg);
+}
+.board {
+    position: absolute;
+    height: 100px;
+    width: 200px;
+
+    text-align: center;
+    font-family: monospace;
+    font-size: 20px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 10px;
+    margin: 1px;
+    background-color: white;
+    -webkit-box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.75);
+    -moz-box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.75);
+    box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.75);
+
+}
+.score {
+    right: 240px;
     top: 0px;
 }
-.bottom {
-   	bottom: 0px;
+.bid {
+    left: 240px;
+    top: 0px;
 }
-.verticalBox {
-    position: absolute;
-    vertical-align: 50%;
-    top: 27.5%;
-    width: 8%;
-    height: 45%;
-    border: 1px solid #73AD21;
-    padding-top: 25px;
+.points {
+    right: 240px;
+    bottom: 0px;
 }
-.right {
-    right: 0px;
-}
-.left {
-    left: 0px;
-}
-.table{
-	position: absolute;
-    top: 19.7%;
-    left: 25%;
-    width: 50%;
-    height: 60%;
-    border: 3px solid #73AD21;
-}
-.trump{
-	position: absolute;
-    top: 15%;
-    left: 13%;
-    width: 71px;
-    height: 96px;
-}
-#playedCards{
-    position: absolute;
-    height: 250px;
-    width: 300px;
-    top: 100px;
-    left: 265px;
-}
-.partner{
-    position: absolute;
-    top: 5px;
-    left: 110px;
-}
-.me{
-    position: absolute;
-    bottom: 5px;
-    left: 110px;
-}
-.opponent_2{
-    position: absolute;
-    bottom: 75px;
-    right: 10px;
-}
-.opponent_1{
-    position: absolute;
-    bottom: 75px;
-    left: 10px;
-}
-#bid_status{
-    left: 25px;
-}
-
-#score_board{
-    right: 25px;
-}
-.score_and_bid_box{
-    position: absolute;
-    top: 10px;
-    width: 180px;
-    height: 100px;
-    border: 3px solid #73AD21;
+.odd {
+    display: block;
+    height: 29.5px;
+    padding-top: 3.5px;
     padding-left: 10px;
-    padding-top: 10px;
+    padding-right: 10px;
+    border-bottom: 1px solid #ddd;
 }
-#leave{
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
+.even {
+    border-radius: 0px 0px 10px 10px;
 }
-.playerHand{
+.highlight {
+    display: block;
+    width: 197.5px;
+    height: 25px;
+    border-radius: 10px 10px 0px 0px;
+    margin-bottom: 1px;
+    padding: 4px 2px 0.5px 0.5px;
+    border-bottom: 1px solid;
 
+    -webkit-box-shadow: inset 0px 0px 50px 5px rgba(105,105,105,1);
+    -moz-box-shadow: inset 0px 0px 50px 5px rgba(105,105,105,1);
+    box-shadow: inset 0px 0px 50px 5px rgba(105,105,105,1);
 }
-.trump_suits{
-    visibility: hidden;
+
+
+.player {
+    position: absolute;
+    background-color: seagreen;
+    border-radius: 30px 30px 30px 30px;
+    -moz-border-radius: 30px 30px 30px 30px;
+    -webkit-border-radius: 30px 30px 30px 30px;
+    border: 2px solid #138135;
+    padding-top: 15px;
+    padding-left: 10px;
 }
-.turn_on{
-    background-color: green;
-    z-index: -1;
+.top {
+    width: 625px;
+    height: 160px;
+    top: 0px;
+    left: 517.5px;
 }
-.name {
-    font-family: monospace;
-    text-decoration: bold;
-    font-size: 30px;
-    z-index: 1;
+
+.bottom {
+    width: 625px;
+    height: 160px;
+    bottom: 0px;
+    left: 517.5px;
 }
-.rotate-45-degree{
-     -webkit-transform: rotate(-45deg);
-    -moz-transform: rotate(-45deg);
-    -o-transform: rotate(-45deg);
-    -ms-transform: rotate(-45deg);
-    transform: rotate(-45deg);
+
+.left {
+    width: 175px;
+    height: 460px;
+    top: 195px;
+    left: 250px;
 }
-.rotate-90-degree{
-     -webkit-transform: rotate(90deg);
+
+.right {
+    width: 175px;
+    height: 460px;
+    top: 195px;
+    right: 250px;
+}
+.opponent{
+    -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
     -o-transform: rotate(90deg);
     -ms-transform: rotate(90deg);
     transform: rotate(90deg);
 }
-#bid {
-    visibility: hidden;
+.hand {
+    display: table;
+    margin: 0 auto;
+}
+.name {
+    font-family: monospace;
+    font-size: 30px;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.turn_on {
+    -webkit-box-shadow: 0px 0px 50px 25px rgba(69,163,87,1);
+    -moz-box-shadow: 0px 0px 50px 25px rgba(69,163,87,1);
+    box-shadow: 0px 0px 50px 25px rgba(69,163,87,1);
+}
+
+.center {
+    display: table;
+    margin: 0 auto;
+}
+
+.message {
+    position: absolute;
+    width: 550px;
+    bottom: 20px;
+    font-size: 30px;
+    font-family: monospace;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
 }

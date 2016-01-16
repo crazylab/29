@@ -13,7 +13,7 @@ var showTrumpOptions = function(){
 			S2 : {id: 'S2', suit: 'Spade', name: '2'}
 		}
 		_.forIn(cards, function(card, id){
-			var html = shownCard(card);
+			var html = getShownCard(card);
 			$('#'+id).html(html).on('click', postTrump);
 		});
 };
@@ -26,7 +26,7 @@ var showTrump = function(trump){
 			H2 : {id: 'H2', suit: 'Heart', name: '2'},
 			S2 : {id: 'S2', suit: 'Spade', name: '2'}
 		};
-		html = shownCard(cards[trump]);
+		html = getShownCard(cards[trump]);
 		$("#trump").unbind();
 	}
 	$('#trump').html(html);
