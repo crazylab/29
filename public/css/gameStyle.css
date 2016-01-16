@@ -56,16 +56,6 @@ body{
     right: 2px;
 }
 
-.trump_card {
-    position: absolute;
-    top: 50px;
-    left: 50px;
-    -webkit-transform: rotate(40deg);
-    -moz-transform: rotate(40deg);
-    -o-transform: rotate(40deg);
-    -ms-transform: rotate(40deg);
-    transform: rotate(40deg);
-}
 .board {
     position: absolute;
     height: 100px;

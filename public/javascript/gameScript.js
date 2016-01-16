@@ -30,8 +30,11 @@ var playCard = function(){
 		$.post("throwCard", {"cardID":id});
 	});
 }
-var showTurn = function(turn,id){
-	$(id).toggleClass('turn_on', turn);
+var showTurn = function(status){
+	$('#you').toggleClass('turn_on', status.me.turn);
+	$('#partner').toggleClass('turn_on', status.partner.turn);
+	$('#right').toggleClass('turn_on', status.opponent_1.turn);
+	$('#left').toggleClass('turn_on', status.opponent_2.turn);
 }
 var showBidStatus = function(bid){
 	if(!bid.player) return;
@@ -53,22 +56,21 @@ var handleStarting = function(status){
 	if(status.isStart)
 		dealCard(status);
 }
-var updateChanges = function(changes){
-	redirect_to_leaveGame(changes.end)
+var updateChanges = function(status){
+	redirect_to_leaveGame(status.end)
 	handleStarting(status);
-	showTrumpSelectionBox(changes.isBidWinner);
-	showCards(changes);
-	if(changes.me.turn)
-		$("#me").css("background-color","green");
-	else
-		$("#me").css("background-color","white");
+	showTrumpSelectionBox(status.isBidWinner);
+	// ---------
+	showCards(status);
+	showTurn(status);
+	// ---------
 	playCard();
 
-	showPlayedCards(changes.playedCards);
-	showTrump(changes.trump);
-	showBidStatus(changes.bid);
+	showPlayedCards(status.playedCards);
+	showTrump(status.trump);
+	showBidStatus(status.bid);
 
-	showScoreCard(changes.score);
+	showScoreCard(status.score);
 
 }
 var getStatus = function(){
@@ -81,10 +83,10 @@ var getStatus = function(){
 	},500);
 }
 var showTrumpSelectionBox = function(status){
-	if(status){
-		$('#select_trumps').removeClass('trump_suits');
+	// if(status){
+		// $('#select_trumps').removeClass('trump_suits');
 		showTrumpOptions();
-	}
+	// }
 }
 var dealCard = function(status){
 	if(status.isDealer){
