@@ -1,28 +1,7 @@
-var horizontalCards = function (cards){
-	if(typeof cards === 'number'){
-		cards = Array.apply(undefined, Array(cards));
-	}
-	var hand = cards.map(function(){
-		return '<td class="card hidden"></td>';
-	});
-	return hand.join('');
-};
-var verticalCards = function (numberOfCards){
-	var hand = [], number = numberOfCards, margin = 0;
-	while(number != 0){
-		hand.push('<div class="card hidden" style="margin-top:'+margin+'px"></div>');
-		number--;
-		margin = -70;
-	}
-	return hand.join('');
-};
-
 var showBidStatus = function(bid){
 	if(!bid.player) return;
-	var highestBid = '<b> Top Bid : '+bid.value+'</b>';
-	var highestBidder = '<b> Top Bidder : '+bid.player.toUpperCase()+'</b>';
-	var html = highestBid+'<br><br>'+highestBidder;
-	$('#bid_status').html(html);
+	$('#bidValue').html(bid.value);
+	$('#topBidder').html(bid.player.toUpperCase());
 };
 
 var showScoreCard = function(score){
