@@ -15,14 +15,13 @@ var playCard = function(){
 var showPlayedCards = function(cards){
 	var html = '';
     var positions = {
-        me : 'bottom',
+        you : 'bottom',
         partner : 'top',
-        opponent_1 : 'right',
-        opponent_2 : 'left'
+        right : 'right',
+        left : 'left'
     };
-	_.forIn(cards, function(value, relation){
-        var card =
-		html += getShownCard(value.card, positions[relation]+'_card');
+	cards.forEach(function(played_card){
+		html += getShownCard(played_card.card, positions[played_card.relation]+'_card');
 	});
 	$('#played_cards').html(html);
 };

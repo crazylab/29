@@ -50,7 +50,7 @@
 .top_card {
     position: absolute;
     top: 2px;
-    left: 45px;
+    left: 48px;
 }
 
 .bottom_card {
@@ -62,11 +62,11 @@
 .left_card {
     position: absolute;
     top: 32px;
-    left: 2px;
+    left: 0px;
 }
 
 .right_card {
     position: absolute;
-    top: 48px;
+    top: 40px;
     right: 2px;
 }
