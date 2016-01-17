@@ -81,10 +81,10 @@ describe('Game', function(){
 			expect(status.opponent_2.hand).to.equal(4);
 		});
 		it('gives all the cards that has already been played by a player',function(){
-			expect(status.playedCards.me.card.id).to.equal('S8');
-			expect(status.playedCards.partner.card.id).to.equal('HA');
-			expect(status.playedCards.opponent_1.card.id).to.equal('HJ');
-			expect(status.playedCards.opponent_2.card.id).to.equal('S10');
+			expect(status.playedCards[0].card.id).to.equal('HJ');
+			expect(status.playedCards[1].card.id).to.equal('S10');
+			expect(status.playedCards[2].card.id).to.equal('S8');
+			expect(status.playedCards[3].card.id).to.equal('HA');
 		});
 	});
 
@@ -1068,6 +1068,32 @@ describe('Game', function(){
 			var bid = game.getBid();
 			expect(bid.value).to.equal(16);
 			expect(bid.player).to.equal('Lucy');
+		});
+	});
+	describe('getPlayedCards', function(){
+		var game;
+		beforeEach(function(){
+			game = new Game(deck);
+			game.playedCards = [
+				{ player: 'X', card: 'J' },
+				{ player: 'M', card: 'Q' },
+				{ player: 'Y', card: 'K' },
+				{ player: 'N', card: 'A' }
+			];
+			var relation = {
+				me : {id: 'Y'},
+				partner : {id: 'X'},
+				opponent_1 : {id: 'N'},
+				opponent_2 : {id: 'M'}
+			};
+			game.getRelationship = sinon.stub().returns(relation);
+		});
+		it('gives the played cards according to the playing order with relation to the player', function(){
+			var playedCards = game.getPlayedCards('Y');
+			expect(playedCards[0].relation).to.equal('partner');
+			expect(playedCards[1].relation).to.equal('left');
+			expect(playedCards[2].relation).to.equal('you');
+			expect(playedCards[3].relation).to.equal('right');
 		});
 	});
 });
