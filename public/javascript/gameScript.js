@@ -1,9 +1,3 @@
-var showBidStatus = function(bid){
-	if(!bid.player) return;
-	$('#bidValue').html(bid.value);
-	$('#topBidder').html(bid.player.toUpperCase());
-};
-
 var showScoreCard = function(score){
 	var myScore = '<td> Your Team</td><td>' + score.myScore +  '</td>'
 	var opponentScore = '<td> Opponent Team</td><td>' + score.opponentScore +  '</td>'
@@ -23,6 +17,7 @@ var updateChanges = function(status){
 	// ---------
 	showCards(status);
 	showTurn(status);
+	showHiddenTrumpCard(status.isTrumpSet);
 	// ---------
 	playCard();
 
