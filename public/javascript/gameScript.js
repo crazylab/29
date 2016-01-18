@@ -16,6 +16,7 @@ var updateChanges = function(status){
 	showCards(status);
 	showTurn(status);
 	showHiddenTrumpCard(status.isTrumpSet);
+	showBiddingBoard(status.isCurrentBidder);
 	// ---------
 	playCard();
 
