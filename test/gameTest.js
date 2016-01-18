@@ -1041,6 +1041,23 @@ describe('Game', function(){
 				expect(game.getCurrentBidder()=='ramu');
 			});
 		});
+
+		describe('giveTurnToAnotherForBidding',function(){
+			var game;
+			beforeEach(function(){
+				game = new Game(deck);
+				var player1 = new Player('ramu');
+				var player2 = new Player('raju');
+				var player3 = new Player('peter');
+				var player4 = new Player('dhamu');
+				game.team_1.players = [player1,player2];
+				game.team_2.players = [player3,player4];
+			});
+
+			it('gives the turn to the next player for bidding', function(){ 
+				
+			});
+		});
 		
 	});
 	describe('getPlayedCards', function(){
