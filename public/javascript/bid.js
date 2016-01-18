@@ -1,8 +1,9 @@
 var putClickInBid = function(){
-    $('.select_bid td').each(function(index){
-        $( this ).one('click', function(){
+    $('#bid > span > div').each(function(index){
+        $( this ).on('click', function(){
             $.post("bid", {value: $(this).text()});
             $(this).css("background-color","#804000");
+            window.location.href = '#';
         });
     });
 }
@@ -11,4 +12,8 @@ var showBidStatus = function(bid){
 	$('#bidValue').html(bid.value);
 	$('#topBidder').html(bid.player.toUpperCase());
 };
+var showBiddingBoard = function(currentPlayer){
+    if(currentPlayer)
+        window.location.href = '#bid';
+}
 $(document).ready(putClickInBid);
