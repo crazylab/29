@@ -497,7 +497,9 @@ describe('Game', function(){
 			assert.deepEqual(game.distributionSequence,['john','ramu','savio','peter']);
 			expect(game.team_1.wonCards).to.have.length(0);
 			expect(game.team_2.wonCards).to.have.length(0);
-			assert.deepEqual(game.bid, {value:0, player:undefined});
+			assert.deepEqual(game.bid.value,0);
+			assert.deepEqual(game.bid.player,undefined);
+			expect(game.bid.passed).to.be.length(0);
 			assert.deepEqual(game.trump, {suit: undefined, open: false});
 			expect(game.team_1.score).to.be.equal(0);
 			expect(game.team_2.score).to.be.equal(1);
@@ -991,84 +993,55 @@ describe('Game', function(){
 			expect(game.trump.open).to.equal.true;
 		});
 	});
-	describe('setBid', function(){
-		var game;
-		beforeEach(function(){
-			game = new Game(deck);
+	describe('bid',function(){
+
+
+		describe('getCurrentBidder',function(){
+			var game;
+			beforeEach(function(){
+				game = new Game(deck);
+				var player1 = new Player('ramu');
+				var player2 = new Player('raju');
+				var player3 = new Player('peter');
+				var player4 = new Player('dhamu');
+				game.team_1.players = [player1,player2];
+				game.team_2.players = [player3,player4];
+			});
+			it('it sets the leading and the lagging bidder at the start of the game and returns the current bidder',function(){
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				expect(game.getCurrentBidder()).to.be.equal('ramu');
+				expect(game.bid.turn.lagging).to.be.equal('peter');
+
+			});
+			it('gives lagging player after leading player bid', function(){ 
+				game.bid = {
+					trump : undefined,
+					player : 'ramu',
+					turn : {
+						leading : 'ramu',
+						lagging : 'peter'
+					},
+					pass : []
+				};
+				game.setDistributionSequence();
+				expect(game.getCurrentBidder()=='peter');
+			});
+			it('gives leading player after lagging player bid', function(){ 
+				game.bid = {
+					trump : undefined,
+					player : 'peter',
+					turn : {
+						leading : 'ramu',
+						lagging : 'peter'
+					},
+					pass : []
+				};
+				game.setDistributionSequence();
+				expect(game.getCurrentBidder()=='ramu');
+			});
 		});
-		it('sets the bid value for a given user', function(){
-			var playerID = 'SAM';
-			var bidValue = 21;
-
-			game.setBid(playerID, bidValue);
-			var bid = game.getBid();
-			expect(bid.value).to.equal(21);
-			expect(bid.player).to.equal('SAM');
-		});
-		it('does not sets the bid value less than 16 or greater than 28', function(){
-			var playerID = 'Zico';
-
-			game.setBid(playerID, 15);
-			var bid = game.getBid();
-
-			expect(bid.value).not.to.equal(15);
-			expect(bid.player).not.to.equal('Zico');
-
-			bid = game.getBid();
-			game.setBid(playerID, 29);
-			expect(bid.value).not.to.equal(29);
-			expect(bid.player).not.to.equal('Zico');
-		});
-		it('sets the value only the bid value is minimum 1 value more than the previous value', function(){
-			game.setBid('Lucy', 16);
-			var bid = game.getBid();
-			expect(bid.value).to.equal(16);
-			expect(bid.player).to.equal('Lucy');
-
-			game.setBid('Harry', 18);
-			bid = game.getBid();
-			expect(bid.value).to.equal(18);
-			expect(bid.player).to.equal('Harry');
-
-			game.setBid('Lucy', 18);
-			bid = game.getBid();
-			expect(bid.value).to.equal(18);
-			expect(bid.player).to.equal('Harry');
-
-			game.setBid('Harry', 28);
-			bid = game.getBid();
-			expect(bid.value).to.equal(28);
-			expect(bid.player).to.equal('Harry');
-
-			game.setBid('Lucy', 29);
-			bid = game.getBid();
-			expect(bid.value).not.to.equal(29);
-			expect(bid.player).not.to.equal('Lucy');
-			expect(bid.value).to.equal(28);
-			expect(bid.player).to.equal('Harry');
-		});
-		it('Keeps the last selected value as the bid value when "Pass" sent as value', function(){
-			game.setBid('Lucy', 16);
-			var bid = game.getBid();
-			expect(bid.value).to.equal(16);
-			expect(bid.player).to.equal('Lucy');
-
-			game.setBid('Zico', 18);
-			var bid = game.getBid();
-			expect(bid.value).to.equal(18);
-			expect(bid.player).to.equal('Zico');
-
-			game.setBid('Lucy', 'Pass');
-			var bid = game.getBid();
-			expect(bid.value).to.equal(18);
-			expect(bid.player).to.equal('Zico');
-		});
-		it('Keeps 16 as the bid value when last person sends "Pass" as value', function(){ //Later Modification of this test is needed
-			game.setBid('Lucy', 'Pass');
-			var bid = game.getBid();
-			expect(bid.value).to.equal(16);
-			expect(bid.player).to.equal('Lucy');
-		});
+		
 	});
 	describe('getPlayedCards', function(){
 		var game;
