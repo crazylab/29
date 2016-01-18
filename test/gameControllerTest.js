@@ -228,7 +228,9 @@ describe('controller', function(){
 	});
 	describe("POST: /bid", function(){
 		it("sets the bid value for a player", function(done){
-			var game = {setBid : sinon.spy()};
+			var game = {setBid : sinon.spy(),
+						getCurrentBidder : sinon.stub().returns('XYZ'),
+						bid : sinon.spy()};
 			var controller = gameController(game);
 
 			request(controller)
