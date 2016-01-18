@@ -1,8 +1,6 @@
-var showScoreCard = function(score){
-	var myScore = '<td> Your Team</td><td>' + score.myScore +  '</td>'
-	var opponentScore = '<td> Opponent Team</td><td>' + score.opponentScore +  '</td>'
-	$('#myTeamScore').html(myScore);
-	$('#opponentTeamScore').html(opponentScore);
+var showScore = function(score){
+	$('#your_score').html(score.myScore);
+	$('#opponent_score').html(score.opponentScore);
 };
 var handleStarting = function(status){
 	if(status.isDealer)
@@ -25,7 +23,7 @@ var updateChanges = function(status){
 	showTrump(status.trump);
 	showBidStatus(status.bid);
 
-	showScoreCard(status.score);
+	showScore(status.score);
 
 }
 var getStatus = function(){
