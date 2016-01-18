@@ -65,7 +65,7 @@ describe('createDeck',function(){
 			var deck = createDeck(cards);
 			expect(deck.getCards()).to.deep.equal(cards);
 
-			deck.shuffle();	
+			deck.shuffle();
 			expect(deck.getCards()).to.not.deep.equal(cards);
 		});
 	});
@@ -88,6 +88,21 @@ describe('createDeck',function(){
 
 			deck.recollectCards(team1_cards, team2_cards);
 			expect(deck.getCards()).to.deep.equal(all_cards);
+		});
+	});
+	describe('cardsCount',function(){
+		it ('count the total number of card what all are there',function (){
+			var cards = [
+				{id : 'K'},
+				{id : '8'},
+				{id : 'Q'},
+				{id : '7'},
+				{id : 'J'},
+				{id : '2'},
+				{id : '4'},
+				{id : '9'} ];
+			var deck = createDeck(cards);
+		 	expect(deck.cardsCount()).to.equal(cards.length);
 		});
 	});
 });

@@ -9,7 +9,8 @@ var sinon = require('sinon');
 var deck = {
 	getCards : sinon.stub.returns([1,2,3]),
 	drawFourCards : sinon.stub().returns([{id: 'A'},{id: 'B'},{id: 'C'},{id: 'D'}]),
-	recollectCards : function(){}
+	recollectCards : function(){},
+	cardsCount : function(){}
 }
 describe('Game', function(){
 	describe('setDistributionSequence',function(){
@@ -63,14 +64,6 @@ describe('Game', function(){
 							card:{ id:'HA', name: 'A', suit: 'Heart', point: 1, rank: 3 },
 							trumpShown: true
 							}];
-		it('gives true as isDealer for ramu',function(){
-			var status = game.getStatus('ramu');
-			expect(status.isDealer).to.be.true;
-			var status = game.getStatus('peter');
-			expect(status.isDealer).to.be.false;
-
-
-		});
 		var status = game.getStatus('peter');
 		it('gives four card IDs for the requested player',function(){
 			expect(status.me.hand).to.have.length(4);
@@ -1014,7 +1007,7 @@ describe('Game', function(){
 				expect(game.bid.turn.lagging).to.be.equal('peter');
 
 			});
-			it('gives lagging player after leading player bid', function(){ 
+			it('gives lagging player after leading player bid', function(){
 				game.bid = {
 					trump : undefined,
 					player : 'ramu',
@@ -1027,7 +1020,7 @@ describe('Game', function(){
 				game.setDistributionSequence();
 				expect(game.getCurrentBidder()=='peter');
 			});
-			it('gives leading player after lagging player bid', function(){ 
+			it('gives leading player after lagging player bid', function(){
 				game.bid = {
 					trump : undefined,
 					player : 'peter',
@@ -1041,7 +1034,7 @@ describe('Game', function(){
 				expect(game.getCurrentBidder()=='ramu');
 			});
 		});
-		
+
 	});
 	describe('getPlayedCards', function(){
 		var game;

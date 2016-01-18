@@ -31,7 +31,7 @@ var getStatus = function(){
 		$.get("status",function(data){
 			var status = JSON.parse(data);
 			updateChanges(status);
-			dealCard(status);
+			dealCard(status.isDealComplete);
 		});
 	},500);
 }
@@ -41,13 +41,13 @@ var showTrumpSelectionBox = function(status){
 		showTrumpOptions();
 	// }
 }
-var dealCard = function(status){
-	if(status.isDealer){
+var dealCard = function(dealStatus){
+	if(dealStatus)
+		$('#deal').css("visibility","hidden");
+	else
 		$('#deal').one('click', function(){
 			$.post('deal');
-			$('#deal').css("visibility","hidden");
 		});
-	}
 }
 var onPageReady = function(){
 	revealTrump();
@@ -55,9 +55,7 @@ var onPageReady = function(){
 	$('#you > .name').html(name.toUpperCase());
 	$.get('status',function(status){
 		var status = JSON.parse(status);
-		if(status.isDealer)
-			$('#deal').css("visibility","visible");
-		dealCard(status);
+		dealCard(status.isDealComplete);
 		showTrumpSelectionBox(status.isBidWinner);
 		updateChanges(status);
 	});
