@@ -1,0 +1,107 @@
+#cover{
+    position:fixed;
+    top:0;
+    left:0;
+    background:rgba(0,0,0,0.6);
+    z-index:5;
+    width:100%;
+    height:100%;
+    display:none;
+}
+#trump_options {
+    position: absolute;
+    left: 116px;
+    top: 100px;
+	background: rgba(3,2,1,0);
+    height: 160px;
+    width: 320px;
+    z-index:10;
+    display:none;
+    box-shadow: -8px 8px 10px 3px rgba(0,0,0,0.2);
+    border:2px solid #cccccc;
+    border-radius:10px;
+}
+#trump_options:target,
+#trump_options:target + #cover{
+    display:block;
+    opacity:2;
+}
+
+#trump_options > div {
+    text-align: center;
+    font-family: monospace;
+    font-size: 20px;
+    background-color: #ddd;
+    border-radius: 7px 7px 0px 0px;
+    margin-bottom: 10px;
+    padding: 1px;
+    border-bottom: 1px solid;
+}
+
+#trump_options > span > .card:hover {
+	height: 110px;
+	width: 77px;
+}
+
+#trump:hover {
+    -webkit-box-shadow: 0px 0px 50px 0px rgba(255,255,255,1);
+    -moz-box-shadow: 0px 0px 50px 0px rgba(255,255,255,1);
+    box-shadow: 0px 0px 50px 0px rgba(255,255,255,1);
+}
+
+.bid_value {
+    display: inline-block;
+    background-color: #FF8C00;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid black;
+    font-size: 30px;
+}
+#bid > span > .bid_value:hover {
+    -webkit-box-shadow: inset 0px 0px 50px 0px rgba(0,0,0,0.74);
+    -moz-box-shadow: inset 0px 0px 50px 0px rgba(0,0,0,0.74);
+    box-shadow: inset 0px 0px 50px 0px rgba(0,0,0,0.74);
+}
+
+#bid {
+    position: absolute;
+    left: 115px;
+    top: 20px;
+	background: rgba(3,2,1,0);
+    height: 370px;
+    width: 320px;
+    z-index:10;
+    display:none;
+    box-shadow: -8px 8px 10px 3px rgba(0,0,0,0.2);
+    border:2px solid #cccccc;
+    border-radius:10px;
+}
+#bid:target,
+#bid:target + #cover{
+    display:block;
+    opacity:2;
+}
+
+#bid > div {
+    text-align: center;
+    font-family: monospace;
+    font-size: 30px;
+
+    height: 35px;
+    background-color: #ddd;
+    border-radius: 7px 7px 0px 0px;
+    margin-bottom: 10px;
+    padding: 2px;
+    border-bottom: 1px solid;
+}
+
+.trump_card {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    -webkit-transform: rotate(40deg);
+    -moz-transform: rotate(40deg);
+    -o-transform: rotate(40deg);
+    -ms-transform: rotate(40deg);
+    transform: rotate(40deg);
+}

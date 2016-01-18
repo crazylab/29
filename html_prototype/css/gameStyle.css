@@ -24,6 +24,48 @@ body{
     box-shadow: 8px 15px 10px 5px rgba(0,0,0,0.75);
 }
 
+.played_cards {
+    position: absolute;
+    top: 115px;
+    left: 190px;
+    width: 180px;
+    height: 180px;
+}
+
+.top_card {
+    position: absolute;
+    top: 2px;
+    left: 45px;
+}
+
+.bottom_card {
+    position: absolute;
+    bottom: 2px;
+    left: 58px;
+}
+
+.left_card {
+    position: absolute;
+    top: 32px;
+    left: 2px;
+}
+
+.right_card {
+    position: absolute;
+    top: 48px;
+    right: 2px;
+}
+
+.trump_card {
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    -webkit-transform: rotate(40deg);
+    -moz-transform: rotate(40deg);
+    -o-transform: rotate(40deg);
+    -ms-transform: rotate(40deg);
+    transform: rotate(40deg);
+}
 .board {
     position: absolute;
     height: 100px;

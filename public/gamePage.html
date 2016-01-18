@@ -5,100 +5,109 @@
 		<link rel="stylesheet" type="text/css" href="css/gameStyle.css">
 		<link rel="stylesheet" type="text/css" href="css/style.css">
 		<link rel="stylesheet" type="text/css" href="css/cards.css">
-		<link rel="stylesheet" type="text/css" href="css/bidding.css">
+		<link rel="stylesheet" type="text/css" href="css/trump.css">
 		<script type="text/javascript" src="javascript/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="javascript/lodash.min.js"></script>
 		<script type="text/javascript" src="javascript/gameScript.js"></script>
-		<script type="text/javascript" src="javascript/trump.js"></script>
-		<script type="text/javascript" src="javascript/cards.js"></script>
 		<script type="text/javascript" src="javascript/cookie_parser.js"></script>
-		<script type="text/javascript" src="javascript/leavingHandler.js"></script>
+		<script type="text/javascript" src="javascript/cards.js"></script>
+		<script type="text/javascript" src="javascript/playingCard.js"></script>
+		<script type="text/javascript" src="javascript/trump.js"></script>
 		<script type="text/javascript" src="javascript/bid.js"></script>
+		<script type="text/javascript" src="javascript/leavingHandler.js"></script>
 	</head>
 	<body>
 		<div class="game" align="center">
-			<div id="bid_status" class="score_and_bid_box" align="left"></div>
-			<div class="horizontalBox top" id="partner"></div>
-			<div id="score_board" class="score_and_bid_box">
-				<table cellspacing="10px">
-					<tr>
-						<td><u><b>Team </b></u></td>
-						<td><u><b>Score </b></u></td>
-					</tr>
-					<tr id="myTeamScore"></tr>
-					<tr id="opponentTeamScore"></tr>
-				</table>
-			</div>
-			<br><br><br><br><br><br>
-			<div class="name">TOP</div>
-			<div class="verticalBox left" id="opponent_1"></div>
-			<section align="left" class="name" style="position: relative; top: 20%; float: left; margin-left: 10px;">
-				L<br>
-				E<br>
-				F<br>
-				T
-			</section>
-			<div class="verticalBox right" id="opponent_2"></div>
-			<section align="right" class="name" style="position: relative; top: 18%; float: right; margin-right: 10px">
-				R<br>
-				I<br>
-				G<br>
-				H<br>
-				T
-			</section>
+			<table class="bid board">
+				<th class="highlight">Bid Table</th>
+				<tr class="odd">
+					<td style="float: left;">Top Bid</td>
+					<td style="float: right;" id="bidValue"></td>
+				</tr>
+				<tr class="odd even">
+					<td style="float: left;">Bidder</td>
+					<td  style="float: right;" id="topBidder"><td>
+				</tr>
+			</table>
+			<table class="score board">
+				<th class="highlight">Score</th>
+				<tr class="odd">
+					<td style="float: left;">Your</td>
+					<td style="float: right;" id="your_score">3</td>
+				</tr>
+				<tr class="odd even">
+					<td style="float: left;">Opponent</td>
+					<td  style="float: right;" id="opponent_score">1<td>
+				</tr>
+			</table>
+			<table class="points board">
+				<th class="highlight">Points</th>
+				<tr class="odd">
+					<td style="float: left;">Your Team</td>
+					<td style="float: right;" id="your_point">10</td>
+				</tr>
+				<tr class="odd even">
+					<td style="float: left;">Opponent</td>
+					<td  style="float: right;" id="opponent_point">12<td>
+				</tr>
+			</table>
 			<div class="table">
-				<div id="overlay">
-		            <div class="highlight">Select a value to Bid</div>
-		            <table class="select_bid" align="center">
-		                <tr>
-		                    <td value="16">16</td>
-		                    <td value="17">17</td>
-		                    <td value="18">18</td>
-		                    <td value="19">19</td>
-		                </tr>
-		                <tr>
-		                    <td value="20">20</td>
-		                    <td value="21">21</td>
-		                    <td value="22">22</td>
-		                    <td value="23">23</td>
-		                </tr>
-		                <tr>
-		                    <td value="24">24</td>
-		                    <td value="25">25</td>
-		                    <td value="26">26</td>
-		                    <td value="27">27</td>
-		                </tr>
-		                <tr>
-		                    <td value="28">28</td>
-		                    <td value="pass" width="175px" align="center">
-		                        <a href="#">Pass</a>
-		                    </td>
-		                </tr>
-		            </table>
-		        </div>
+				<div id="trump" class="trump_card"></div>
+				<button id="deal" onclick="window.location.href='#trump_options'">Deal</button>
+				<div id="trump_options">
+						<div>Select Trump</div>
+						<span class="center"></span>
+				</div>
+				<div id="bid">
+					<div>Select Bid</div>
+					<span class="center">
+						<div class="bid_value">16</div>
+						<div class="bid_value">17</div>
+						<div class="bid_value">18</div>
+						<div class="bid_value">19</div>
+						<div class="bid_value">20</div>
+						<div class="bid_value">21</div>
+						<div class="bid_value">22</div>
+						<div class="bid_value">23</div>
+						<div class="bid_value">24</div>
+						<div class="bid_value">25</div>
+						<div class="bid_value">26</div>
+						<div class="bid_value">27</div>
+						<div class="bid_value">28</div>
+						<div class="bid_value" style="width: 175px;">Pass</div>
+					</span>
+				</div>
 		        <div id="cover" > </div>
-				<div class="trump rotate-45-degree" id="trump"></div>
-				<div id="playedCards"></div>
-				<div id="select_trumps" align= "center" class="trump_suits">
-					<button id="deal" onclick="window.location.href='#overlay'">Deal</button>
- 						<table>
-						  	<tr>
-							    <td id="C2"></td>
-							    <td id="H2"></td>
-							    <td id="D2"></td>
-					        	<td id="S2"></td>
-					        </tr>
- 						</table>
- 				  	</div>
+
+				<div id="played_cards"></div>
+				<div class="message"></div>
 			</div>
-			<div id="me" class="horizontalBox bottom">
-				<div class="name" id="playerName">You</div>
-				<div class="playerHand"></div>
+			<div id="partner" class="top player">
+				<div class="hand"></div>
+				<div class="name">PARTNER</div>
 			</div>
-			<div id="leave">
-				<form method="POST" action="leaveGame">
-					<button type="Submit">Leave Game</button>
-				</form>
+			<div id="left" class="left player">
+				<div class="hand"></div>
+				<div class="name" style="float: right; margin-top: 150px">
+					L<br>
+					E<br>
+					F<br>
+					T<br>
+				</div>
+			</div>
+			<div id="right" class="right player">
+				<div class="hand"></div>
+				<div class="name" style="float: left; margin-top: 135px">
+					R<br>
+					I<br>
+					G<br>
+					H<br>
+					T<br>
+				</div>
+			</div>
+			<div id="you" class="bottom player">
+				<div class="name">YOU</div>
+				<div class="hand"></div>
 			</div>
 		</div>
 	</body>

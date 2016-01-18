@@ -1,9 +1,9 @@
 var postTrump = function () {
-	var content = '<div class="card hidden"></div>';
 	var trumpSuit = $(this).attr('id');
-	$.post("setTrump", {trump: trumpSuit});
-	$('#select_trumps').addClass('trump_suits');
-	$('.trump').html(content);
+	$.post("setTrump", {trump: trumpSuit}, function(){
+		$('#trump').addClass('card hidden');
+		window.location.href='#';
+	});
 };
 var showTrumpOptions = function(){
 		var cards = {
@@ -12,13 +12,18 @@ var showTrumpOptions = function(){
 			H2 : {id: 'H2', suit: 'Heart', name: '2'},
 			S2 : {id: 'S2', suit: 'Spade', name: '2'}
 		}
+		var trumpSuites = '';
 		_.forIn(cards, function(card, id){
-			var html = shownCard(card);
-			$('#'+id).html(html).on('click', postTrump);
+			trumpSuites += getShownCard(card);
 		});
+		$('#trump_options > span').html(trumpSuites);
+
+		$('#D2').on('click', postTrump);
+		$('#C2').on('click', postTrump);
+		$('#H2').on('click', postTrump);
+		$('#S2').on('click', postTrump);
 };
 var showTrump = function(trump){
-	var html = '<div class="card hidden"/></div>';
 	if(trump){
 		var cards = {
 			D2 : {id: 'D2', suit: 'Diamond', name: '2'},
@@ -26,13 +31,18 @@ var showTrump = function(trump){
 			H2 : {id: 'H2', suit: 'Heart', name: '2'},
 			S2 : {id: 'S2', suit: 'Spade', name: '2'}
 		};
-		html = shownCard(cards[trump]);
+		html = getShownCard(cards[trump]);
 		$("#trump").unbind();
+		$('#trump').html(html);
 	}
-	$('#trump').html(html);
 };
 var revealTrump = function(){
 	$('#trump').on('click', function(){
 		$.get('getTrump');
+		$('#trump').revealTrump('card hidden');		
 	});
+}
+var showHiddenTrumpCard = function(isTrumpSet){
+	if(isTrumpSet)
+	$('#trump').addClass('card hidden');
 }
