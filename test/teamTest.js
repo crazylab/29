@@ -15,7 +15,7 @@ describe('Team',function(){
 		var team = new Team();
 
 		it('creates team with two players',function(){
-			expect(team).to.have.all.keys('players','score','wonCards');
+			expect(team).to.have.all.keys('players','score','wonCards','point');
 		});
 		it('adds beta player into team when there is less than 2 player in the team.',function(){
 			var player = new Player(player_1);

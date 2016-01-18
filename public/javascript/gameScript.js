@@ -2,6 +2,11 @@ var showScore = function(score){
 	$('#your_score').html(score.myScore);
 	$('#opponent_score').html(score.opponentScore);
 };
+
+var showPoint = function(point){
+	$('#your_point').html(point.myTeamPoint);
+	$('#opponent_point').html(point.opponentTeamPoint);
+};
 var handleStarting = function(status){
 	if(!status.isDealComplete){
 		$('#deal').css("visibility","visible");
@@ -26,6 +31,7 @@ var updateChanges = function(status){
 	showBidStatus(status.bid);
 
 	showScore(status.score);
+	showPoint(status.point);
 
 }
 var getStatus = function(){

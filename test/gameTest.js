@@ -500,7 +500,7 @@ describe('Game', function(){
 		});
 	});
 
-	describe('calculateTotalPoint',function(){
+	describe('calculateTotalPointOfBidWinningTeam',function(){
 		var game = new Game(deck);
 		var player1 = new Player('peter');
 		var player2 = new Player('john');
@@ -558,7 +558,7 @@ describe('Game', function(){
 						trumpShown: true
 						}];
 		it('calculate TotalPoint of a team',function(){
-			assert.equal(18,game.calculateTotalPoint());
+			assert.equal(18,game.calculateTotalPointOfBidWinningTeam());
 		});
 
 	});
