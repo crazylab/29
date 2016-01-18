@@ -23,6 +23,12 @@ var showTrumpOptions = function(){
 		$('#H2').on('click', postTrump);
 		$('#S2').on('click', postTrump);
 };
+var showTrumpSelectionBox = function(isBidWinner){
+	if(isBidWinner){
+		showTrumpOptions();
+		window.location.href = '#trump_options';
+	}
+}
 var showTrump = function(trump){
 	if(trump){
 		var cards = {
@@ -39,7 +45,7 @@ var showTrump = function(trump){
 var revealTrump = function(){
 	$('#trump').on('click', function(){
 		$.get('getTrump');
-		$('#trump').revealTrump('card hidden');		
+		$('#trump').revealTrump('card hidden');
 	});
 }
 var showHiddenTrumpCard = function(isTrumpSet){

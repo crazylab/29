@@ -3,10 +3,11 @@ var showScore = function(score){
 	$('#opponent_score').html(score.opponentScore);
 };
 var handleStarting = function(status){
-	if(status.isDealer)
+	if(!status.isDealComplete){
 		$('#deal').css("visibility","visible");
-	if(status.isStart)
-		dealCard(status);
+		$('#trump').html('');
+		$('#trump').removeClass('card hidden');
+	}
 }
 var updateChanges = function(status){
 	redirect_to_leaveGame(status.end)
@@ -36,12 +37,6 @@ var getStatus = function(){
 		});
 	},500);
 }
-var showTrumpSelectionBox = function(status){
-	// if(status){
-		// $('#select_trumps').removeClass('trump_suits');
-		showTrumpOptions();
-	// }
-}
 var dealCard = function(dealStatus){
 	if(dealStatus)
 		$('#deal').css("visibility","hidden");
@@ -57,7 +52,6 @@ var onPageReady = function(){
 	$.get('status',function(status){
 		var status = JSON.parse(status);
 		dealCard(status.isDealComplete);
-		showTrumpSelectionBox(status.isBidWinner);
 		updateChanges(status);
 	});
 	getStatus();
