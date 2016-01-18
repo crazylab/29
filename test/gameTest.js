@@ -1054,12 +1054,238 @@ describe('Game', function(){
 				game.team_2.players = [player3,player4];
 			});
 
-			it('gives the turn to the next player for bidding', function(){ 
-				
+			it('gives the turn to the next player for bidding when the leading bidder passes', function(){ 
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				game.giveTurnToAnotherForBidding();
+
+				expect(game.bid.passed).to.be.length(1);
+				expect(game.bid.passed[0]).to.be.equal('ramu');
+				expect(game.bid.turn.lagging).to.be.equal('raju');
+				expect(game.bid.turn.leading).to.be.equal('peter');
+
 			});
+			it('gives the turn to the next player for bidding when the lagging bidder passes', function(){ 
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				game.bid.passed = ['peter'];
+				game.bid.player = 'ramu';
+				game.bid.turn.lagging = 'raju';
+
+				game.giveTurnToAnotherForBidding();
+
+				expect(game.bid.passed).to.be.length(2);
+				assert.deepEqual(game.bid.passed , ['peter','raju']);
+				expect(game.bid.turn.lagging).to.be.equal('dhamu');
+				expect(game.bid.turn.leading).to.be.equal('ramu');
+				expect(game.bid.value).to.be.equal(0);
+
+			});
+
+			it('sets the leading\'s and lagging\'s turn undefined', function(){ 
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				game.bid.passed = ['peter','raju'];
+				game.bid.player = 'ramu';
+				game.bid.value = 17;
+				game.bid.turn.lagging = 'dhamu';
+
+				game.giveTurnToAnotherForBidding();
+
+				expect(game.bid.passed).to.be.length(3);
+				assert.deepEqual(game.bid.passed , ['peter','raju','dhamu']);
+				expect(game.bid.turn.lagging).to.be.equal(undefined);
+				expect(game.bid.turn.leading).to.be.equal(undefined);
+
+			});
+
+			it('sets the bid value to 16 if all the players pass without bidding', function(){ 
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				game.bid.passed = ['peter','raju'];
+				game.bid.player = 'ramu';
+				game.bid.turn.lagging = 'dhamu';
+
+				game.giveTurnToAnotherForBidding();
+
+				expect(game.bid.passed).to.be.length(3);
+				assert.deepEqual(game.bid.passed , ['peter','raju','dhamu']);
+				expect(game.bid.turn.lagging).to.be.equal(undefined);
+				expect(game.bid.turn.leading).to.be.equal(undefined);
+				expect(game.bid.value).to.be.equal(16);
+			});
+
+		});
+
+		describe('updateBidValueAndPlayer',function(){
+			var game;
+			beforeEach(function(){
+				game = new Game(deck);
+				var player1 = new Player('ramu');
+				var player2 = new Player('raju');
+				var player3 = new Player('peter');
+				var player4 = new Player('dhamu');
+				game.team_1.players = [player1,player2];
+				game.team_2.players = [player3,player4];
+			});
+
+			it('sets the bid value and player when a leading bidder bids',function(){
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				game.updateBidValueAndPlayer(17,'ramu');
+
+				expect(game.getCurrentBidder()).to.be.equal('peter');
+				expect(game.bid.value).to.be.equal(17);
+				expect(game.bid.player).to.be.equal('ramu');
+			});
+
+			it('sets the bid value and player when a lagging bidder bids',function(){
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				game.bid.player = 'ramu';
+				game.bid.value = 17;
+				game.updateBidValueAndPlayer(18,'peter');
+
+				expect(game.getCurrentBidder()).to.be.equal('ramu');
+				expect(game.bid.value).to.be.equal(18);
+				expect(game.bid.player).to.be.equal('peter');
+			});
+			it('does not set the bid value and player when a lagging player bids the same value as leading player',function(){
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				game.bid.player = 'ramu';
+				game.bid.value = 17;
+				game.updateBidValueAndPlayer(17,'peter');
+
+				expect(game.getCurrentBidder()).to.be.equal('peter');
+				expect(game.bid.value).to.be.equal(17);
+				expect(game.bid.player).to.be.equal('ramu');
+			});
+
+			it('lets a leading player bid the same value as lagging player',function(){
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				game.bid.player = 'raju';
+				game.bid.value = 18;
+				game.bid.passed = ['peter'];
+				game.bid.turn.lagging = 'raju';
+				game.updateBidValueAndPlayer(18,'ramu');
+
+				expect(game.getCurrentBidder()).to.be.equal('raju');
+				expect(game.bid.value).to.be.equal(18);
+				expect(game.bid.player).to.be.equal('ramu');
+			});
+
 		});
 		
+		describe('setBid',function(){
+			var game;
+			beforeEach(function(){
+				game = new Game(deck);
+				var player1 = new Player('ramu');
+				var player2 = new Player('raju');
+				var player3 = new Player('peter');
+				var player4 = new Player('dhamu');
+				game.team_1.players = [player1,player2];
+				game.team_2.players = [player3,player4];
+			});
+			it('sets the bid value when the leading player bids',function(){
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				game.setBid('ramu',17);
+				expect(game.getCurrentBidder()).to.be.equal('peter');
+				expect(game.bid.value).to.be.equal(17);
+				expect(game.bid.player).to.be.equal('ramu');
+
+				expect(game.bid.turn.leading).to.be.equal('ramu');
+				expect(game.bid.turn.lagging).to.be.equal('peter');
+			});
+
+			it('sets the bid value when the lagging player bids higher than the leading player',function(){
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				game.bid.passed = ['peter'];
+				game.bid.player = 'ramu';
+				game.bid.value = 17;
+				game.bid.turn.lagging = 'raju';
+				game.setBid('raju',19);
+				expect(game.getCurrentBidder()).to.be.equal('ramu');
+				expect(game.bid.value).to.be.equal(19);
+				expect(game.bid.player).to.be.equal('raju');
+
+				expect(game.bid.turn.leading).to.be.equal('ramu');
+				expect(game.bid.turn.lagging).to.be.equal('raju');
+			});
+
+			it('gives the next player to bid if the leading player passes',function(){
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				game.setBid('ramu','Pass');
+
+				expect(game.getCurrentBidder()).to.be.equal('peter');
+				expect(game.bid.value).to.be.equal(0);
+				expect(game.bid.player).to.be.equal(undefined);
+
+				expect(game.bid.turn.leading).to.be.equal('peter');
+				expect(game.bid.turn.lagging).to.be.equal('raju');
+			});
+			
+			it('does nothing if the lagging player bids lesser value than the bid value',function(){
+				game.setDistributionSequence();
+				game.setBidderTurn();
+				game.bid.passed = ['peter'];
+				game.bid.player = 'ramu';
+				game.bid.value = 17;
+				game.bid.turn.lagging = 'raju';
+				game.setBid('raju',16);
+				expect(game.getCurrentBidder()).to.be.equal('raju');
+				expect(game.bid.value).to.be.equal(17);
+				expect(game.bid.player).to.be.equal('ramu');
+
+				expect(game.bid.turn.leading).to.be.equal('ramu');
+				expect(game.bid.turn.lagging).to.be.equal('raju');
+			});
+
+		});
+
+				
 	});
+
+	describe('setAllPlayersTurnFalse',function(){
+		it('sets every player\'s turn false',function(){
+				var game = new Game(deck);
+				var player1 = new Player('ramu');
+				var player2 = new Player('raju');
+				var player3 = new Player('peter');
+				var player4 = new Player('dhamu');
+				game.team_1.players = [player1,player2];
+				game.team_2.players = [player3,player4];
+
+				game.team_1.players[0].turn = true;
+				game.setAllPlayersTurnFalse();
+
+				expect(game.team_1.players[0].turn).to.be.false;
+		});
+	});
+			
+	describe('handleCompletionOfRound',function(){
+		it('it starts a new game when eight rounds are completed',function(){
+			var game = new Game(deck);
+			var player1 = new Player('ramu');
+			var player2 = new Player('raju');
+			var player3 = new Player('peter');
+			var player4 = new Player('dhamu');
+			game.team_1.players = [player1,player2];
+			game.team_2.players = [player3,player4];
+			
+			game.isGameFinished = sinon.stub().returns(true);
+			game.startNewRound = sinon.stub().returns(true);
+
+			game.handleCompletionOfRound();
+
+		});
+	});
+
 	describe('getPlayedCards', function(){
 		var game;
 		beforeEach(function(){
