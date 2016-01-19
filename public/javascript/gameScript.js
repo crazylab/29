@@ -7,32 +7,38 @@ var showPoint = function(point){
 	$('#your_point').html(point.myTeamPoint);
 	$('#opponent_point').html(point.opponentTeamPoint);
 };
-var handleStarting = function(status){
-	if(!status.isDealComplete){
+var handleStarting = function(isDealComplete){
+	if(!isDealComplete){
 		$('#deal').css("visibility","visible");
 		$('#trump').html('');
 		$('#trump').removeClass('card hidden');
 	}
-}
+};
+var dealCard = function(dealStatus){
+	if(dealStatus)
+		$('#deal').css("visibility","hidden");
+	else
+		$('#deal').one('click', function(){
+			$.post('deal');
+		});
+};
 var updateChanges = function(status){
 	redirect_to_leaveGame(status.end)
-	handleStarting(status);
-	showTrumpSelectionBox(status.isBidWinner);
 	// ---------
 	showCards(status);
 	showTurn(status);
 	showHiddenTrumpCard(status.isTrumpSet);
 	showBiddingBoard(status.isCurrentBidder);
-	// ---------
-	playCard();
-
+	handleStarting(status.isDealComplete);
 	showPlayedCards(status.playedCards);
+	showScore(status.score);
+	showTrumpSelectionBox(status.isBidWinner);
 	showTrump(status.trump);
 	showBidStatus(status.bid);
-
-	showScore(status.score);
 	showPoint(status.point);
 
+	// ---------
+	playCard();
 }
 var getStatus = function(){
 	setInterval(function(){
@@ -42,14 +48,6 @@ var getStatus = function(){
 			dealCard(status.isDealComplete);
 		});
 	},500);
-}
-var dealCard = function(dealStatus){
-	if(dealStatus)
-		$('#deal').css("visibility","hidden");
-	else
-		$('#deal').one('click', function(){
-			$.post('deal');
-		});
 }
 var onPageReady = function(){
 	revealTrump();
