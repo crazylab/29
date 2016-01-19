@@ -2,7 +2,7 @@
   "name": "29",
   "version": "1.0.0",
   "description": "29 Multiplayer Game",
-  "main": "main.js",
+  "main": "server.js",
   "scripts": {
     "test": "mocha --recursive",
     "min": "mocha -R min --recursive",
