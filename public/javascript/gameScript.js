@@ -24,7 +24,6 @@ var dealCard = function(dealStatus){
 };
 var updateChanges = function(status){
 	redirect_to_leaveGame(status.end)
-	// ---------
 	showCards(status);
 	showTurn(status);
 	showHiddenTrumpCard(status.isTrumpSet);
@@ -36,8 +35,6 @@ var updateChanges = function(status){
 	showTrump(status.trump);
 	showBidStatus(status.bid);
 	showPoint(status.point);
-
-	// ---------
 	playCard();
 }
 var getStatus = function(){
@@ -47,7 +44,7 @@ var getStatus = function(){
 			updateChanges(status);
 			dealCard(status.isDealComplete);
 		});
-	},500);
+	},1000);
 }
 var onPageReady = function(){
 	revealTrump();

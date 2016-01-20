@@ -45,7 +45,7 @@ var showTrump = function(trump){
 var revealTrump = function(){
 	$('#trump').on('click', function(){
 		$.get('getTrump');
-		$('#trump').revealTrump('card hidden');
+		$('#trump').removeClass('card hidden');
 	});
 }
 var showHiddenTrumpCard = function(isTrumpSet){
