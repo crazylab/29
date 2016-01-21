@@ -150,7 +150,7 @@ body{
 .message {
     position: absolute;
     width: 550px;
-    bottom: 20px;
+    bottom: 40px;
     font-size: 30px;
     font-family: monospace;
     color: white;
