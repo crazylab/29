@@ -205,21 +205,30 @@ describe('Game', function(){
 
 	describe('getFinalBidStatus',function(){
 		var game = new Game(deck);
-		var player = {id : '123',
-						hand : {
-							Heart : [],
-							Spade : [],
-							Club : [],
-							Diamond : [],
-							},
-						hasPair : false
-		}
-		game.setBidWinner(16,player);
-		var bidStatus = game.getFinalBidStatus();
-		it('gets the highest bid value which has already fibed',function(){
-			expect(bidStatus).to.have.property('player').and.to.equal('123');
+		var p1 = new Player('raju');
+		var p2 = new Player('ramu');
+		var p3 = new Player('raka');
+		var p4 = new Player('bp');
+		game.team_1.players = [p1,p2];
+		game.team_2.players = [p3,p4];
+		game.distributionSequence = [p1, p3, p2, p4];
+		game.setBidWinner(16, p3);
+		it('gets the highest bidder according to the relation with requested player',function(){
+			var bidStatus = game.getFinalBidStatus('raju');
+			expect(bidStatus.player).to.equal('right');
+
+			bidStatus = game.getFinalBidStatus('ramu');
+			expect(bidStatus.player).to.equal('left');
+
+			bidStatus = game.getFinalBidStatus('raka');
+			expect(bidStatus.player).to.equal('you');
+
+			bidStatus = game.getFinalBidStatus('bp');
+			expect(bidStatus.player).to.equal('partner');
+
 		});
-		it('gets the bid value which has already fibed',function(){
+		it('gets the bid value which has already fixed',function(){
+			var bidStatus = game.getFinalBidStatus('raka');
 			expect(bidStatus.value).to.equal(16);
 		});
 	});
@@ -267,7 +276,7 @@ describe('Game', function(){
 
 		game.team_1.players = [player1,player2];
 		game.team_2.players = [player3,player4];
-
+		game.distributionSequence = [player1, player3, player2, player4];
 		it('gets the relationship from a player\'s view',function(){
 			var relation = game.getRelationship('ramu');
 			var expectedRelation = {
@@ -1047,7 +1056,7 @@ describe('Game', function(){
 				game.team_2.players = [player3,player4];
 			});
 
-			it('gives the turn to the next player for bidding when the leading bidder passes', function(){ 
+			it('gives the turn to the next player for bidding when the leading bidder passes', function(){
 				game.setDistributionSequence();
 				game.setBidderTurn();
 				game.giveTurnToAnotherForBidding();
@@ -1058,7 +1067,7 @@ describe('Game', function(){
 				expect(game.bid.turn.leading).to.be.equal('peter');
 
 			});
-			it('gives the turn to the next player for bidding when the lagging bidder passes', function(){ 
+			it('gives the turn to the next player for bidding when the lagging bidder passes', function(){
 				game.setDistributionSequence();
 				game.setBidderTurn();
 				game.bid.passed = ['peter'];
@@ -1075,7 +1084,7 @@ describe('Game', function(){
 
 			});
 
-			it('sets the leading\'s and lagging\'s turn undefined', function(){ 
+			it('sets the leading\'s and lagging\'s turn undefined', function(){
 				game.setDistributionSequence();
 				game.setBidderTurn();
 				game.bid.passed = ['peter','raju'];
@@ -1092,7 +1101,7 @@ describe('Game', function(){
 
 			});
 
-			it('sets the bid value to 16 if all the players pass without bidding', function(){ 
+			it('sets the bid value to 16 if all the players pass without bidding', function(){
 				game.setDistributionSequence();
 				game.setBidderTurn();
 				game.bid.passed = ['peter','raju'];
@@ -1170,7 +1179,7 @@ describe('Game', function(){
 			});
 
 		});
-		
+
 		describe('setBid',function(){
 			var game;
 			beforeEach(function(){
@@ -1222,7 +1231,7 @@ describe('Game', function(){
 				expect(game.bid.turn.leading).to.be.equal('peter');
 				expect(game.bid.turn.lagging).to.be.equal('raju');
 			});
-			
+
 			it('does nothing if the lagging player bids lesser value than the bid value',function(){
 				game.setDistributionSequence();
 				game.setBidderTurn();
@@ -1241,7 +1250,7 @@ describe('Game', function(){
 
 		});
 
-				
+
 	});
 
 	describe('setAllPlayersTurnFalse',function(){
@@ -1260,7 +1269,7 @@ describe('Game', function(){
 				expect(game.team_1.players[0].turn).to.be.false;
 		});
 	});
-			
+
 	describe('handleCompletionOfRound',function(){
 		it('it starts a new game when eight rounds are completed',function(){
 			var game = new Game(deck);
@@ -1270,7 +1279,7 @@ describe('Game', function(){
 			var player4 = new Player('dhamu');
 			game.team_1.players = [player1,player2];
 			game.team_2.players = [player3,player4];
-			
+
 			game.isGameFinished = sinon.stub().returns(true);
 			game.startNewRound = sinon.stub().returns(true);
 
@@ -1305,5 +1314,21 @@ describe('Game', function(){
 			expect(playedCards[2].relation).to.equal('you');
 			expect(playedCards[3].relation).to.equal('right');
 		});
+	});
+	describe('whoAreYou', function(){
+	    it('gives the relation with other player', function(){
+	        var game = new Game(deck);
+			var p1 = new Player('raju');
+			var p2 = new Player('ramu');
+			var p3 = new Player('raka');
+			var p4 = new Player('rahul');
+			game.team_1.players = [p1,p2];
+			game.team_2.players = [p3,p4];
+			game.distributionSequence = [p1, p3, p2, p4];
+			expect(game.whoAreYou('ramu','ramu')).to.equal('you');
+			expect(game.whoAreYou('raju','ramu')).to.equal('partner');
+			expect(game.whoAreYou('raka','ramu')).to.equal('left');
+			expect(game.whoAreYou('rahul','ramu')).to.equal('right');
+	    });
 	});
 });
