@@ -35,7 +35,7 @@ var updateChanges = function(status){
 	showTrump(status.trump);
 	showBidStatus(status.bid);
 	showPoint(status.point);
-	playCard();
+	playCard(status.me.turn);
 }
 var getStatus = function(){
 	setInterval(function(){

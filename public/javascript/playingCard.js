@@ -5,10 +5,24 @@ var showTurn = function(status){
 	$('#left').toggleClass('turn_on', status.opponent_2.turn);
 }
 
-var playCard = function(){
+var showMessage = function(message){
+	$('.message').html(message);
+	$('.message').fadeOut(3000, function(){
+		$('.message').html('').css('display', 'inline');
+	});
+}
+
+var playCard = function(turn){
 	$('#you > .hand > div').on('click',function(){
+		if(!turn){
+			showMessage('Wait for your turn to play');
+			return;
+		}
 		var id = $(this).attr('id');
-		$.post("throwCard", {"cardID":id});
+		$.post("throwCard", {"cardID": id}).error(function(err){
+			if(err.statusCode().status == 406)
+				showMessage('Please play a valid card');
+		});
 	});
 }
 
