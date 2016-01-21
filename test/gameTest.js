@@ -265,6 +265,38 @@ describe('Game', function(){
 								{card:{ id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }}];
 			expect(game.isValidCardToThrow('C8',game.team_1.players[0].hand)).to.be.true;
 		});
+		it('doesn\'t allow a player to play any suit card rathar than trump suit card, if he revel trump suit and he has trump suit in hand in that round',function(){
+			var game = new Game(deck);
+			var player1 = new Player('ramu');
+			var player2 = new Player('raju');
+			var player3 = new Player('peter');
+			var player4 = new Player('dhamu');
+
+			game.team_1.players = [player1,player2];
+			game.team_2.players = [player3,player4];
+			game.trump = {
+				suit : 'D2',
+				open : true
+			};
+			game.playedCards = [{player:'ramu',
+							card:{ id:'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 },
+							trumpShown: false
+							},
+							{player:'raka',
+							card:{ id:'S10', name: '10', suit: 'Spade', point: 1, rank: 4 },
+							trumpShown: false
+							}];
+			var hand = [
+								{ id: 'H10', name: '10', suit: 'Heart', point: 1, rank: 4 },
+		  						{ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 },
+								{ id: 'D8', name: '8', suit: 'Diamond', point: 0, rank: 7 },
+		 						{ id: 'C7', name: '7', suit: 'Club', point: 0, rank: 8 }
+		 				];
+			expect(game.isValidCardToThrow('S9',hand)).to.be.false;
+			expect(game.isValidCardToThrow('H10',hand)).to.be.false;
+			expect(game.isValidCardToThrow('D8',hand)).to.be.true;
+
+		})
 	});
 
 	describe('getRelationship',function(){
