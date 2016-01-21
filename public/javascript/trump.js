@@ -28,7 +28,7 @@ var showTrumpSelectionBox = function(isBidWinner){
 		showTrumpOptions();
 		window.location.href = '#trump_options';
 	}
-}
+};
 var showTrump = function(trump){
 	if(trump){
 		var cards = {
@@ -44,11 +44,16 @@ var showTrump = function(trump){
 };
 var revealTrump = function(){
 	$('#trump').on('click', function(){
-		$.get('getTrump');
-		$('#trump').removeClass('card hidden');
+		$.get('getTrump', function(){
+			$('#trump').removeClass('card hidden');
+		}).error(function(err) {
+			if(err.statusCode().status == 406) {
+				showMessage('You are not allowed to see the trump suit');
+			};
+		});
 	});
-}
+};
 var showHiddenTrumpCard = function(isTrumpSet){
 	if(isTrumpSet)
 	$('#trump').addClass('card hidden');
-}
+};

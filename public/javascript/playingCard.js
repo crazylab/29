@@ -5,13 +5,6 @@ var showTurn = function(status){
 	$('#left').toggleClass('turn_on', status.opponent_2.turn);
 }
 
-var showMessage = function(message){
-	$('.message').html(message);
-	$('.message').fadeOut(3000, function(){
-		$('.message').html('').css('display', 'inline');
-	});
-}
-
 var playCard = function(turn){
 	$('#you > .hand > div').on('click',function(){
 		if(!turn){

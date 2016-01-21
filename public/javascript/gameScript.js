@@ -1,3 +1,10 @@
+var showMessage = function(message){
+	$('.message').html(message);
+	$('.message').fadeOut(3000, function(){
+		$('.message').html('').css('display', 'inline');
+	});
+}
+
 var showScore = function(score){
 	$('#your_score').html(score.myScore);
 	$('#opponent_score').html(score.opponentScore);
