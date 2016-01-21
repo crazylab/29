@@ -829,6 +829,7 @@ describe('Game', function(){
 		var player2 = new Player('raju');
 		var player3 = new Player('peter');
 		var player4 = new Player('dhamu');
+		game.trump.open = true;
 		game.team_1.players = [player1,player2];
 		game.team_2.players = [player3,player4];
 		game.team_1.wonCards = [{player:'peter',
