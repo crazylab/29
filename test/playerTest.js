@@ -49,13 +49,13 @@ describe('Player',function(){
 			player.checkPair(trumpSuit);
 			expect(player.hasPair).to.be.true;
 		});
-		it('keeps player\'s hasPair property unchanged when the player has the pair but not of trumpSuit', function(){ 
+		it('keeps player\'s hasPair property unchanged when the player has the pair but not of trumpSuit', function(){
 			var trumpSuit = 'Diamond';
 			player.hasPair = false;
 			player.checkPair(trumpSuit);
 			expect(player.hasPair).to.be.false;
 		});
-		it('keeps player\'s hasPair property unchanged when the player doesn\'t have the pair', function(){ 
+		it('keeps player\'s hasPair property unchanged when the player doesn\'t have the pair', function(){
 			var trumpSuit = 'Diamond';
 			player.hand = [{id:'SJ', name:'J', suit:'Spade'},
 				{id:'S7', name:'7', suit:'Spade'},
@@ -85,7 +85,7 @@ describe('Player',function(){
 				{id:'S7', name:'7', suit:'Spade'},
 				{id:'C9', name:'9', suit:'Club'},
 				{id:'SK', name:'K', suit:'Spade'}];
-			
+
 			var expectedResult = ['SJ', 'S7', 'C9', 'SK'];
 			var actualResult = player.getCardID();
 			assert.deepEqual(expectedResult,actualResult);
@@ -98,7 +98,7 @@ describe('Player',function(){
 			player.hand = [{id:'SJ', name:'J', suit:'Spade'},
 				{id:'S7', name:'7', suit:'Spade'},
 				{id:'C9', name:'9', suit:'Club'}];
-			
+
 			var expectedResult = 3;
 			var actualResult = player.getCardsCount();
 			assert.deepEqual(expectedResult,actualResult);
@@ -123,7 +123,7 @@ describe('Player',function(){
 				{player:'rohan',
 				card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
 				trumpShown: false
-			}];		
+			}];
 			var expectedCard = {player:'peter',
 				card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
 				trumpShown: false
@@ -131,5 +131,55 @@ describe('Player',function(){
 			var actualCard = player.getMyCard(playedCards);
 			assert.deepEqual(expectedCard,actualCard);
 		});
+	});
+
+	describe('arrangeCards', function(){
+	    it('arrange cards according to suits', function(){
+			var player = new Player();
+			player.hand = [
+				{suit:'Spade'},
+				{suit:'Spade'},
+				{suit:'Club'},
+				{suit:'Spade'},
+				{suit:'Club'},
+				{suit:'Heart'},
+				{suit:'Diamond'}
+			];
+			var expectedHand = [
+				{suit:'Spade'},
+				{suit:'Spade'},
+				{suit:'Spade'},
+				{suit:'Heart'},
+				{suit:'Club'},
+				{suit:'Club'},
+				{suit:'Diamond'}
+			];
+			player.arrangeCards();
+			expect(player.hand).to.deep.equal(expectedHand);
+	    });
+
+		it('arrange cards according to priority in a particular suit', function(){
+			var player = new Player();
+			player.hand = [
+				{rank: 3, suit:'Spade'},
+				{rank: 1, suit:'Spade'},
+				{rank: 6, suit:'Club'},
+				{rank: 2, suit:'Spade'},
+				{rank: 2, suit:'Club'},
+				{rank: 5, suit:'Heart'},
+				{rank: 3, suit:'Diamond'}
+			];
+			var expectedHand = [
+				{rank: 1, suit:'Spade'},
+				{rank: 2, suit:'Spade'},
+				{rank: 3, suit:'Spade'},
+				{rank: 5, suit:'Heart'},
+				{rank: 2, suit:'Club'},
+				{rank: 6, suit:'Club'},
+				{rank: 3, suit:'Diamond'}
+			];
+			player.arrangeCards();
+			expect(player.hand).to.deep.equal(expectedHand);
+	    });
 	});
 });

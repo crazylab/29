@@ -8,7 +8,11 @@ var sinon = require('sinon');
 
 var deck = {
 	getCards : sinon.stub.returns([1,2,3]),
-	drawFourCards : sinon.stub().returns([{id: 'A'},{id: 'B'},{id: 'C'},{id: 'D'}]),
+	drawFourCards : sinon.stub().returns([
+		{id: 'A', rank: 3, suit: 'Heart'},
+		{id: 'B', rank: 3, suit: 'Heart'},
+		{id: 'C', rank: 3, suit: 'Heart'},
+		{id: 'D', rank: 3, suit: 'Heart'}]),
 	recollectCards : function(){},
 	cardsCount : function(){}
 }
