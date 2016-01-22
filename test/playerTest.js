@@ -134,30 +134,6 @@ describe('Player',function(){
 	});
 
 	describe('arrangeCards', function(){
-	    it('arrange cards according to suits', function(){
-			var player = new Player();
-			player.hand = [
-				{suit:'Spade'},
-				{suit:'Spade'},
-				{suit:'Club'},
-				{suit:'Spade'},
-				{suit:'Club'},
-				{suit:'Heart'},
-				{suit:'Diamond'}
-			];
-			var expectedHand = [
-				{suit:'Spade'},
-				{suit:'Spade'},
-				{suit:'Spade'},
-				{suit:'Heart'},
-				{suit:'Club'},
-				{suit:'Club'},
-				{suit:'Diamond'}
-			];
-			player.arrangeCards();
-			expect(player.hand).to.deep.equal(expectedHand);
-	    });
-
 		it('arrange cards according to priority in a particular suit', function(){
 			var player = new Player();
 			player.hand = [
