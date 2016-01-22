@@ -1,3 +1,10 @@
+var showMessage = function(message){
+	$('.message').html(message);
+	$('.message').fadeOut(3000, function(){
+		$('.message').html('').css('display', 'inline');
+	});
+}
+
 var showScore = function(score){
 	$('#your_score').html(score.myScore);
 	$('#opponent_score').html(score.opponentScore);
@@ -22,6 +29,16 @@ var dealCard = function(dealStatus){
 			$.post('deal');
 		});
 };
+
+var showWhoHasPair = function(player){
+	if(!player) return;
+	if(player=='you'){
+		showMessage('excuse me, '+player+' have royal pair');
+		return;
+	}
+	showMessage('excuse me, '+player+' has royal pair');
+}
+
 var updateChanges = function(status){
 	redirect_to_leaveGame(status.end)
 	showCards(status);
@@ -36,6 +53,7 @@ var updateChanges = function(status){
 	showBidStatus(status.bid);
 	showPoint(status.point);
 	playCard(status.me.turn);
+	showWhoHasPair(status.pair)
 }
 var getStatus = function(){
 	setInterval(function(){
