@@ -115,7 +115,7 @@ describe('controller', function(){
 		});
 		it('removes a card when throwing conditions are satisfied',function(done){
 			game = {
-				getPlayer : sinon.stub().returns({}),
+				getPlayer : sinon.stub().returns({turn: true, removeCard: sinon.spy}),
 				isValidCardToThrow : sinon.stub().returns(true),
 				playedCards : [],
 				trump : sinon.stub().returns(true),
@@ -128,7 +128,22 @@ describe('controller', function(){
 				.set('Cookie', 'PK')
 				.send('C7')
 				.expect(200,done);
+		});
+		it('does not removes a card when throwing conditions are satisfied',function(done){
+			game = {
+				getPlayer : sinon.stub().returns({turn: false, removeCard: sinon.spy}),
+				isValidCardToThrow : sinon.stub().returns(true),
+				playedCards : [],
+				trump : sinon.stub().returns(true),
+				nextTurn : function(){}
+			};
+			var controller = gameController(game);
 
+			request(controller)
+				.post('/throwCard')
+				.set('Cookie', 'PK')
+				.send('C7')
+				.expect(406,done);
 		});
 
 	});
