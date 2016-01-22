@@ -57,3 +57,11 @@ var showHiddenTrumpCard = function(isTrumpSet){
 	if(isTrumpSet)
 	$('#trump').addClass('card hidden');
 };
+
+var showWhoHasPair = function(playerName){
+	if(!playerName) return;
+	if(playerName == 'you')
+		showMessage('You have royal pair');
+	else
+		showMessage(playerName.toUpperCase(),'has royal pair');
+};

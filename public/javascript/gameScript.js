@@ -30,15 +30,6 @@ var dealCard = function(dealStatus){
 		});
 };
 
-var showWhoHasPair = function(player){
-	if(!player) return;
-	if(player=='you'){
-		showMessage('excuse me, '+player+' have royal pair');
-		return;
-	}
-	showMessage('excuse me, '+player+' has royal pair');
-}
-
 var updateChanges = function(status){
 	redirect_to_leaveGame(status.end)
 	showCards(status);
