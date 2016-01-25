@@ -62,7 +62,7 @@ var onPageReady = function(){
 	menu();
 	revealTrump();
 	handleLeaveRequest();
-	var name = parseCookie(document.cookie).name;
+	var name = parseCookie().name;
 	$('#you > .name').html(name.toUpperCase());
 	$.get('status',function(status){
 		var status = JSON.parse(status);
