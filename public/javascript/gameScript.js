@@ -55,8 +55,13 @@ var getStatus = function(){
 		});
 	},1000);
 }
+var menu = function(){
+	$('#leave').click(on_closing_tab);
+}
 var onPageReady = function(){
+	menu();
 	revealTrump();
+	handleLeaveRequest();
 	var name = parseCookie(document.cookie).name;
 	$('#you > .name').html(name.toUpperCase());
 	$.get('status',function(status){

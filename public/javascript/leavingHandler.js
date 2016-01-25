@@ -5,3 +5,6 @@ var redirect_to_leaveGame = function(endStatus){
 	if(endStatus)
 		window.location.assign('leave_game.html');
 };
+var handleLeaveRequest = function(){
+	$('#leave').click(on_closing_tab);
+};

@@ -3,7 +3,7 @@ body{
 }
 
 .game{
-    position: fixed;
+    position: absolute;;
     width: 1660px;
     height: 850px;
 }
@@ -54,6 +54,16 @@ body{
 .points {
     right: 240px;
     bottom: 0px;
+}
+.menu {
+    left: 240px;
+    bottom: 0px;
+}
+#help:hover {
+    opacity: 0.5;
+}
+#help:leave {
+    opacity: 0.5;
 }
 .odd {
     display: block;
