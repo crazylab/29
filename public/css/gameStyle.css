@@ -2,6 +2,15 @@ body{
     background-color: #fdfdfd;
 }
 
+.action{
+    text-decoration: none;
+    color : #000;
+}
+
+.action:hover{
+    color : grey;
+}
+
 .game{
     position: absolute;;
     width: 1660px;
@@ -59,12 +68,7 @@ body{
     left: 240px;
     bottom: 0px;
 }
-#help:hover {
-    opacity: 0.5;
-}
-#help:leave {
-    opacity: 0.5;
-}
+
 .odd {
     display: block;
     height: 29.5px;

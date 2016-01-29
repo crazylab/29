@@ -13,3 +13,14 @@
     top: 48%;
     left: 38%;
 }
+
+.help-data{
+    font-style: normal;
+    font-family: sans-serif;
+}
+
+.heading{
+    font-weight:500;
+    text-align: left;
+    text-decoration: underline;
+}
