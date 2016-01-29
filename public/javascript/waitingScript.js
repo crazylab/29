@@ -1,6 +1,6 @@
 var showPlayerCount = function(){
 	setInterval(function(){
-		$.get('waiting',function(count){
+		$.get('playerCount',function(count){
 			$('#waiting').html('Waiting for '+count+' other players...')
 			if(count==0)
 				$(location).attr('href','gamePage.html');
