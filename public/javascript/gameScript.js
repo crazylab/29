@@ -23,9 +23,9 @@ var handleStarting = function(isDealComplete){
 };
 var dealCard = function(dealStatus){
 	if(dealStatus)
-		$('#deal').css("visibility","hidden");
+		$('.deal').css("visibility","hidden");
 	else
-		$('#deal').one('click', function(){
+		$('.deal').click(function(){
 			$.post('deal');
 		});
 };
