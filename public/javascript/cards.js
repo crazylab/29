@@ -9,7 +9,7 @@ var getShownCard = function(card, addedClass){
 	}
 	return '<div id="'+card.id+'" class="card '+cardColor +' '+ addedClass+'">'+
 						'<div align="left">'+card.name+'</div>'+
-						'<div align="center" style="padding: 15px">'+suits[card.suit]+'</div>'+
+						'<div class="suit">'+suits[card.suit]+'</div>'+
 						'<div align="right">'+card.name+'</div>'+
 					'</div>';
 }
