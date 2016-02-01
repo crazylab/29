@@ -2,11 +2,11 @@
 	display: inline-block;
 	text-align: center;
 	font-family: monospace;
-	font-size: 20px;
+	font-size: 35px;
 	border-color: black;
 	border-width: 1px;
-	height: 100px;
-	width: 70px;
+	height: 150px;
+	width: 105px;
 	border-style: solid;
 	border-radius: 10px;
 	padding: 1px;
@@ -17,6 +17,15 @@
 	-moz-box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.75);
 	box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.75);
 }
+
+#you > .hand > .card:hover {
+	height: 165px;
+	width: 115.5px;
+	box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
+    -webkit-transform: translateY(-8px);
+    transform: translateY(-8px);
+}
+
 .red{
 	color: red;
 }
@@ -33,10 +42,6 @@
 .hand {
 	width: auto;
 	height: auto;
-}
-#you > .hand > .card:hover {
-	height: 110px;
-	width: 77px;
 }
 
 #played_cards {
