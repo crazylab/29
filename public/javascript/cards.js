@@ -21,34 +21,19 @@ var showMyHand = function (cards){
 	$('#you > .hand').html(hand);
 };
 
-var showPartnerHand = function(count){
-	var cards = Array.apply(undefined, Array(count));
-	var hand = cards.map(function(){
-		return '<div class="card hidden"></div>';
-	}).join('');
-	$('#partner > .hand').html(hand);
+var renderHand = function(count, distance){
+	var htmlTemplate = '<div class="card hidden" style="margin-left: {{distance}}px;"></div>';
+	var hand = '';
+	for(var index = 0; index < count; index++){
+		var d = index == 0 ? 0 : distance;
+		hand += htmlTemplate.replace(/{{distance}}/g, d);
+	}
+	return hand;
 }
 
-var showOpponentHand = function(leftCount, rightCount){
-	var cards = Array.apply(undefined, Array(rightCount));
-	var topDistance = -25;
-	var htmlTemplate = '<div class="card hidden opponent" style="position: absolute; {{side}}: 35px; top: {{distance}}px;"></div>';
-	var hand = cards.map(function(){
-		topDistance += 45;
-		return htmlTemplate.replace(/{{side}}/g, 'right').replace(/{{distance}}/g, topDistance);
-	}).join('');
-	$('#right > .hand').html(hand);
-
-	cards = Array.apply(undefined, Array(leftCount));
-	topDistance = -25;
-	var hand = cards.map(function(){
-		topDistance += 45;
-		return htmlTemplate.replace(/{{side}}/g, 'left').replace(/{{distance}}/g, topDistance);
-	}).join('');
-	$('#left > .hand').html(hand);
-}
 var showCards = function(status){
 	showMyHand(status.me.hand);
-	showPartnerHand(status.partner.hand);
-	showOpponentHand(status.opponent_1.hand, status.opponent_2.hand);
+	$('#partner > .hand').html(renderHand(status.partner.hand, -50));
+	$('#right > .hand').html(renderHand(status.opponent_1.hand, -80));
+	$('#left > .hand').html(renderHand(status.opponent_2.hand, -80));
 }

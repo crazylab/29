@@ -22,7 +22,6 @@ var handleStarting = function(isDealComplete){
 	}
 };
 var dealCard = function(dealStatus){
-	console.log(dealStatus)
 	if(dealStatus)
 		$('.deal').css("visibility","hidden");
 	else{

@@ -49,32 +49,32 @@
 
 #played_cards {
     position: absolute;
-    top: 115px;
-    left: 190px;
-    width: 180px;
-    height: 180px;
+    top: 50px;
+    left: 170px;
+    width: 300px;
+    height: 300px;
 }
 
 .top_card {
     position: absolute;
     top: 2px;
-    left: 48px;
+    left: 90px;
 }
 
 .bottom_card {
     position: absolute;
     bottom: 2px;
-    left: 58px;
+    left: 91px;
 }
 
 .left_card {
     position: absolute;
-    top: 32px;
-    left: 0px;
+    top: 75px;
+    left: 5px;
 }
 
 .right_card {
     position: absolute;
-    top: 40px;
-    right: 0px;
+    top: 75px;
+    right: 5px;
 }

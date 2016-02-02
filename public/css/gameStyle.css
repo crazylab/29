@@ -12,17 +12,18 @@ body{
 }
 
 .game{
-    position: absolute;;
-    width: 1660px;
-    height: 850px;
+    position: absolute;
+    width: 1600px;
+    height: 860px;
 }
 
 .table{
     position: absolute;
-    top: 205px;
-    left: 550px;
-    width: 550px;
-    height: 410px;
+    top: 210px;
+    left: 500px;
+
+    width: 600px;
+    height: 380px;
     background-color: #45a357;
     border-radius: 100px 100px 100px 100px;
     -moz-border-radius: 100px 100px 100px 100px;
@@ -61,12 +62,12 @@ body{
     top: 0px;
 }
 .points {
-    right: 240px;
-    bottom: 0px;
+    right: 80px;
+    bottom: 20px;
 }
 .menu {
-    left: 240px;
-    bottom: 0px;
+    left: 80px;
+    bottom: 20px;
 }
 
 .odd {
@@ -102,36 +103,43 @@ body{
     -moz-border-radius: 30px 30px 30px 30px;
     -webkit-border-radius: 30px 30px 30px 30px;
     border: 2px solid #138135;
-    padding-top: 15px;
-    padding-left: 10px;
 }
 .top {
-    width: 625px;
+    width: 600px;
     height: 160px;
     top: 0px;
-    left: 517.5px;
+    left: 500px;
+    padding-top: 5px;
+    padding-bottom: 15px;
 }
 
 .bottom {
-    width: 625px;
-    height: 160px;
+    width: 1000px;
+    height: 200px;
     bottom: 0px;
-    left: 517.5px;
+    left: 300px;
+    padding-top: 5px;
+    padding-bottom: 10px;
 }
 
 .left {
-    width: 175px;
-    height: 460px;
-    top: 195px;
-    left: 250px;
+    width: 400px;
+    height: 180px;
+    top: 295px;
+    left: 140px;
+    padding-top: 15px;
+    padding-bottom: 5px;
 }
 
 .right {
-    width: 175px;
-    height: 460px;
-    top: 195px;
-    right: 250px;
+    width: 400px;
+    height: 180px;
+    top: 295px;
+    right: 140px;
+    padding-top: 15px;
+    padding-bottom: 5px;
 }
+
 .opponent{
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
@@ -142,18 +150,24 @@ body{
 .hand {
     display: table;
     margin: 0 auto;
+    margin-top: 1px;
+    margin-bottom: 1px;
 }
 .name {
     font-family: monospace;
     font-size: 30px;
-    margin-left: 15px;
-    margin-right: 15px;
+    display: block;
 }
-
+.float-name {
+    position: absolute;
+    top: 75px;
+    left: 240px;
+}
 .turn_on {
-    -webkit-box-shadow: 0px 0px 50px 25px rgba(69,163,87,1);
-    -moz-box-shadow: 0px 0px 50px 25px rgba(69,163,87,1);
-    box-shadow: 0px 0px 50px 25px rgba(69,163,87,1);
+    -webkit-box-shadow: 0px 0px 45px 20px rgba(69,163,87,1);
+    -moz-box-shadow: 0px 0px 45px 20px rgba(69,163,87,1);
+    box-shadow: 0px 0px 45px 20px rgba(69,163,87,1);
+
 }
 
 .center {
@@ -212,4 +226,13 @@ body{
     box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
     -webkit-transform: translateY(-8px);
     transform: translateY(-8px);
+}
+
+.opponent-name {
+    left: 150px;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
 }
