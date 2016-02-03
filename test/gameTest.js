@@ -901,6 +901,12 @@ describe('Game', function(){
 			game.updateScore();
 			expect(game.team_1.score).to.equal(1);
 		});
+		it('if bidwinninig team win all turn',function(){
+			game.bid = {value : 17, player : 'raju'};
+			game.isNoPit = sinon.stub().returns(true);
+			game.updateScore();
+			expect(game.team_1.score).to.equal(3);
+		});
 	});
 
 	describe('manipulateBidValueForPair',function() {
@@ -1390,7 +1396,7 @@ describe('Game', function(){
 			game.team_2.point = 6;
 			expect(game.isGameOver()).to.be.true;
 		});
-		it('returns false if any team\'s point less than 6 greter than -6', function(){ 
+		it('returns false if any team\'s point less than 6 greter than -6', function(){
 			game.team_1.point = 5;
 			game.team_2.point = -4;
 			expect(game.isGameOver()).to.be.false;
@@ -1432,7 +1438,7 @@ describe('Game', function(){
 			expect(game.getRoyalPairStatus('peter')).to.be.equal('you');
 		});
 	});
-	
+
 	describe('whichTeamPlayerHasPair',function(){
 		it('gives player in team who has pair',function(){
 			game = new Game(deck);
@@ -1466,7 +1472,7 @@ describe('Game', function(){
 			var result = game.whichTeamPlayerHasPair();
 			expect(result.bidWinningTeam.id).to.be.equal('peter');
 			expect(result.opponentTeam).to.be.undefined;
-	
+
 		});
 	});
 });
