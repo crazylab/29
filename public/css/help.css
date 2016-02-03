@@ -1,0 +1,55 @@
+.help-data{
+		margin-left: 220px;
+    font-style: normal;
+    font-family: sans-serif;
+}
+
+.headline{
+    font-weight:500;
+		margin: 35px;
+		margin-bottom: 10px;
+}
+
+ul{
+	font-family: sans-serif;
+	font-style: normal;
+	font-size: 20px;
+	font-weight: lighter;
+	margin: 25px;
+}
+
+ol{
+	font-family: sans-serif;
+	font-style: normal;
+	font-size: 20px;
+	font-weight: lighter;
+	margin: 25px;
+}
+
+li{
+	margin: 5px;
+}
+
+.help_desk{
+	width: 1200px;
+}
+
+.contact-us{
+	position: absolute;
+	right: 250px;
+	margin: 25px;
+	font-family: sans-serif;
+	font-size: 20px;
+}
+
+.about{
+	position: absolute;
+	left: 250px;
+	margin: 25px;
+	font-size: 20px;
+}
+
+a{
+	color: blue;
+	text-decoration: none;
+}

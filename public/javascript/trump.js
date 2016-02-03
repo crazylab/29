@@ -15,6 +15,8 @@ var showTrumpOptions = function(){
 		var trumpSuites = '';
 		_.forIn(cards, function(card, id){
 			trumpSuites += getShownCard(card);
+			if(id == 'C2')
+				trumpSuites += '<br>'
 		});
 		$('#trump_options > span').html(trumpSuites);
 
@@ -38,7 +40,6 @@ var showTrump = function(trump){
 			S2 : {id: 'S2', suit: 'Spade', name: '2'}
 		};
 		html = getShownCard(cards[trump]);
-		$("#trump").unbind();
 		$('#trump').html(html);
 	}
 };
@@ -46,9 +47,10 @@ var revealTrump = function(){
 	$('#trump').on('click', function(){
 		$.get('getTrump', function(){
 			$('#trump').removeClass('card hidden');
+			$('#trump').html('');
 		}).error(function(err) {
 			if(err.statusCode().status == 406) {
-				showMessage('You are not allowed to see the trump suit');
+				showMessage('You are not allowed to see the trump suit now');
 			};
 		});
 	});
@@ -63,5 +65,5 @@ var showWhoHasPair = function(playerName){
 	if(playerName == 'you')
 		showMessage('You have royal pair');
 	else
-		showMessage(playerName.toUpperCase(),'has royal pair');
+		showMessage(playerName.toUpperCase() + ' has royal pair');
 };

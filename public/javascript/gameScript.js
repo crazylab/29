@@ -22,12 +22,17 @@ var handleStarting = function(isDealComplete){
 	}
 };
 var dealCard = function(dealStatus){
-	if(dealStatus)
-		$('#deal').css("visibility","hidden");
-	else
-		$('#deal').one('click', function(){
+	if(dealStatus){
+		$('.deal').hide();
+		$('.deck').hide();
+	}
+	else{
+		$('.deck').show();
+		$('.deal').show();
+		$('.deal').click(function(){
 			$.post('deal');
 		});
+	}
 };
 
 var updateChanges = function(status){

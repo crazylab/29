@@ -901,6 +901,12 @@ describe('Game', function(){
 			game.updateScore();
 			expect(game.team_1.score).to.equal(1);
 		});
+		it('if bidwinninig team win all turn',function(){
+			game.bid = {value : 17, player : 'raju'};
+			game.isNoPit = sinon.stub().returns(true);
+			game.updateScore();
+			expect(game.team_1.score).to.equal(3);
+		});
 	});
 
 	describe('manipulateBidValueForPair',function() {
@@ -1367,5 +1373,106 @@ describe('Game', function(){
 			expect(game.whoAreYou('raka','ramu')).to.equal('left');
 			expect(game.whoAreYou('rahul','ramu')).to.equal('right');
 	    });
+	});
+	describe('isGameOver',function(){
+		var game;
+		beforeEach(function(){
+			game = new Game(deck);
+			var player1 = new Player('ramu');
+			var player2 = new Player('raju');
+			var player3 = new Player('peter');
+			var player4 = new Player('dhamu');
+			game.team_1.players = [player1,player2];
+			game.team_2.players = [player3,player4];
+		});
+		it('returns true if any team\'s point is 6 or -6',function(){
+			game.team_1.point = 6;
+			expect(game.isGameOver()).to.be.true;
+			game.team_1.point = -6;
+			expect(game.isGameOver()).to.be.true;
+			game.team_1.point = -4;
+			game.team_2.point = -6;
+			expect(game.isGameOver()).to.be.true;
+			game.team_2.point = 6;
+			expect(game.isGameOver()).to.be.true;
+		});
+		it('returns false if any team\'s point less than 6 greter than -6', function(){
+			game.team_1.point = 5;
+			game.team_2.point = -4;
+			expect(game.isGameOver()).to.be.false;
+		});
+	});
+	describe('getRoyalPairStatus',function(){
+		var game;
+		beforeEach(function(){
+			game = new Game(deck);
+			var player1 = new Player('ramu');
+			var player2 = new Player('raju');
+			var player3 = new Player('peter');
+			var player4 = new Player('dhamu');
+
+			player1.hand = [{id: 'H7', name: '7', suit: 'Heart', point: 0, rank: 8 },
+							{ id: 'DK', name: 'K', suit: 'Diamond', point: 0, rank: 5 },
+							{ id: 'DJ', name: 'J', suit: 'Diamond', point: 3, rank: 1 },
+							{ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 } ];
+			player2.hand = [{id: 'S7', name: '7', suit: 'Spade', point: 0, rank: 8 },
+							{ id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 },
+							{ id: 'CJ', name: 'J', suit: 'Club', point: 3, rank: 1 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 } ];
+			player3.hand = [{id: 'HK', name: 'K', suit: 'Heart', point: 0, rank: 5 },
+							{ id: 'D10', name: '10', suit: 'Diamond', point: 1, rank: 4 },
+							{ id: 'HQ', name: 'Q', suit: 'Heart', point: 0, rank: 6 },
+							{ id: 'D7', name: '7', suit: 'Diamond', point: 0, rank: 8 } ];
+			player4.hand = [{id: 'SK', name: 'K', suit: 'Spade', point: 0, rank: 5 },
+							{ id: 'SQ', name: 'Q', suit: 'Spade', point: 0, rank: 6 },
+							{ id: 'SJ', name: 'J', suit: 'Spade', point: 3, rank: 1 },
+							{ id: 'SA', name: 'A', suit: 'Spade', point: 1, rank: 3 } ];
+
+			game.team_1.players = [player1,player2];
+			game.team_2.players = [player3,player4];
+			game.trump = {suit: 'Heart', open: true};
+		});
+		it('give the relational name if anyOne has pair',function(){
+			game.isJustNowTrumpRevel = sinon.stub().returns(true);
+			expect(game.getRoyalPairStatus('dhamu')).to.be.equal('partner');
+			expect(game.getRoyalPairStatus('peter')).to.be.equal('you');
+		});
+	});
+
+	describe('whichTeamPlayerHasPair',function(){
+		it('gives player in team who has pair',function(){
+			game = new Game(deck);
+			var player1 = new Player('ramu');
+			var player2 = new Player('raju');
+			var player3 = new Player('peter');
+			var player4 = new Player('dhamu');
+
+			player1.hand = [{id: 'H7', name: '7', suit: 'Heart', point: 0, rank: 8 },
+							{ id: 'DK', name: 'K', suit: 'Diamond', point: 0, rank: 5 },
+							{ id: 'DJ', name: 'J', suit: 'Diamond', point: 3, rank: 1 },
+							{ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 } ];
+			player2.hand = [{id: 'S7', name: '7', suit: 'Spade', point: 0, rank: 8 },
+							{ id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 },
+							{ id: 'CJ', name: 'J', suit: 'Club', point: 3, rank: 1 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 } ];
+			player3.hand = [{id: 'HK', name: 'K', suit: 'Heart', point: 0, rank: 5 },
+							{ id: 'D10', name: '10', suit: 'Diamond', point: 1, rank: 4 },
+							{ id: 'HQ', name: 'Q', suit: 'Heart', point: 0, rank: 6 },
+							{ id: 'D7', name: '7', suit: 'Diamond', point: 0, rank: 8 } ];
+			player4.hand = [{id: 'SK', name: 'K', suit: 'Spade', point: 0, rank: 5 },
+							{ id: 'SQ', name: 'Q', suit: 'Spade', point: 0, rank: 6 },
+							{ id: 'SJ', name: 'J', suit: 'Spade', point: 3, rank: 1 },
+							{ id: 'SA', name: 'A', suit: 'Spade', point: 1, rank: 3 } ];
+
+			game.team_1.players = [player1,player2];
+			game.team_2.players = [player3,player4];
+			game.trump = {suit: 'Heart', open: true};
+			game.bid={value : 19, player : 'dhamu'};
+			game.pairChecking();
+			var result = game.whichTeamPlayerHasPair();
+			expect(result.bidWinningTeam.id).to.be.equal('peter');
+			expect(result.opponentTeam).to.be.undefined;
+
+		});
 	});
 });

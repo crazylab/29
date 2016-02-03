@@ -25,7 +25,7 @@ describe('controller', function(){
 				playerCount : sinon.stub().returns(0),
 				addPlayer : sinon.stub().returns(true)
 			};
-			gameStore.games[0] = game;
+			gameStore['32'] = game;
 			var controller = gameController();
 			request(controller)
 				.post('/waiting.html')
@@ -43,7 +43,7 @@ describe('controller', function(){
 				setTrumpSuit : sinon.spy(),
 				setRoundSequence : sinon.spy()
 			};
-			gameStore.games[0] = game;
+			gameStore['32'] = game;
 			var controller = gameController();
 
 			request(controller)
@@ -60,7 +60,7 @@ describe('controller', function(){
 				getId : sinon.stub().returns(32),
 				playerCount : sinon.stub().returns(2)
 			};
-			gameStore.games[0] = game;
+			gameStore['32'] = game;
 			var controller = gameController();
 
 			request(controller)
@@ -87,7 +87,7 @@ describe('controller', function(){
 		};
 		it('removes a card from the player\'s hand',function(done){
 			game.isValidCardToThrow = sinon.stub().returns(true);
-			gameStore.games[0] = game;
+			gameStore['32'] = game;
 			var controller = gameController();
 
 			request(controller)
@@ -98,7 +98,7 @@ describe('controller', function(){
 		});
 		it('removes a card when throwing conditions are satisfied',function(done){
 			game.isValidCardToThrow = sinon.stub().returns(true);
-			gameStore.games[0] = game;
+			gameStore['32'] = game;
 			var controller = gameController();
 
 			request(controller)
@@ -110,7 +110,7 @@ describe('controller', function(){
 		});
 		it('does not removes a card when throwing conditions are satisfied',function(done){
 			game.isValidCardToThrow = sinon.stub().returns(false);
-			gameStore.games[0] = game;
+			gameStore['32'] = game;
 			var controller = gameController();
 
 			request(controller)
@@ -168,7 +168,7 @@ describe('controller', function(){
 				getTrumpSuit : sinon.stub().returns('D2'),
 				ableToAskForTrumpSuit : sinon.stub().returns(false)
 			};
-			gameStore.games[0] = game;
+			gameStore['32'] = game;
 			var controller = gameController();
 
 			request(controller)
@@ -195,7 +195,7 @@ describe('controller', function(){
 				getTrumpSuit : sinon.stub().returns('D2'),
 				ableToAskForTrumpSuit : sinon.stub().returns(true)
 			};
-			gameStore.games[0] = game;
+			gameStore['32'] = game;
 			var controller = gameController();
 
 			request(controller)
@@ -213,7 +213,7 @@ describe('controller', function(){
 				getId : sinon.stub().returns(32),
 				end : false
 			}
-			gameStore.games[0] = game;
+			gameStore['32'] = game;
 			var controller = gameController();
 
 			request(controller)
@@ -231,7 +231,7 @@ describe('controller', function(){
 				setBid : sinon.spy(),
 				getCurrentBidder : sinon.stub().returns('Y')
 			};
-			gameStore.games[0] = game;
+			gameStore['32'] = game;
 			var controller = gameController();
 
 			request(controller)
