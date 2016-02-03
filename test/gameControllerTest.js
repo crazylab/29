@@ -207,7 +207,7 @@ describe('controller', function(){
 				.end(done);
 		});
 	});
-	describe("POST: /leaveGame",function() {
+	describe("POST: /leave_game.html",function() {
 		it("resets the game to initial condition",function(done){
 			var game = {
 				getId : sinon.stub().returns(32),
@@ -217,7 +217,7 @@ describe('controller', function(){
 			var controller = gameController();
 
 			request(controller)
-				.post('/leaveGame')
+				.post('/leave_game.html')
 				.expect(302)
 				.set('Cookie','gameID=32')
 				.expect('Location',/leave_game.html/)

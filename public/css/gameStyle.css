@@ -1,7 +1,22 @@
 .game{
     position: absolute;
-    width: 1600px;
-    height: 860px;
+    width: 1620px;
+    height: 820px;
+    background-color: #45a357;
+    border-radius: 40px 40px 40px 40px;
+    -moz-border-radius: 40px 40px 40px 40px;
+    -webkit-border-radius: 40px 40px 40px 40px;
+    border: 3px solid #000000;
+    padding: 5px;
+    margin: 10px;
+    /*font-family: monospace;
+    position: absolute;
+    width: 1630px;
+    height: 850px;
+
+    border: 10px solid #4CAF50;
+    border-radius: 25px;
+    border-style: ridge;*/
 }
 
 .table{
@@ -11,23 +26,23 @@
 
     width: 600px;
     height: 380px;
-    background-color: #45a357;
+    /*background-color: #45a357;
     border-radius: 100px 100px 100px 100px;
     -moz-border-radius: 100px 100px 100px 100px;
     -webkit-border-radius: 100px 100px 100px 100px;
     border: 3px solid #000000;
     -webkit-box-shadow: 8px 15px 10px 5px rgba(0,0,0,0.75);
     -moz-box-shadow: 8px 15px 10px 5px rgba(0,0,0,0.75);
-    box-shadow: 8px 15px 10px 5px rgba(0,0,0,0.75);
+    box-shadow: 8px 15px 10px 5px rgba(0,0,0,0.75);*/
 }
 
 .player {
     position: absolute;
-    background-color: seagreen;
+    /*background-color: seagreen;
     border-radius: 30px 30px 30px 30px;
     -moz-border-radius: 30px 30px 30px 30px;
     -webkit-border-radius: 30px 30px 30px 30px;
-    border: 2px solid #138135;
+    border: 2px solid #138135;*/
 }
 .top {
     width: 615px;
@@ -51,7 +66,7 @@
     width: 400px;
     height: 180px;
     top: 295px;
-    left: 140px;
+    left: -100px;
     padding-top: 15px;
     padding-bottom: 5px;
 }
@@ -60,7 +75,7 @@
     width: 400px;
     height: 180px;
     top: 295px;
-    right: 140px;
+    right: -100px;
     padding-top: 15px;
     padding-bottom: 5px;
 }
@@ -90,7 +105,7 @@
 .turn_on {
     -webkit-box-shadow: 0px 0px 45px 20px rgba(69,163,87,1);
     -moz-box-shadow: 0px 0px 45px 20px rgba(69,163,87,1);
-    box-shadow: 0px 0px 45px 20px rgba(69,163,87,1);
+    box-shadow: inset 0px 0px 45px 20px rgba(69,163,87,1);
 
 }
 
@@ -196,12 +211,6 @@ th {
 
 .score {
     position: absolute;
-    right: 175px;
+    right: 100px;
     top: 0px;
-}
-.bid {
-    position: absolute;
-    left: 240px;
-    top: 0px;
-    width: 200px;
 }
