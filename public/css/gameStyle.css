@@ -1,7 +1,3 @@
-body{
-    background-color: #fdfdfd;
-}
-
 .action{
     text-decoration: none;
     color : #000;
@@ -12,17 +8,18 @@ body{
 }
 
 .game{
-    position: absolute;;
-    width: 1660px;
-    height: 850px;
+    position: absolute;
+    width: 1600px;
+    height: 860px;
 }
 
 .table{
     position: absolute;
-    top: 205px;
-    left: 550px;
-    width: 550px;
-    height: 410px;
+    top: 210px;
+    left: 500px;
+
+    width: 600px;
+    height: 380px;
     background-color: #45a357;
     border-radius: 100px 100px 100px 100px;
     -moz-border-radius: 100px 100px 100px 100px;
@@ -39,7 +36,6 @@ body{
     width: 200px;
 
     text-align: center;
-    font-family: monospace;
     font-size: 20px;
     border-color: black;
     border-width: 1px;
@@ -61,12 +57,12 @@ body{
     top: 0px;
 }
 .points {
-    right: 240px;
-    bottom: 0px;
+    right: 80px;
+    bottom: 20px;
 }
 .menu {
-    left: 240px;
-    bottom: 0px;
+    left: 80px;
+    bottom: 20px;
 }
 
 .odd {
@@ -102,36 +98,43 @@ body{
     -moz-border-radius: 30px 30px 30px 30px;
     -webkit-border-radius: 30px 30px 30px 30px;
     border: 2px solid #138135;
-    padding-top: 15px;
-    padding-left: 10px;
 }
 .top {
-    width: 625px;
+    width: 615px;
     height: 160px;
     top: 0px;
-    left: 517.5px;
+    left: 500px;
+    padding-top: 5px;
+    padding-bottom: 15px;
 }
 
 .bottom {
-    width: 625px;
-    height: 160px;
+    width: 1000px;
+    height: 200px;
     bottom: 0px;
-    left: 517.5px;
+    left: 300px;
+    padding-top: 5px;
+    padding-bottom: 10px;
 }
 
 .left {
-    width: 175px;
-    height: 460px;
-    top: 195px;
-    left: 250px;
+    width: 400px;
+    height: 180px;
+    top: 295px;
+    left: 140px;
+    padding-top: 15px;
+    padding-bottom: 5px;
 }
 
 .right {
-    width: 175px;
-    height: 460px;
-    top: 195px;
-    right: 250px;
+    width: 400px;
+    height: 180px;
+    top: 295px;
+    right: 140px;
+    padding-top: 15px;
+    padding-bottom: 5px;
 }
+
 .opponent{
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
@@ -142,18 +145,23 @@ body{
 .hand {
     display: table;
     margin: 0 auto;
+    margin-top: 1px;
+    margin-bottom: 1px;
 }
 .name {
-    font-family: monospace;
     font-size: 30px;
-    margin-left: 15px;
-    margin-right: 15px;
+    display: block;
 }
-
+.float-name {
+    position: absolute;
+    top: 75px;
+    left: 240px;
+}
 .turn_on {
-    -webkit-box-shadow: 0px 0px 50px 25px rgba(69,163,87,1);
-    -moz-box-shadow: 0px 0px 50px 25px rgba(69,163,87,1);
-    box-shadow: 0px 0px 50px 25px rgba(69,163,87,1);
+    -webkit-box-shadow: 0px 0px 45px 20px rgba(69,163,87,1);
+    -moz-box-shadow: 0px 0px 45px 20px rgba(69,163,87,1);
+    box-shadow: 0px 0px 45px 20px rgba(69,163,87,1);
+
 }
 
 .center {
@@ -166,7 +174,6 @@ body{
     width: 550px;
     bottom: 40px;
     font-size: 30px;
-    font-family: monospace;
     color: white;
     text-shadow: 2px 2px 4px #000000;
 }
@@ -174,8 +181,9 @@ body{
 .deal{
     position: absolute;
     float: left;
-    top: 175px;
-    left: 215px;
+    top: 160px;
+    left: 240px;
+
     height: 60px;
     width: 120px;
 
@@ -185,10 +193,9 @@ body{
     text-align: center;
     font-size: 30px;
     font-weight: bold;
-    font-family: monospace;
     text-shadow: 3px 4px 2px rgba(150, 150, 150, 1);
 
-    background-color: #f8f8f8;
+    background-color: #c8c8c8;
     border: 2px solid #898;
     border-radius: 20px;
     z-index: 1;
@@ -212,4 +219,13 @@ body{
     box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
     -webkit-transform: translateY(-8px);
     transform: translateY(-8px);
+}
+
+.opponent-name {
+    left: 150px;
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    transform: rotate(-90deg);
 }

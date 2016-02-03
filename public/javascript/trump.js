@@ -15,6 +15,8 @@ var showTrumpOptions = function(){
 		var trumpSuites = '';
 		_.forIn(cards, function(card, id){
 			trumpSuites += getShownCard(card);
+			if(id == 'C2')
+				trumpSuites += '<br>'
 		});
 		$('#trump_options > span').html(trumpSuites);
 

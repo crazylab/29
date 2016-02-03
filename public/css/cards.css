@@ -2,21 +2,33 @@
 	display: inline-block;
 	text-align: center;
 	font-family: monospace;
-	font-size: 20px;
+	font-size: 36px;
 	border-color: black;
 	border-width: 1px;
-	height: 100px;
-	width: 70px;
+	height: 150px;
+	width: 105px;
 	border-style: solid;
 	border-radius: 10px;
-	padding: 1px;
-	margin: 1px;
+	padding: 5px;
+	margin: 2.5px;
 	float: left;
 	background-color: white;
 	-webkit-box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.75);
 	-moz-box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.75);
 	box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.75);
 }
+.suit {
+	text-align: center;
+	font-size: 50px;
+	padding: 5px;
+	margin: 2.5px;
+}
+#you > .hand > .card:hover {
+	box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+}
+
 .red{
 	color: red;
 }
@@ -34,39 +46,41 @@
 	width: auto;
 	height: auto;
 }
-#you > .hand > .card:hover {
-	height: 110px;
-	width: 77px;
-}
 
 #played_cards {
     position: absolute;
-    top: 115px;
-    left: 190px;
-    width: 180px;
-    height: 180px;
+    top: 50px;
+    left: 185px;
+    width: 300px;
+    height: 300px;
 }
 
 .top_card {
     position: absolute;
     top: 2px;
-    left: 48px;
+    left: 90px;
 }
 
 .bottom_card {
     position: absolute;
     bottom: 2px;
-    left: 58px;
+    left: 91px;
 }
 
 .left_card {
     position: absolute;
-    top: 32px;
-    left: 0px;
+    top: 75px;
+    left: 5px;
 }
 
 .right_card {
     position: absolute;
-    top: 40px;
-    right: 0px;
+    top: 75px;
+    right: 5px;
+}
+
+.deck {
+	position: absolute;
+	top: 85px;
+	left: 217.5px;
 }

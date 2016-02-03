@@ -1,4 +1,8 @@
-body{
+body {
+    font-family: monospace;
+    background-color: #fdfdfd;
+}
+.index-body{
     font-family: sans-serif;
 }
 .heading{
