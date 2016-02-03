@@ -22,10 +22,13 @@ var handleStarting = function(isDealComplete){
 	}
 };
 var dealCard = function(dealStatus){
-	if(dealStatus)
-		$('.deal').css("visibility","hidden");
+	if(dealStatus){
+		$('.deal').hide();
+		$('.deck').hide();
+	}
 	else{
-		$('.deal').css("visibility","visible");
+		$('.deck').show();
+		$('.deal').show();
 		$('.deal').click(function(){
 			$.post('deal');
 		});

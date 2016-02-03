@@ -50,7 +50,7 @@
 #played_cards {
     position: absolute;
     top: 50px;
-    left: 170px;
+    left: 185px;
     width: 300px;
     height: 300px;
 }
@@ -77,4 +77,10 @@
     position: absolute;
     top: 75px;
     right: 5px;
+}
+
+.deck {
+	position: absolute;
+	top: 85px;
+	left: 217.5px;
 }

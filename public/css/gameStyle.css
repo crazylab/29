@@ -1,7 +1,3 @@
-body{
-    background-color: #fdfdfd;
-}
-
 .action{
     text-decoration: none;
     color : #000;
@@ -40,7 +36,6 @@ body{
     width: 200px;
 
     text-align: center;
-    font-family: monospace;
     font-size: 20px;
     border-color: black;
     border-width: 1px;
@@ -105,7 +100,7 @@ body{
     border: 2px solid #138135;
 }
 .top {
-    width: 600px;
+    width: 615px;
     height: 160px;
     top: 0px;
     left: 500px;
@@ -154,7 +149,6 @@ body{
     margin-bottom: 1px;
 }
 .name {
-    font-family: monospace;
     font-size: 30px;
     display: block;
 }
@@ -180,7 +174,6 @@ body{
     width: 550px;
     bottom: 40px;
     font-size: 30px;
-    font-family: monospace;
     color: white;
     text-shadow: 2px 2px 4px #000000;
 }
@@ -188,8 +181,9 @@ body{
 .deal{
     position: absolute;
     float: left;
-    top: 175px;
-    left: 215px;
+    top: 160px;
+    left: 240px;
+
     height: 60px;
     width: 120px;
 
@@ -199,10 +193,9 @@ body{
     text-align: center;
     font-size: 30px;
     font-weight: bold;
-    font-family: monospace;
     text-shadow: 3px 4px 2px rgba(150, 150, 150, 1);
 
-    background-color: #f8f8f8;
+    background-color: #c8c8c8;
     border: 2px solid #898;
     border-radius: 20px;
     z-index: 1;
