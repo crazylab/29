@@ -9,8 +9,8 @@ var putClickInBid = function(){
 }
 var showBidStatus = function(bid){
 	if(!bid.player) return;
-	$('#bidValue').html(bid.value);
-	$('#topBidder').html(bid.player.toUpperCase());
+    var bidResult = bid.player.toUpperCase() + ' (' + bid.value + ')';
+	$('#bidWinner').html(bidResult);
 };
 var showBiddingBoard = function(currentPlayer){
     if(currentPlayer)

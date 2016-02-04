@@ -31,6 +31,7 @@ describe('controller', function(){
 				.post('/waiting.html')
 				.send('name=Rahul')
 				.expect(302)
+				.expect('Location',/waiting.html/)
 				.end(done);
 
 		});
@@ -41,7 +42,8 @@ describe('controller', function(){
 				getId : sinon.stub().returns(32),
 				trump : {suit: undefined},
 				setTrumpSuit : sinon.spy(),
-				setRoundSequence : sinon.spy()
+				setRoundSequence : sinon.spy(),
+				getPlayer : sinon.stub().returns(true)
 			};
 			gameStore['32'] = game;
 			var controller = gameController();
@@ -58,7 +60,8 @@ describe('controller', function(){
 		it('gives the count of player needed to start the game', function(done){
 			var game = {
 				getId : sinon.stub().returns(32),
-				playerCount : sinon.stub().returns(2)
+				playerCount : sinon.stub().returns(2),
+				getPlayer : sinon.stub().returns(true)
 			};
 			gameStore['32'] = game;
 			var controller = gameController();
@@ -126,28 +129,30 @@ describe('controller', function(){
 			var controller = gameController();
 
 			request(controller)
-				.get('/gamepage.html')
+				.get('/help.html')
 				.expect(200,done);
 		});
 	});
 
 	describe('GET: /<file that is not present>', function(){
-		it('gives 404 statusCode', function(done){
+		it('redirects to login page', function(done){
 			var controller = gameController();
 
 			request(controller)
 				.get('/status.js')
-				.expect(404,done);
+				.expect('Location',/index.html/)
+				.expect(302,done);
 		});
 	});
 
 	describe('POST: /<invalid method>', function(){
-		it('will complain for the request with status code 405',function(done){
+		it('will redirects to the login page when not authenticated',function(done){
 			var controller = gameController();
 
 			request(controller)
 				.post('/invalidMethod')
-				.expect(404, done);
+				.expect('Location',/index.html/)
+				.expect(302, done);
 		});
 	});
 
@@ -207,17 +212,18 @@ describe('controller', function(){
 				.end(done);
 		});
 	});
-	describe("POST: /leaveGame",function() {
+	describe("POST: /leave_game.html",function() {
 		it("resets the game to initial condition",function(done){
 			var game = {
 				getId : sinon.stub().returns(32),
-				end : false
+				end : false,
+				getPlayer : sinon.stub().returns(true)
 			}
 			gameStore['32'] = game;
 			var controller = gameController();
 
 			request(controller)
-				.post('/leaveGame')
+				.post('/leave_game.html')
 				.expect(302)
 				.set('Cookie','gameID=32')
 				.expect('Location',/leave_game.html/)
@@ -229,7 +235,8 @@ describe('controller', function(){
 			var game = {
 				getId : sinon.stub().returns(32),
 				setBid : sinon.spy(),
-				getCurrentBidder : sinon.stub().returns('Y')
+				getCurrentBidder : sinon.stub().returns('Y'),
+				getPlayer : sinon.stub().returns(true)
 			};
 			gameStore['32'] = game;
 			var controller = gameController();
@@ -243,4 +250,12 @@ describe('controller', function(){
 				.end(done);
 		});
 	});
+	it('does not let the user go to any other page than index page without authentication', function(done){
+		var controller = gameController();
+		request(controller)
+			.get('/gamePage.html')
+			.expect(302)
+			.expect('Location',/index.html/)
+			.end(done);
+    });
 });

@@ -14,50 +14,36 @@
 		<script type="text/javascript" src="javascript/playingCard.js"></script>
 		<script type="text/javascript" src="javascript/trump.js"></script>
 		<script type="text/javascript" src="javascript/bid.js"></script>
-		<script type="text/javascript" src="javascript/leavingHandler.js"></script>
 	</head>
 	<body>
 		<div class="game" align="center">
-			<table class="bid board">
-				<th class="highlight">Bid Table</th>
-				<tr class="odd">
-					<td style="float: left;">Top Bid</td>
-					<td style="float: right;" id="bidValue"></td>
+			<table class="score">
+				<tr>
+					<th>Team</th>
+					<th>Points</th>
+					<th>Score</th>
 				</tr>
-				<tr class="odd even">
-					<td style="float: left;">Bidder</td>
-					<td  style="float: right;" id="topBidder"><td>
+				<tr>
+					<td>Your</td>
+					<td align="center" id="your_point">0</td>
+					<td align="center" id="your_score">0</td>
 				</tr>
-			</table>
-			<table class="score board">
-				<th class="highlight">Score</th>
-				<tr class="odd">
-					<td style="float: left;">Your</td>
-					<td style="float: right;" id="your_score"></td>
+				<tr>
+					<td>Opponent</td>
+					<td align="center" id="opponent_point">0</td>
+					<td align="center" id="opponent_score">0</td>
 				</tr>
-				<tr class="odd even">
-					<td style="float: left;">Opponent</td>
-					<td  style="float: right;" id="opponent_score"><td>
+				<tr>
+					<td colspan="1">Bid Winner :</td>
+					<td colspan="2" id="bidWinner"></td>
 				</tr>
-			</table>
-			<table class="points board">
-				<th class="highlight">Points</th>
-				<tr class="odd">
-					<td style="float: left;">Your Team</td>
-					<td style="float: right;" id="your_point">10</td>
-				</tr>
-				<tr class="odd even">
-					<td style="float: left;">Opponent</td>
-					<td  style="float: right;" id="opponent_point">12<td>
-				</tr>
-			</table>
-			<table class="menu board" id="menu">
-				<th class="highlight">Menu</th>
-				<tr class="odd" id="help">
-					<td style="float: left;"><a href="help.html" class="action" target="_blank" >Help</a></td>
-				</tr>
-				<tr class="odd even" id="leave">
-					<td style="float: left; cursor: pointer;" class="action">Leave Game</td>
+				<tr align="center">
+					<td style="border-right: 1px solid #dedede">
+						<a href="help.html" target="_blank">Help</a>
+					</td>
+					<td style="cursor: pointer;" colspan="2">
+						<a href="leave_game.html">Leave Game</a>
+					</td>
 				</tr>
 			</table>
 			<div class="table">

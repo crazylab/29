@@ -4,7 +4,6 @@ var showMessage = function(message){
 		$('.message').html('').css('display', 'inline');
 	});
 }
-
 var showScore = function(score){
 	$('#your_score').html(score.myScore);
 	$('#opponent_score').html(score.opponentScore);
@@ -34,9 +33,13 @@ var dealCard = function(dealStatus){
 		});
 	}
 };
+var redirect_to_leaveGame = function(endStatus){
+	if(endStatus)
+		window.location.assign('leave_game.html');
+};
 
 var updateChanges = function(status){
-	redirect_to_leaveGame(status.end)
+	redirect_to_leaveGame(status.end);
 	showCards(status);
 	showTurn(status);
 	showHiddenTrumpCard(status.isTrumpSet);
@@ -60,13 +63,8 @@ var getStatus = function(){
 		});
 	},1000);
 }
-var menu = function(){
-	$('#leave').click(on_closing_tab);
-}
 var onPageReady = function(){
-	menu();
 	revealTrump();
-	handleLeaveRequest();
 	var name = parseCookie().name;
 	$('#you > .name').html(name.toUpperCase());
 	$.get('status',function(status){

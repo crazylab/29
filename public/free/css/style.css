@@ -1,5 +1,4 @@
 body {
-    font-family: monospace;
     background-color: #fdfdfd;
 }
 
@@ -48,6 +47,7 @@ body {
 #name:hover{
     box-shadow: 0 5px 5px 0 grey;
 }
+<<<<<<< HEAD:public/css/style.css
 
 #help{
   display: flex;
