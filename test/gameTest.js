@@ -46,7 +46,6 @@ describe('Game', function(){
 		var player2 = new Player('raju');
 		var player3 = new Player('peter');
 		var player4 = new Player('dhamu');
-
 		game.team_1.players = [player1,player2];
 		game.team_2.players = [player3,player4];
 		game.distributionSequence = [player1,player3,player2,player4];
@@ -401,6 +400,10 @@ describe('Game', function(){
 			expect(hand2).to.have.length(4);
 			expect(hand3).to.have.length(4);
 			expect(hand4).to.have.length(4);
+		});
+		it('gives the 7th card when trump is selected as 7th card', function(){
+			var expectedCard = {id: 'C', rank: 3, suit: 'Heart'};
+			expect(game.distributeCards(true, 'ramu')).to.deep.equal(expectedCard);
 		});
 	});
 
@@ -1028,14 +1031,34 @@ describe('Game', function(){
 			expect(game.trump.suit).to.be.equal('H2');
 		});
 		it('sets the trump suit when selected 7th card',function(){
-			var player = {
-				get7thCard : sinon.stub().returns({name: '7', suit:'Diamond'})
-			}
 			var game = new Game(deck);
-			game.setRoundSequence = sinon.spy();
-			game.getPlayer = sinon.stub().returns(player);
-			game.setTrumpSuit('seventh');
+			var player1 = new Player('ramu');
+			var player2 = new Player('raju');
+			var player3 = new Player('peter');
+			var player4 = new Player('dhamu');
+			game.team_1.players = [player1,player2];
+			game.team_2.players = [player3,player4];
+			game.setDistributionSequence();
+
+			player2.get7thCard = sinon.stub().returns({name: '7', suit:'Diamond'});
+			game.getPlayer = sinon.stub().returns(player2);
+			game.setTrumpSuit('seventh', 'raju');
 			expect(game.trump.suit).to.be.equal('D2');
+		});
+		it('saves the player with 7th card',function(){
+			var game = new Game(deck);
+			var player1 = new Player('ramu');
+			var player2 = new Player('raju');
+			var player3 = new Player('peter');
+			var player4 = new Player('dhamu');
+			game.team_1.players = [player1,player2];
+			game.team_2.players = [player3,player4];
+			game.setDistributionSequence();
+
+			player2.get7thCard = sinon.stub().returns({name: '7', suit:'Diamond'});
+			game.getPlayer = sinon.stub().returns(player2);
+			game.setTrumpSuit('seventh', 'raju');
+			expect(game.trump._7thCardPlayer).to.be.deep.equal(player2);
 		});
 	});
 
@@ -1047,10 +1070,31 @@ describe('Game', function(){
 			expect(trump).to.be.equal('H2');
 			expect(game.trump.open).to.equal.true;
 		});
+		it('gives the trump suit when player requests for it',function(){
+			var game = new Game(deck);
+			game.trump = {suit : 'H2', open : 'false', _7thCardPlayer: false};
+			var trump = game.getTrumpSuit();
+			expect(trump).to.be.equal('H2');
+			expect(game.trump.open).to.equal.true;
+		});
+		it('gives the trump suit when player requests for it',function(){
+			var game = new Game(deck);
+			var player1 = new Player('ramu');
+			var player2 = new Player('raju');
+			var player3 = new Player('peter');
+			var player4 = new Player('dhamu');
+			game.team_1.players = [player1,player2];
+			game.team_2.players = [player3,player4];
+			player2._7thCard = {suit: 'Heart'}
+			game.setDistributionSequence();
+			game.distributeCards();
+			game.trump = {suit : 'H2', open : 'false', _7thCardPlayer: player2};
+			var trump = game.getTrumpSuit();
+			expect(trump).to.be.equal('H2');
+			expect(game.trump.open).to.equal.true;
+		});
 	});
 	describe('bid',function(){
-
-
 		describe('getCurrentBidder',function(){
 			var game;
 			beforeEach(function(){

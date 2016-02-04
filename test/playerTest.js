@@ -9,9 +9,6 @@ describe('Player',function(){
 		{id:'SQ', name:'Q', suit:'Spade'},
 		{id:'C9', name:'9', suit:'Club'},
 		{id:'SK', name:'K', suit:'Spade'}];
-	it('creates player with properties',function(){
-		expect(player).to.have.all.keys('hand','hasPair','turn','id','isFinalBidder');
-	});
 	describe('types',function(){
 		it('Properties are of different types',function(){
 			assert.typeOf(player.hand, 'array');
@@ -159,7 +156,7 @@ describe('Player',function(){
 	    });
 	});
 	describe('get7thCard', function(){
-	    it('gives the 7th card from the hand', function(){
+	    it('gives the 7th card from the hand by removing that card from the hand and keeps in _7thCard', function(){
 	        var player = new Player();
 			player.hand = [
 				{name: 'A', suit:'Spade'},
@@ -172,6 +169,7 @@ describe('Player',function(){
 				{name: '6', suit:'Diamond'}
 			];
 			expect(player.get7thCard()).to.deep.equal({name: '7', suit:'Diamond'});
+			expect(player['_7thCard']).to.deep.equal({name: '7', suit:'Diamond'});
 	    });
 	});
 });
