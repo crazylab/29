@@ -3,6 +3,10 @@
 <head>
 	<title>Welcome </title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="703705461671-msg931obc38964nu0mdu0qs5pa680q0t.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body class="index-body">
 		<h1 id="wellcome"> Let's Play 29 </h1>
@@ -10,7 +14,21 @@
 			<form method="POST" action="waiting.html">
 				<input type="text" id="name" name="name" required placeholder="  Enter Your Name"></br>
 				<button type="Submit" class="button">Join Game</button>
-			</form>
+			</form><br>
+			<div class="g-signin2" data-onsuccess="onSignIn"></div>
+		    <script>
+				function onSignIn(googleUser) {
+					var profile = googleUser.getBasicProfile();
+					var user = {
+						name : profile.getName(),
+						imageURL : profile.getImageUrl(),
+						email : profile.getEmail()
+					}
+					$.post('waiting.html', user, function(){
+						window.location.assign('waiting.html');
+					});
+				}
+		    </script>
 		</div>
 </body>
 </html>
