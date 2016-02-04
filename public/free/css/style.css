@@ -47,7 +47,6 @@ body {
 #name:hover{
     box-shadow: 0 5px 5px 0 grey;
 }
-<<<<<<< HEAD:public/css/style.css
 
 #help{
   display: flex;
@@ -76,6 +75,7 @@ body {
   background-color: #bcc7c9;
   height: 60px;
   padding: 15px 0 5px 0;
+  border-bottom: 2px solid grey;
 }
 
 .body{

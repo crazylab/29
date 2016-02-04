@@ -1,4 +1,4 @@
-var getShownCard = function(card, addedClass){
+var getShownCard = function(card, addedClass,z_index){
 	var cardColor = card.suit.match(/Heart|Diamond/g) ? 'red' : 'black';
 	addedClass = addedClass ? addedClass : '';
 	var suits = {
@@ -7,7 +7,7 @@ var getShownCard = function(card, addedClass){
 		Club : '&clubs;',
 		Spade : '&spades;'
 	}
-	return '<div id="'+card.id+'" class="card '+cardColor +' '+ addedClass+'">'+
+	return '<div id="'+card.id+'" class="card '+cardColor +' '+ addedClass+'"  style="z-index:'+ -z_index +';">'+
 						'<div align="left">'+card.name+'</div>'+
 						'<div class="suit">'+suits[card.suit]+'</div>'+
 						'<div align="right">'+card.name+'</div>'+
@@ -15,18 +15,22 @@ var getShownCard = function(card, addedClass){
 }
 
 var showMyHand = function (cards){
-	var hand = cards.map(function(card){
-		return getShownCard(card);
+	var hand = cards.map(function(card,index){
+		return getShownCard(card,'my-hand',index);
 	}).join('');
 	$('#you > .hand').html(hand);
 };
 
-var renderHand = function(count, distance){
-	var htmlTemplate = '<div class="card hidden" style="margin-left: {{distance}}px;"></div>';
+var renderHand = function(count,left,top,position){
+	var htmlTemplate = '<div class="card hidden" style="margin-left: {{left}}px; margin-top: {{top}}px;"></div>';
+	if(position == 'left' || position == 'right')
+		var htmlTemplate = '<div class="card hidden rotate-hand" style="margin-left: {{left}}px; margin-top: {{top}}px;"></div>';
+
 	var hand = '';
 	for(var index = 0; index < count; index++){
-		var d = index == 0 ? 0 : distance;
-		hand += htmlTemplate.replace(/{{distance}}/g, d);
+		var l = index == 0 ? 0 : left;
+		hand += htmlTemplate.replace(/{{left}}/g, l).replace(/{{top}}/g, top);
+		top+=40;
 	}
 	return hand;
 }
@@ -34,6 +38,6 @@ var renderHand = function(count, distance){
 var showCards = function(status){
 	showMyHand(status.me.hand);
 	$('#partner > .hand').html(renderHand(status.partner.hand, -50));
-	$('#right > .hand').html(renderHand(status.opponent_1.hand, -80));
-	$('#left > .hand').html(renderHand(status.opponent_2.hand, -80));
+	$('#right > .hand').html(renderHand(status.opponent_1.hand, -120,0,'right'));
+	$('#left > .hand').html(renderHand(status.opponent_2.hand, -120,0,'left'));
 }

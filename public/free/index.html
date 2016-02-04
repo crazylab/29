@@ -9,26 +9,37 @@
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 <body class="index-body">
-		<h1 id="wellcome"> Let's Play 29 </h1>
-		<div class="setName">
-			<form method="POST" action="waiting.html">
-				<input type="text" id="name" name="name" required placeholder="  Enter Your Name"></br>
-				<button type="Submit" class="button">Join Game</button>
-			</form><br>
-			<div class="g-signin2" data-onsuccess="onSignIn"></div>
-		    <script>
-				function onSignIn(googleUser) {
-					var profile = googleUser.getBasicProfile();
-					var user = {
-						name : profile.getName(),
-						imageURL : profile.getImageUrl(),
-						email : profile.getEmail()
+
+		<div class="header"> Let's Play 29 </div>
+
+		<div class="body">
+			<div class="setName">
+				<form method="POST" action="waiting.html">
+					<input type="text" id="name" name="name" required placeholder="  Enter Your Name"></br>
+					<button type="Submit" class="button">Join Game</button>
+				</form><br>
+				<div class="g-signin2" data-onsuccess="onSignIn"></div>
+			    <script>
+					function onSignIn(googleUser) {
+						var profile = googleUser.getBasicProfile();
+						var user = {
+							name : profile.getName(),
+							imageURL : profile.getImageUrl(),
+							email : profile.getEmail()
+						}
+						$.post('waiting.html', user, function(){
+							window.location.assign('waiting.html');
+						});
 					}
-					$.post('waiting.html', user, function(){
-						window.location.assign('waiting.html');
-					});
-				}
-		    </script>
+			    </script>
+			</div>
 		</div>
+
+		<div class="footer">
+				<a href="about.html">About</a>
+				<a href="help.html">Help?</a>
+				<a href="https://github.com/issues">Contact</a>
+		</div>
+
 </body>
 </html>
