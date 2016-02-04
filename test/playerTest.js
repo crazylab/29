@@ -158,4 +158,20 @@ describe('Player',function(){
 			expect(player.hand).to.deep.equal(expectedHand);
 	    });
 	});
+	describe('get7thCard', function(){
+	    it('gives the 7th card from the hand', function(){
+	        var player = new Player();
+			player.hand = [
+				{name: 'A', suit:'Spade'},
+				{name: 'J', suit:'Spade'},
+				{name: 'K', suit:'Club'},
+				{name: 'Q', suit:'Spade'},
+				{name: '9', suit:'Club'},
+				{name: '10', suit:'Heart'},
+				{name: '7', suit:'Diamond'},
+				{name: '6', suit:'Diamond'}
+			];
+			expect(player.get7thCard()).to.deep.equal({name: '7', suit:'Diamond'});
+	    });
+	});
 });
