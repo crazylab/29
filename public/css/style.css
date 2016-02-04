@@ -2,16 +2,19 @@ body {
     font-family: monospace;
     background-color: #fdfdfd;
 }
+
 .index-body{
     font-family: sans-serif;
 }
+
 .heading{
     font-family: sans-serif;
     text-align: center;
 }
+
 .button{
     padding: 5px 10px 5px 10px;
-	font-size: 18px;
+	  font-size: 18px;
     display: block;
     margin: 0 auto;
     margin-top: 20px;
@@ -19,36 +22,18 @@ body {
     border: none;
     border-radius: 10px;
     box-shadow: 0 2px 2px 0 grey;
-
 }
+
 .button:hover {
     color: white;
     background-color: #43a0c2;
     box-shadow: 0 5px 5px 0 grey;
 }
+
 .screen_center{
     position: absolute;
     top: 48%;
     left: 38%;
-}
-
-.setName{
-    width: 400px;
-    height: 250px;
-    background-color: #e7e8d9;
-    padding: 20px;
-    text-align: center;
-    font-size: 24px;
-    margin: 70px auto;
-    transform: translateY(50%);
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    border-radius: 10px;
-}
-
-#wellcome{
-    text-align: center;
 }
 
 #name{
@@ -62,4 +47,63 @@ body {
 
 #name:hover{
     box-shadow: 0 5px 5px 0 grey;
+}
+
+#help{
+  display: flex;
+  padding-top: 50px;
+  padding-left: 80px;
+  text-decoration: none;
+}
+
+.body .setName{
+  width: 400px;
+  height: 200px;
+  background-color: #e7e8d9;
+  padding-top: 100px;
+  text-align: center;
+  font-size: 24px;
+  margin: 0 auto;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.header{
+  text-align: center;
+  font-family: sans-serif;
+  font-size: 36px;
+  font-weight: 600;
+  background-color: #bcc7c9;
+  height: 60px;
+  padding: 15px 0 5px 0;
+}
+
+.body{
+  padding: 194px 0 194px 0 ;
+}
+
+.footer{
+  background-color: #c1b9b9;
+  color:white;
+  clear:both;
+  height: 25px;
+  text-align: center;
+  padding: 15px 0 10px 85px;
+}
+
+.footer a{
+  text-decoration: none;
+  font-size: 17px;
+  color :maroon;
+  margin-right: 100px;
+}
+
+.footer a:hover{
+  text-decoration: underline;
+  font-size: 17px;
+  color : green;
+}
+
+.footer a:active{
+  color: red;
 }
