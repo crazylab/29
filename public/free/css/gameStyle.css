@@ -213,3 +213,9 @@ th {
     right: 100px;
     top: 0px;
 }
+
+#_7thCard {
+    position: absolute;
+    right: 0px;
+    bottom: 40px;
+}

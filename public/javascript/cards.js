@@ -35,8 +35,15 @@ var renderHand = function(count,left,top,position){
 	return hand;
 }
 
+var show7thCard = function(_7thCard){
+	if(!_7thCard)
+		return;
+	console.log('hello')
+	$('#_7thCard').html(getShownCard(_7thCard));
+}
 var showCards = function(status){
 	showMyHand(status.me.hand);
+	show7thCard(status.me._7thCard);
 	$('#partner > .hand').html(renderHand(status.partner.hand, -50));
 	$('#right > .hand').html(renderHand(status.opponent_1.hand, -120,0,'right'));
 	$('#left > .hand').html(renderHand(status.opponent_2.hand, -120,0,'left'));

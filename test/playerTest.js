@@ -25,7 +25,8 @@ describe('Player',function(){
 					{id:'C9', name:'9', suit:'Club'},
 					{id:'SK', name:'K', suit:'Spade'}],
 				turn : false,
-				isBidder : false
+				isBidder : false,
+				_7thCard: false
 			};
 			expect(status).to.deep.equal(expectedStatus);
 		});
@@ -34,7 +35,8 @@ describe('Player',function(){
 			var expectedStatus = {
 				hand : 4,
 				turn : false,
-				isBidder : false
+				isBidder : false,
+				_7thCard: false
 			};
 			expect(status).to.deep.equal(expectedStatus);
 		});
