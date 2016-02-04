@@ -18,12 +18,14 @@ var showTrumpOptions = function(){
 			if(id == 'C2')
 				trumpSuites += '<br>'
 		});
+		trumpSuites += '<br><div id="seventh">7th Card</div>'
 		$('#trump_options > span').html(trumpSuites);
 
 		$('#D2').on('click', postTrump);
 		$('#C2').on('click', postTrump);
 		$('#H2').on('click', postTrump);
 		$('#S2').on('click', postTrump);
+		$('#_7th').on('click', postTrump);
 };
 var showTrumpSelectionBox = function(isBidWinner){
 	if(isBidWinner){
@@ -32,6 +34,7 @@ var showTrumpSelectionBox = function(isBidWinner){
 	}
 };
 var showTrump = function(trump){
+	console.log(trump)
 	if(trump){
 		var cards = {
 			D2 : {id: 'D2', suit: 'Diamond', name: '2'},
@@ -57,7 +60,7 @@ var revealTrump = function(){
 };
 var showHiddenTrumpCard = function(isTrumpSet){
 	if(isTrumpSet)
-	$('#trump').addClass('card hidden');
+		$('#trump').addClass('card hidden');
 };
 
 var showWhoHasPair = function(playerName){

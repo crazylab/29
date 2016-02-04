@@ -1027,6 +1027,16 @@ describe('Game', function(){
 			game.setTrumpSuit('H2');
 			expect(game.trump.suit).to.be.equal('H2');
 		});
+		it('sets the trump suit when selected 7th card',function(){
+			var player = {
+				get7thCard : sinon.stub().returns({name: '7', suit:'Diamond'})
+			}
+			var game = new Game(deck);
+			game.setRoundSequence = sinon.spy();
+			game.getPlayer = sinon.stub().returns(player);
+			game.setTrumpSuit('seventh');
+			expect(game.trump.suit).to.be.equal('D2');
+		});
 	});
 
 	describe('getTrumpSuit',function(){
