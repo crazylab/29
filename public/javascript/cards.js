@@ -36,9 +36,10 @@ var renderHand = function(count,left,top,position){
 }
 
 var show7thCard = function(_7thCard){
-	if(!_7thCard)
+	if(!_7thCard){
+		$('#_7thCard').empty();
 		return;
-	console.log('hello')
+	}
 	$('#_7thCard').html(getShownCard(_7thCard));
 }
 var showCards = function(status){
