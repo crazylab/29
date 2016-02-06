@@ -35,6 +35,10 @@
     position: absolute;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    box-shadow: 2px 2px 2px 0px black;
 }
 .bottom {
     width: 800px;
@@ -44,6 +48,7 @@
     padding-top: 5px;
     padding-bottom: 10px;
     transform: translateX(20%);
+    border-radius: 10px;
 }
 
 .left {
@@ -62,6 +67,10 @@
     position: absolute;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    box-shadow: 2px 2px 2px 0px black;
 }
 
 .right {
@@ -91,6 +100,10 @@
     position: absolute;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    box-shadow: 2px 2px 2px 0px black;
 }
 
 .hand {
@@ -139,14 +152,14 @@
     z-index: 0;
 }
 .turn_on {
-    background: rgba(193,158,103,1);
-background: -moz-linear-gradient(45deg, rgba(193,158,103,1) 0%, rgba(193,158,103,1) 10%, rgba(233,212,179,1) 39%, rgba(237,218,187,1) 52%, rgba(243,226,199,1) 70%, rgba(182,141,76,1) 88%, rgba(182,141,76,1) 100%);
-background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(193,158,103,1)), color-stop(10%, rgba(193,158,103,1)), color-stop(39%, rgba(233,212,179,1)), color-stop(52%, rgba(237,218,187,1)), color-stop(70%, rgba(243,226,199,1)), color-stop(88%, rgba(182,141,76,1)), color-stop(100%, rgba(182,141,76,1)));
-background: -webkit-linear-gradient(45deg, rgba(193,158,103,1) 0%, rgba(193,158,103,1) 10%, rgba(233,212,179,1) 39%, rgba(237,218,187,1) 52%, rgba(243,226,199,1) 70%, rgba(182,141,76,1) 88%, rgba(182,141,76,1) 100%);
-background: -o-linear-gradient(45deg, rgba(193,158,103,1) 0%, rgba(193,158,103,1) 10%, rgba(233,212,179,1) 39%, rgba(237,218,187,1) 52%, rgba(243,226,199,1) 70%, rgba(182,141,76,1) 88%, rgba(182,141,76,1) 100%);
-background: -ms-linear-gradient(45deg, rgba(193,158,103,1) 0%, rgba(193,158,103,1) 10%, rgba(233,212,179,1) 39%, rgba(237,218,187,1) 52%, rgba(243,226,199,1) 70%, rgba(182,141,76,1) 88%, rgba(182,141,76,1) 100%);
-background: linear-gradient(45deg, rgba(193,158,103,1) 0%, rgba(193,158,103,1) 10%, rgba(233,212,179,1) 39%, rgba(237,218,187,1) 52%, rgba(243,226,199,1) 70%, rgba(182,141,76,1) 88%, rgba(182,141,76,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c19e67', endColorstr='#b68d4c', GradientType=1 );
+    background: -moz-linear-gradient(45deg, rgba(193,158,103,1) 0%, rgba(193,158,103,1) 10%, rgba(233,212,179,1) 39%, rgba(237,218,187,1) 52%, rgba(243,226,199,1) 70%, rgba(182,141,76,1) 88%, rgba(182,141,76,1) 100%);
+    background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(193,158,103,1)), color-stop(10%, rgba(193,158,103,1)), color-stop(39%, rgba(233,212,179,1)), color-stop(52%, rgba(237,218,187,1)), color-stop(70%, rgba(243,226,199,1)), color-stop(88%, rgba(182,141,76,1)), color-stop(100%, rgba(182,141,76,1)));
+    background: -webkit-linear-gradient(45deg, rgba(193,158,103,1) 0%, rgba(193,158,103,1) 10%, rgba(233,212,179,1) 39%, rgba(237,218,187,1) 52%, rgba(243,226,199,1) 70%, rgba(182,141,76,1) 88%, rgba(182,141,76,1) 100%);
+    background: -o-linear-gradient(45deg, rgba(193,158,103,1) 0%, rgba(193,158,103,1) 10%, rgba(233,212,179,1) 39%, rgba(237,218,187,1) 52%, rgba(243,226,199,1) 70%, rgba(182,141,76,1) 88%, rgba(182,141,76,1) 100%);
+    background: -ms-linear-gradient(45deg, rgba(193,158,103,1) 0%, rgba(193,158,103,1) 10%, rgba(233,212,179,1) 39%, rgba(237,218,187,1) 52%, rgba(243,226,199,1) 70%, rgba(182,141,76,1) 88%, rgba(182,141,76,1) 100%);
+    background: linear-gradient(45deg, rgba(193,158,103,1) 0%, rgba(193,158,103,1) 10%, rgba(233,212,179,1) 39%, rgba(237,218,187,1) 52%, rgba(243,226,199,1) 70%, rgba(182,141,76,1) 88%, rgba(182,141,76,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c19e67', endColorstr='#b68d4c', GradientType=1 );
+
 }
 
 .center {

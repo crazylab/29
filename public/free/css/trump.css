@@ -99,13 +99,8 @@
 
 .trump_card {
     position: absolute;
-    top: 35px;
-    left: 45px;
-    -webkit-transform: rotate(40deg);
-    -moz-transform: rotate(40deg);
-    -o-transform: rotate(40deg);
-    -ms-transform: rotate(40deg);
-    transform: rotate(40deg);
+    top: 190px;
+    left: 0px;
 }
 
 #seventh {
