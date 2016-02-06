@@ -25,7 +25,7 @@ var showTrumpOptions = function(){
 		$('#C2').on('click', postTrump);
 		$('#H2').on('click', postTrump);
 		$('#S2').on('click', postTrump);
-		$('#_7th').on('click', postTrump);
+		$('#seventh').on('click', postTrump);
 };
 var showTrumpSelectionBox = function(isBidWinner){
 	if(isBidWinner){
@@ -34,7 +34,6 @@ var showTrumpSelectionBox = function(isBidWinner){
 	}
 };
 var showTrump = function(trump){
-	console.log(trump)
 	if(trump){
 		var cards = {
 			D2 : {id: 'D2', suit: 'Diamond', name: '2'},
