@@ -1,8 +1,8 @@
 var showTurn = function(status){
 	$('#you').toggleClass('turn_on', status.me.turn);
-	$('#partner').toggleClass('turn_on', status.partner.turn);
-	$('#right').toggleClass('turn_on', status.opponent_1.turn);
-	$('#left').toggleClass('turn_on', status.opponent_2.turn);
+	$('.top-overlay').toggleClass('turn_on', status.partner.turn);
+	$('.right-overlay').toggleClass('turn_on', status.opponent_1.turn);
+	$('.left-overlay').toggleClass('turn_on', status.opponent_2.turn);
 }
 
 var playCard = function(turn){

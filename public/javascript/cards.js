@@ -7,7 +7,7 @@ var getShownCard = function(card, addedClass,z_index){
 		Club : '&clubs;',
 		Spade : '&spades;'
 	}
-	return '<div id="'+card.id+'" class="card '+cardColor +' '+ addedClass+'"  style="z-index:'+ -z_index +';">'+
+	return '<div id="'+card.id+'" class="card '+cardColor +' '+ addedClass+'"  style="z-index:'+ z_index+'">'+
 						'<div align="left">'+card.name+'</div>'+
 						'<div class="suit">'+suits[card.suit]+'</div>'+
 						'<div align="right">'+card.name+'</div>'+

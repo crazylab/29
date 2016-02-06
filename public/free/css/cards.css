@@ -24,9 +24,7 @@
 	margin: 2.5px;
 }
 #you > .hand > .card:hover {
-    -webkit-transform: translateY(-10px);
-    transform: translateY(-50px);
-	transition: transform 0.5s ease;
+    transform: translateY(-10px);
 }
 
 .red{
@@ -45,6 +43,7 @@
 .hand {
 	width: auto;
 	height: auto;
+	transform: translateX(0%);
 }
 
 #played_cards {
