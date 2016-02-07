@@ -10,8 +10,11 @@ var showScore = function(score){
 };
 
 var showPoint = function(point){
-	$('#your_point').html(point.myTeamPoint);
-	$('#opponent_point').html(point.opponentTeamPoint);
+	$('#your_point').html('YOU('+point.myTeamPoint+')');
+	$('#your_partner_point').html('PARTNER('+point.myTeamPoint+')');
+	$('#opponent_left_point').html('LEFT('+point.opponentTeamPoint+')');
+	$('#opponent_right_point').html('RIGHT('+point.opponentTeamPoint+')');
+
 };
 var handleStarting = function(isDealComplete){
 	if(!isDealComplete){
@@ -65,8 +68,8 @@ var getStatus = function(){
 }
 var onPageReady = function(){
 	revealTrump();
-	var name = parseCookie().name;
-	$('#you > .name').html(name.toUpperCase());
+	// var name = parseCookie().name;
+	// $('#you > .name').html(name.toUpperCase());
 	$.get('status',function(status){
 		var status = JSON.parse(status);
 		dealCard(status.isDealComplete);
