@@ -18,40 +18,24 @@
 	<body>
 		<div class="header"></div>
 		<div class="game" align="center">
-			<!-- <table class="score">
-				<tr>
-					<th>Team</th>
-					<th>Points</th>
-					<th>Score</th>
-				</tr>
-				<tr>
-					<td>Your</td>
-					<td align="center" id="your_point">0</td>
-					<td align="center" id="your_score">0</td>
-				</tr>
-				<tr>
-					<td>Opponent</td>
-					<td align="center" id="opponent_point">0</td>
-					<td align="center" id="opponent_score">0</td>
-				</tr>
-				<tr>
-					<td colspan="1">Bid Winner :</td>
-					<td colspan="2" id="bidWinner"></td>
-				</tr>
-				<tr align="center">
-					<td style="border-right: 1px solid #dedede">
-						<a href="help.html" target="_blank">Help</a>
-					</td>
-					<td style="cursor: pointer;" colspan="2">
-						<a href="leave_game.html">Leave Game</a>
-					</td>
-				</tr>
-			</table> -->
+			<div class="show_Score">
+				<table>
+					<tr>
+						<td>Bid Winner </td>
+						<td id="bidWinner"></td>
+					</tr>
+					<tr>
+						<td>Your Team </td>
+						<td id="your_score"></td>
+					</tr>
+					<tr>
+						<td>Opponent Team </td>
+						<td id="opponent_score"></td>
+					</tr>
+				</table>
+			</div>
 			<div class="table">
 				<button class="deal">Deal</button>
-				<!-- <div class="deck card hidden">
-					<div class="card hidden"><div class="card hidden"><div class="card hidden"></div></div></div>
-				</div> -->
 				<div id="trump_options">
 						<div>Select Trump</div>
 						<span class="center"></span>

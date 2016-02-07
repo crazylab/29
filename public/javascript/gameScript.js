@@ -5,8 +5,8 @@ var showMessage = function(message){
 	});
 }
 var showScore = function(score){
-	$('#your_score').html(score.myScore);
-	$('#opponent_score').html(score.opponentScore);
+	$('#your_score').html(' : '+score.myScore);
+	$('#opponent_score').html(' : '+score.opponentScore);
 };
 
 var showPoint = function(point){

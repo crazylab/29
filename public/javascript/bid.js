@@ -9,7 +9,7 @@ var putClickInBid = function(){
 }
 var showBidStatus = function(bid){
 	if(!bid.player) return;
-    var bidResult = bid.player.toUpperCase() + ' (' + bid.value + ')';
+    var bidResult = ' : '+bid.player.toUpperCase() + '(' + bid.value + ')';
 	$('#bidWinner').html(bidResult);
 };
 var showBiddingBoard = function(currentPlayer){
