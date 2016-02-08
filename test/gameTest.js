@@ -841,7 +841,7 @@ describe('Game', function(){
 		game.team_2.players = [player3,player4];
 
 		it('increases the score of the bidding team when they gain the bidding point',function() {
-			game.team_1.point = 18;
+			game.team_1.players[0].point = 18;
 			game.bid = {value : 18, player : 'raju'};
 			game.updateScore();
 			expect(game.team_1.score).to.equal(1);
@@ -849,14 +849,14 @@ describe('Game', function(){
 
 		it('increases the score of the bidding team when they gain more than the bidding point',function() {
 			game.bid = {value : 17, player : 'raju'};
-			game.team_1.point = 18;
+			game.team_1.players[0].point = 18;
 			game.updateScore();
 			expect(game.team_1.score).to.equal(2);
 		});
 
 		it('decreases the score of the bidding team when they gain less than the bidding point',function() {
 			game.bid = {value : 19, player : 'raju'};
-			game.team_1.point = 17;
+			game.team_1.players[0].point = 17;
 			game.updateScore();
 			expect(game.team_1.score).to.equal(1);
 		});

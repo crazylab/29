@@ -5,7 +5,7 @@ var assert = chai.assert;
 var expect = chai.expect;
 
 var gameController = require('../lib/gameController');
-var gameStore = require('../lib/gamestore');
+var gameStore = require('../lib/gameStore');
 
 describe('controller', function(){
 	describe('GET: /',function(){

@@ -13,10 +13,6 @@ describe('Team',function(){
 		var player_3 = 'prerna';
 
 		var team = new Team();
-
-		it('creates team with two players',function(){
-			expect(team).to.have.all.keys('players','score','wonCards','point');
-		});
 		it('adds beta player into team when there is less than 2 player in the team.',function(){
 			var player = new Player(player_1);
 			team.addPlayer(player);
@@ -27,9 +23,9 @@ describe('Team',function(){
 			var player3 = new Player(player_3);
 
 			team.addPlayer(player2);
-			
+
 			try{
-				team.addPlayer('peter',player3)			
+				team.addPlayer('peter',player3)
 			}catch(e){
 				expect(e.message).to.equals('not enough space');
 			}
@@ -109,5 +105,3 @@ describe('Team',function(){
 	});
 
 });
-
-
