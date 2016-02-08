@@ -9,11 +9,11 @@ var showScore = function(score){
 	$('#opponent_score').html(' : '+score.opponentScore);
 };
 
-var showPoint = function(point){
-	$('#your_point').html('YOU('+point.myTeamPoint+')');
-	$('#your_partner_point').html('PARTNER('+point.myTeamPoint+')');
-	$('#opponent_left_point').html('LEFT('+point.opponentTeamPoint+')');
-	$('#opponent_right_point').html('RIGHT('+point.opponentTeamPoint+')');
+var showPoint = function(status){
+	$('#your_point').html('YOU('+status.me.point+')');
+	$('#your_partner_point').html('PARTNER('+status.partner.point+')');
+	$('#opponent_right_point').html('RIGHT('+status.opponent_1.point+')');
+	$('#opponent_left_point').html('LEFT('+status.opponent_2.point+')');
 
 };
 var handleStarting = function(isDealComplete){
@@ -53,7 +53,7 @@ var updateChanges = function(status){
 	showTrumpSelectionBox(status.isBidWinner);
 	showTrump(status.trump);
 	showBidStatus(status.bid);
-	showPoint(status.point);
+	showPoint(status);
 	playCard(status.me.turn);
 	showWhoHasPair(status.pair)
 }

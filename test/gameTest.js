@@ -457,8 +457,10 @@ describe('Game', function(){
 		it('sets the game after one game finish for next deal',function(){
 			var game = new Game(deck);
 			game.distributionSequence = ['peter','john','ramu','savio'];
-			game.team_1.players=['peter','ramu'];
-			game.team_2.players=['john','savio']
+			game.team_1.players = ['peter','ramu'];
+			game.team_1.resetPlayer = sinon.spy();
+			game.team_2.players = ['john','savio'];
+			game.team_2.resetPlayer = sinon.spy();
 
 			game.team_1.wonCards = [{player:'peter',
 						card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
@@ -536,12 +538,8 @@ describe('Game', function(){
 
 			// expect(game.deck).to.have.length(16);
 			assert.deepEqual(game.distributionSequence,['john','ramu','savio','peter']);
-			expect(game.team_1.wonCards).to.have.length(0);
-			expect(game.team_2.wonCards).to.have.length(0);
-			assert.deepEqual(game.bid.value,0);
-			assert.deepEqual(game.bid.player,undefined);
+			expect(game.bid.player).to.equal.false;
 			expect(game.bid.passed).to.be.length(0);
-			assert.deepEqual(game.trump, {suit: undefined, open: false});
 			expect(game.team_1.score).to.be.equal(0);
 			expect(game.team_2.score).to.be.equal(1);
 
@@ -613,6 +611,8 @@ describe('Game', function(){
 
 	describe('roundWinner',function(){
 		var game = new Game(deck);
+		var player = {point: 0, addPoint: sinon.stub().returns(this)};
+		game.getPlayer = sinon.stub().returns(player)
 		it('gives the id of the player who won the round before trumpShown',function(){
 			var playedCardsSet_1 = [{player:'peter',
 							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
@@ -839,55 +839,9 @@ describe('Game', function(){
 		game.trump.open = true;
 		game.team_1.players = [player1,player2];
 		game.team_2.players = [player3,player4];
-		game.team_1.wonCards = [{player:'peter',
-							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
-							trumpShown: false
-							},
-							{player:'john',
-							card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
-							trumpShown: false
-							},
-							{player:'ramu',
-							card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
-							trumpShown: false
-							},
-							{player:'savio',
-							card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
-							trumpShown: false
-							},
-							{player:'peter',
-							card:{ name: '7', suit: 'Spade', point: 0, rank: 8 },
-							trumpShown: false
-							},
-							{player:'john',
-							card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
-							trumpShown: false
-							},
-							{player:'ramu',
-							card:{ name: 'J', suit: 'Spade', point: 3, rank: 1 },
-							trumpShown: false
-							},
-							{player:'savio',
-							card:{ name: '9', suit: 'Spade', point: 2, rank: 2 },
-							trumpShown: false
-							},
-							{player:'peter',
-							card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
-							trumpShown: false
-							},
-							{player:'john',
-							card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
-							trumpShown: true
-							},
-							{player:'ramu',
-							card:{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
-							trumpShown: true
-							},
-							{player:'savio',
-							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
-							trumpShown: true
-							}];
+
 		it('increases the score of the bidding team when they gain the bidding point',function() {
+			game.team_1.point = 18;
 			game.bid = {value : 18, player : 'raju'};
 			game.updateScore();
 			expect(game.team_1.score).to.equal(1);
@@ -895,12 +849,14 @@ describe('Game', function(){
 
 		it('increases the score of the bidding team when they gain more than the bidding point',function() {
 			game.bid = {value : 17, player : 'raju'};
+			game.team_1.point = 18;
 			game.updateScore();
 			expect(game.team_1.score).to.equal(2);
 		});
 
 		it('decreases the score of the bidding team when they gain less than the bidding point',function() {
 			game.bid = {value : 19, player : 'raju'};
+			game.team_1.point = 17;
 			game.updateScore();
 			expect(game.team_1.score).to.equal(1);
 		});
@@ -1348,23 +1304,6 @@ describe('Game', function(){
 		});
 
 
-	});
-
-	describe('setAllPlayersTurnFalse',function(){
-		it('sets every player\'s turn false',function(){
-				var game = new Game(deck);
-				var player1 = new Player('ramu');
-				var player2 = new Player('raju');
-				var player3 = new Player('peter');
-				var player4 = new Player('dhamu');
-				game.team_1.players = [player1,player2];
-				game.team_2.players = [player3,player4];
-
-				game.team_1.players[0].turn = true;
-				game.setAllPlayersTurnFalse();
-
-				expect(game.team_1.players[0].turn).to.be.false;
-		});
 	});
 
 	describe('handleCompletionOfRound',function(){

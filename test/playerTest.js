@@ -26,7 +26,8 @@ describe('Player',function(){
 					{id:'SK', name:'K', suit:'Spade'}],
 				turn : false,
 				isBidder : false,
-				_7thCard: false
+				_7thCard: false,
+				point : 0
 			};
 			expect(status).to.deep.equal(expectedStatus);
 		});
@@ -36,7 +37,8 @@ describe('Player',function(){
 				hand : 4,
 				turn : false,
 				isBidder : false,
-				_7thCard: false
+				_7thCard: false,
+				point : 0
 			};
 			expect(status).to.deep.equal(expectedStatus);
 		});
