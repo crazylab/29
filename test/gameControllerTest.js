@@ -18,7 +18,7 @@ describe('controller', function(){
 				.expect(200, done);
 		});
 	});
-	describe('POST: /waiting.html', function(){
+	describe('POST: /add_player', function(){
 		it('serves the waiting page when 1st player joins the game', function(done){
 			var game = {
 				getId : sinon.stub().returns(32),
@@ -28,7 +28,7 @@ describe('controller', function(){
 			gameStore['32'] = game;
 			var controller = gameController();
 			request(controller)
-				.post('/waiting.html')
+				.post('/add_player')
 				.send('name=Rahul')
 				.expect(302)
 				.expect('Location',/waiting.html/)
