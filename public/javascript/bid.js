@@ -1,4 +1,4 @@
-var putClickInBid = function(){
+var putClickInBid = function(bidValue){
     $('#bid > span > div').each(function(index){
         $( this ).on('click', function(){
             $.post("bid", {value: $(this).text()});
@@ -16,4 +16,4 @@ var showBiddingBoard = function(currentPlayer){
     if(currentPlayer)
         window.location.href = '#bid';
 }
-$(document).ready(putClickInBid);
+$(document).ready(putClickInBid)
