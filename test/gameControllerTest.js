@@ -243,8 +243,7 @@ describe('controller', function(){
 
 			request(controller)
 				.post('/bid')
-				.set('Cookie','gameID=32')
-				.send('id=Y')
+				.set('Cookie','gameID=32; id=Y')
 				.send('bid=20')
 				.expect(202)
 				.end(done);

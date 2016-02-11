@@ -1509,4 +1509,18 @@ describe('Game', function(){
 			expect(game.team_1.players[0].hand).to.have.length(0);
 		});
 	});
+
+	describe('getBidThreshold', function(){
+	    it('gives the threshold bid value for a player according to his leading or lagging position', function(){
+	        var game = new Game(deck);
+			game.bid.value = 18;
+			game.bid.turn.leading = 'ram';
+			game.bid.turn.lagging = 'sham';
+
+			expect(game.getBidThreshold('sham')).to.equal(19);
+			game.bid.value = 19;
+			expect(game.getBidThreshold('ram')).to.equal(19);
+			expect(game.getBidThreshold('sham')).to.not.equal(19);
+	    });
+	});
 });

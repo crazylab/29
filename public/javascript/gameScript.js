@@ -21,6 +21,7 @@ var handleStarting = function(isDealComplete){
 		$('#deal').css("visibility","visible");
 		$('#trump').html('');
 		$('#trump').removeClass('card hidden');
+		putClickInBid();
 	}
 };
 var dealCard = function(dealStatus){
