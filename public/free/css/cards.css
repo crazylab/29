@@ -34,11 +34,17 @@
 	color: black;
 }
 .hidden {
-	background-color: white;
+	background-image: url('/hazy.svg');
 	border-color: black;
-	-webkit-box-shadow: inset 0px 0px 50px 0px rgba(100,100,100,0.74);
-	-moz-box-shadow: inset 0px 0px 50px 0px rgba(100,100,100,0.74);
-	box-shadow: inset 0px 0px 50px 0px rgba(100,100,100,0.74);
+	background-size: cover;
+	border: 2px solid black; 
+	/*-webkit-box-shadow: inset 0px 0px 50px 0px rgba(#1e2122, 0.90);
+	-moz-box-shadow: inset 0px 0px 50px 0px rgba(#1e2122, 0.90);
+	box-shadow: inset 0px 0px 50px 0px rgba(#1e2122, 0.90);*/
+	/*opacity: 0.8;*/
+
+	/*box-shadow: inset 0px 0px 50px 0px rgba(#1e2122, 0.90);*/
+
 }
 .hand {
 	width: auto;
