@@ -37,14 +37,7 @@
 	background-image: url('/hazy.svg');
 	border-color: black;
 	background-size: cover;
-	border: 2px solid black; 
-	/*-webkit-box-shadow: inset 0px 0px 50px 0px rgba(#1e2122, 0.90);
-	-moz-box-shadow: inset 0px 0px 50px 0px rgba(#1e2122, 0.90);
-	box-shadow: inset 0px 0px 50px 0px rgba(#1e2122, 0.90);*/
-	/*opacity: 0.8;*/
-
-	/*box-shadow: inset 0px 0px 50px 0px rgba(#1e2122, 0.90);*/
-
+	border: 1px solid black; 
 }
 .hand {
 	width: auto;
