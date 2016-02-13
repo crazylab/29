@@ -16,76 +16,73 @@
 		<script type="text/javascript" src="javascript/bid.js"></script>
 	</head>
 	<body>
-		<div class="header"></div>
-		<div class="game" align="center">
-			<div class="show_Score">
-				<table>
-					<tr>
-						<td>Bid Winner </td>
-						<td id="bidWinner"></td>
-					</tr>
-					<tr>
-						<td>Your Team </td>
-						<td id="your_score"></td>
-					</tr>
-					<tr>
-						<td>Opponent Team </td>
-						<td id="opponent_score"></td>
-					</tr>
-				</table>
-			</div>
-			<div class="table">
-				<button class="deal">Deal</button>
-				<div id="trump_options">
-						<div>Select Trump</div>
-						<span class="center"></span>
+		<div class="game">
+			<div class="header"></div>
+				<div class="show_Score">
+					<table>
+						<tr>
+							<td>Bid Winner </td>
+							<td id="bidWinner"></td>
+						</tr>
+						<tr>
+							<td>Your Team </td>
+							<td id="your_score"></td>
+						</tr>
+						<tr>
+							<td>Opponent Team </td>
+							<td id="opponent_score"></td>
+						</tr>
+					</table>
 				</div>
-				<div id="bid">
-					<div>Select Bid</div>
-					<span class="center">
-						<div class="bid_value">16</div>
-						<div class="bid_value">17</div>
-						<div class="bid_value">18</div>
-						<div class="bid_value">19</div>
-						<div class="bid_value">20</div>
-						<div class="bid_value">21</div>
-						<div class="bid_value">22</div>
-						<div class="bid_value">23</div>
-						<div class="bid_value">24</div>
-						<div class="bid_value">25</div>
-						<div class="bid_value">26</div>
-						<div class="bid_value">27</div>
-						<div class="bid_value">28</div>
-						<div class="bid_value" style="width: 195px;">Pass</div>
-					</span>
+				<div class="table">
+					<button class="deal">Deal</button>
+					<div id="trump_options">
+							<div>Select Trump</div>
+							<span class="center"></span>
+					</div>
+					<div id="bid">
+						<div>Select Bid</div>
+						<span class="center">
+							<div class="bid_value">16</div>
+							<div class="bid_value">17</div>
+							<div class="bid_value">18</div>
+							<div class="bid_value">19</div>
+							<div class="bid_value">20</div>
+							<div class="bid_value">21</div>
+							<div class="bid_value">22</div>
+							<div class="bid_value">23</div>
+							<div class="bid_value">24</div>
+							<div class="bid_value">25</div>
+							<div class="bid_value">26</div>
+							<div class="bid_value">27</div>
+							<div class="bid_value">28</div>
+							<div class="bid_value" style="width: 195px;">Pass</div>
+						</span>
+					</div>
+			        <div id="cover" > </div>
+
+					<div id="played_cards"></div>
+					<div class="message"></div>
 				</div>
-		        <div id="cover" > </div>
+				<div id="partner" class="top player">
+					<div class="hand"></div>
+					<div class="name float-name-top" id="your_partner_point">0</div>
+					<div id="trump" class="trump_card"></div>
 
-				<div id="played_cards"></div>
-				<div class="message"></div>
-			</div>
-			<div id="partner" class="top player">
-				<div class="hand"></div>
-				<!-- <div class="top-overlay"></div> -->
-				<div class="name float-name" id="your_partner_point">0</div>
-				<div id="trump" class="trump_card"></div>
-
-			</div>
-			<div id="left" class="left player alignment-hands">
-				<div class="hand"></div>
-				<!-- <div class="left-overlay"></div> -->
-				<div class="name float-name opponent-name left-name" id="opponent_left_point">0</div>
-			</div>
-			<div id="right" class="right player alignment-hands">
-				<div class="hand"></div>
-				<!-- <div class="right-overlay"></div> -->
-				<div class="name float-name opponent-name right-name" id="opponent_right_point">0</div>
-			</div>
-			<div id="you" class="bottom player">
-				<div class="hand"></div>
-				<div class="name own-name" id="your_point">YOU</div>
-			</div>
-			<div id="_7thCard"></div>
+				</div>
+				<div id="left" class="left player alignment-hands">
+					<div class="hand"></div>
+					<div class="name float-name-side opponent-name left-name" id="opponent_left_point">0</div>
+				</div>
+				<div id="right" class="right player alignment-hands">
+					<div class="hand"></div>
+					<div class="name float-name-side opponent-name right-name" id="opponent_right_point">0</div>
+				</div>
+				<div id="you" class="bottom player">
+					<div class="hand"></div>
+					<div class="name own-name" id="your_point">YOU</div>
+				</div>
+				<div id="_7thCard"></div>
 		</div>
 	</body>
 </html>

@@ -1,7 +1,3 @@
-body {
-    background-color: #fdfdfd;
-}
-
 .index-body{
     font-family: sans-serif;
 }
@@ -13,7 +9,7 @@ body {
 
 .button{
     padding: 5px 10px 5px 10px;
-	  font-size: 18px;
+    font-size: 18px;
     display: block;
     margin: 0 auto;
     margin-top: 20px;
@@ -30,9 +26,9 @@ body {
 }
 
 .screen_center{
-    position: absolute;
+    /*position: absolute;
     top: 48%;
-    left: 38%;
+    left: 38%;*/
 }
 
 #name{
@@ -76,6 +72,7 @@ body {
   height: 60px;
   padding: 15px 0 5px 0;
   border-bottom: 2px solid grey;
+  width: 100%;
 }
 
 .body{
