@@ -39,7 +39,17 @@
 	background-size: cover;
 	border: 1px solid black;
 }
-.hand {
+
+.side-hand-cards{
+	clear: both;
+	margin: auto;
+	position: absolute;
+	top: 0%;
+	left: 19%;
+	-moz-left : 19%;
+	bottom: 0%;
+	right: 0%;
+	display: table;
 }
 
 #played_cards {

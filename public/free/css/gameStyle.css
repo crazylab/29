@@ -9,7 +9,6 @@ body{
 }
 
 .player {
-    position: fixed;
 }
 .top {
     width: 650px;
@@ -21,6 +20,8 @@ body{
     border-radius: 10px;
     margin: 0 auto;
     padding-bottom: 20px;
+
+    background-color: orange;
 }
 
 .bottom {
@@ -34,6 +35,9 @@ body{
     margin: 0 auto;
     padding-top: 20px;
     padding-left: 45px;
+    position: fixed;
+
+    background-color: yellow;
 }
 
 .left {
@@ -44,6 +48,8 @@ body{
     position: fixed;
     padding-left: 35px;
     border-radius: 10px;
+
+    background-color: purple;
 }
 
 .right {
@@ -54,6 +60,8 @@ body{
     padding-left: 35px;
     position: fixed;
     border-radius: 10px;
+
+    background-color: lightblue;
 }
 
 .rotate-hand{
@@ -78,21 +86,23 @@ body{
 }
 
 .left-name{
-    margin : 180px 0px 0px -50px ;
+    top: 54%;
+    left:0%;
     position: fixed;
 }
 
 .right-name{
-    margin : 180px 0px 0px -50px ;
+    top: 54%;
+    right:0%;
     position: fixed;
 }
 .bottom .own-name{
-    margin: 90px 0px 0px -400px;
-    position: fixed;
+    margin : 100px 100px 0px -400px;
+    position: absolute;
 }
-.float-name-top {
-    margin : 50px 0px 0px -400px;
-    position: fixed;
+.top .float-name-top {
+    margin : 70px 0px 0px -400px;
+    position: absolute;
 }
 
 .turn_on {
