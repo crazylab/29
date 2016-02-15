@@ -10,19 +10,14 @@
 }
 #trump_options {
     position: absolute;
-    /*left: 140px;*/
-    top: -20px;
-    transform: translateX(50%);
-    /*transform: translateY(50%);*/
-	/*background: rgba(3,2,1,0);*/
-
+    left: 39%;
+    top: 30%;
     height: 430px;
     width: 350px;
     z-index:10;
     display:none;
     background-color: rgba(0, 0, 0, 0.3);
-
-    /*box-shadow: -8px 8px 10px 3px rgba(0,0,0,0.2);*/
+    box-shadow: -8px 8px 10px 3px rgba(0,0,0,0.2);
     border-radius:10px;
 }
 #trump_options:target,
@@ -45,7 +40,7 @@
 #trump_options > span > .card:hover {
     box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
     -webkit-transform: translateY(-8px);
-    transform: translateY(-8px);
+    transform: translateY(-3px);
 }
 
 /*#trump:hover {
@@ -70,9 +65,9 @@
 }
 
 #bid {
-    position: absolute;
-    left: 135px;
-    top: 15px;
+    position: fixed;
+    left: 39.3%;
+    top: 35%;
 	background: rgba(3,2,1,0);
     height: 350px;
     width: 337px;
@@ -114,8 +109,8 @@
     font-size: 25px;
     padding: 5px;
     color: black;
-    width: 200px;
-
+    width: 93%;
+    text-align: center;
     border: 1px solid black;
     border-radius: 10px;
     margin: 2.5px;
@@ -127,5 +122,5 @@
 #seventh:hover {
 	box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
     -webkit-transform: translateY(-10px);
-    transform: translateY(-10px);
+    transform: translateY(-4px);
 }
