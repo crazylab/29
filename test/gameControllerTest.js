@@ -43,7 +43,8 @@ describe('controller', function(){
 				trump : {suit: undefined},
 				setTrumpSuit : sinon.spy(),
 				setRoundSequence : sinon.spy(),
-				getPlayer : sinon.stub().returns(true)
+				getPlayer : sinon.stub().returns(true),
+				isNotActive : sinon.stub().returns(false)
 			};
 			gameStore['32'] = game;
 			var controller = gameController();
@@ -61,7 +62,8 @@ describe('controller', function(){
 			var game = {
 				getId : sinon.stub().returns(32),
 				playerCount : sinon.stub().returns(2),
-				getPlayer : sinon.stub().returns(true)
+				getPlayer : sinon.stub().returns(true),
+				isNotActive : sinon.stub().returns(false)
 			};
 			gameStore['32'] = game;
 			var controller = gameController();
@@ -87,7 +89,8 @@ describe('controller', function(){
 			getPlayer : sinon.stub().returns(player),
 			nextTurn : function(){},
 			playedCards : [],
-			playCard : sinon.stub().returns(true)
+			playCard : sinon.stub().returns(true),
+			isNotActive : sinon.stub().returns(false)
 		};
 		it('removes a card from the player\'s hand',function(done){
 			gameStore['32'] = game;
@@ -171,7 +174,8 @@ describe('controller', function(){
 					trumpShown : false
 				}],
 				getTrumpSuit : sinon.stub().returns('D2'),
-				ableToAskForTrumpSuit : sinon.stub().returns(false)
+				ableToAskForTrumpSuit : sinon.stub().returns(false),
+				isNotActive : sinon.stub().returns(false)
 			};
 			gameStore['32'] = game;
 			var controller = gameController();
@@ -198,7 +202,8 @@ describe('controller', function(){
 					trumpShown : false
 				}],
 				getTrumpSuit : sinon.stub().returns('D2'),
-				ableToAskForTrumpSuit : sinon.stub().returns(true)
+				ableToAskForTrumpSuit : sinon.stub().returns(true),
+				isNotActive : sinon.stub().returns(false)
 			};
 			gameStore['32'] = game;
 			var controller = gameController();
@@ -217,7 +222,8 @@ describe('controller', function(){
 			var game = {
 				getId : sinon.stub().returns(32),
 				end : false,
-				getPlayer : sinon.stub().returns(true)
+				getPlayer : sinon.stub().returns(true),
+				isNotActive : sinon.stub().returns(false)
 			}
 			gameStore['32'] = game;
 			var controller = gameController();
@@ -236,7 +242,8 @@ describe('controller', function(){
 				getId : sinon.stub().returns(32),
 				setBid : sinon.spy(),
 				getCurrentBidder : sinon.stub().returns('Y'),
-				getPlayer : sinon.stub().returns(true)
+				getPlayer : sinon.stub().returns(true),
+				isNotActive : sinon.stub().returns(false)
 			};
 			gameStore['32'] = game;
 			var controller = gameController();
