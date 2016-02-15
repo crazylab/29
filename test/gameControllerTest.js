@@ -86,10 +86,10 @@ describe('controller', function(){
 			setTrumpSuit : sinon.spy(),
 			getPlayer : sinon.stub().returns(player),
 			nextTurn : function(){},
-			playedCards : []
+			playedCards : [],
+			playCard : sinon.stub().returns(true)
 		};
 		it('removes a card from the player\'s hand',function(done){
-			game.isValidCardToThrow = sinon.stub().returns(true);
 			gameStore['32'] = game;
 			var controller = gameController();
 
@@ -100,7 +100,6 @@ describe('controller', function(){
 				.expect(200, done);
 		});
 		it('removes a card when throwing conditions are satisfied',function(done){
-			game.isValidCardToThrow = sinon.stub().returns(true);
 			gameStore['32'] = game;
 			var controller = gameController();
 
@@ -112,8 +111,9 @@ describe('controller', function(){
 				.expect(200,done);
 		});
 		it('does not removes a card when throwing conditions are satisfied',function(done){
-			game.isValidCardToThrow = sinon.stub().returns(false);
+			game.playCard = sinon.stub().returns(false)
 			gameStore['32'] = game;
+
 			var controller = gameController();
 
 			request(controller)

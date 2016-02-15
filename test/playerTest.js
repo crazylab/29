@@ -67,16 +67,17 @@ describe('Player',function(){
 			expect(player.hasPair).to.be.false;
 		});
 	});
-	describe('removeCard',function(){
+	describe('throwCard',function(){
 		it('removes the card from player\'s hand and returns the card',function(){
 			player.hand = [{id:'SJ', name:'J', suit:'Spade'},
 				{id:'S7', name:'7', suit:'Spade'},
 				{id:'C9', name:'9', suit:'Club'},
 				{id:'SK', name:'K', suit:'Spade'}];
-			var deletedCard = player.removeCard('SJ');
+			var deletedCard = player.throwCard('SJ');
 			expect(player.hand.length).to.be.equal(3);
 			assert.deepEqual(deletedCard,{id:'SJ', name:'J', suit:'Spade'});
 		});
+
 	});
 
 	describe('getCardID',function(){

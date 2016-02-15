@@ -55,28 +55,8 @@ describe('Team',function(){
 		it('checks whether there is given player or not',function(){
 			expect(team.hasPlayer('beta')).to.be.true;
 		});
-	})
-
-	describe('removeCard',function(){
-		var player = new Player('ramu');
-		player.hand = [
-						{ id: 'H7', name: '7', suit: 'Heart', point: 0, rank: 8 },
-						{ id: 'D9', name: '9', suit: 'Diamond', point: 2, rank: 2 },
-						{ id: 'DJ', name: 'J', suit: 'Diamond', point: 3, rank: 1 },
-						{ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 } ];
-		var carId = 'S9';
-		var deletedCard = player.removeCard(carId);
-		it('it removes the requested card from the player\'s hand',function(){
-			expect(player.hand).to.have.length(3);
-			expect(player.hand).not.to.contain({ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 });
-		});
-
-		it('returns the deleted card',function(){
-			expect(deletedCard).to.deep.equal({ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 });
-		})
-
 	});
-
+	
 	describe('getMyCard',function(){
 		var player = new Player('john');
 		var playedCards = [{player:'john',
