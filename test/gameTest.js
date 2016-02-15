@@ -1523,4 +1523,42 @@ describe('Game', function(){
 			expect(game.getBidThreshold('sham')).to.not.equal(19);
 	    });
 	});
+
+	describe('playCard', function(){
+	    it('playes a card from the player\'s hand when he playes a valid card and moves it to playedCards', function(){
+	        var game = new Game(deck);
+			var player = {
+				id: 'Player_1',
+				hand : [],
+				throwCard : sinon.stub().returns('DJ'),
+				turn : true
+			};
+			game.isValidCardToThrow = sinon.stub().returns(true);
+			game.getPlayer = sinon.stub().returns(player);
+			game.nextTurn = function(){};
+
+			expect(game.playCard('Player_1','DJ')).to.equal.true;
+			expect(game.playedCards).to.deep.equal([{player: 'Player_1',card:'DJ',trumpShown:false}]);
+	    });
+
+		it('does not playes a card from the player\'s hand when he playes an invalid card and does not moves it to playedCards', function(){
+			var game = new Game(deck);
+			var player = { turn : true };
+			game.isValidCardToThrow = sinon.stub().returns(false);
+			game.getPlayer = sinon.stub().returns(player);
+
+			expect(game.playCard('Player_1','DJ')).to.equal.false;
+			expect(game.playedCards).to.deep.equal([]);
+		});
+
+		it('does not playes a card from the player\'s hand when player does not has turn', function(){
+			var game = new Game(deck);
+			var player = { turn : false };
+			game.getPlayer = sinon.stub().returns(player);
+
+			expect(game.playCard('Player_1','DJ')).to.equal.false;
+			expect(game.playedCards).to.deep.equal([]);
+		});
+	});
+
 });
