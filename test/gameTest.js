@@ -1537,7 +1537,7 @@ describe('Game', function(){
 			game.getPlayer = sinon.stub().returns(player);
 			game.nextTurn = function(){};
 
-			expect(game.playCard('Player_1','DJ')).to.equal.true;
+			expect(game.playCard('Player_1','DJ')).to.be.true;
 			expect(game.playedCards).to.deep.equal([{player: 'Player_1',card:'DJ',trumpShown:false}]);
 	    });
 
@@ -1547,7 +1547,7 @@ describe('Game', function(){
 			game.isValidCardToThrow = sinon.stub().returns(false);
 			game.getPlayer = sinon.stub().returns(player);
 
-			expect(game.playCard('Player_1','DJ')).to.equal.false;
+			expect(game.playCard('Player_1','DJ')).to.be.false;
 			expect(game.playedCards).to.deep.equal([]);
 		});
 
@@ -1556,9 +1556,21 @@ describe('Game', function(){
 			var player = { turn : false };
 			game.getPlayer = sinon.stub().returns(player);
 
-			expect(game.playCard('Player_1','DJ')).to.equal.false;
+			expect(game.playCard('Player_1','DJ')).to.be.false;
 			expect(game.playedCards).to.deep.equal([]);
 		});
 	});
 
+	describe('isNotActive', function(){
+	    it('returns true when the game is not active for longer than 5 minuite', function(){
+			var game = new Game(deck);
+			game.lastActivityTime = new Date() - 360000;
+	        expect(game.isNotActive()).to.be.true;
+	    });
+		it('returns false when the game is not active for lesser than 5 minuite', function(){
+			var game = new Game(deck);
+			game.lastActivityTime = new Date() - 100000;
+			expect(game.isNotActive()).to.be.false;
+		});
+	});
 });
