@@ -45,6 +45,12 @@ var show7thCard = function(_7thCard){
 var showCards = function(status){
 	showMyHand(status.me.hand);
 	show7thCard(status.me._7thCard);
+
+	if(status.me.hand.length != 0)
+		$('#your_point').addClass('own-name');
+	if(status.partner.hand != 0)
+		$('#your_partner_point').addClass('float-name-top');
+
 	$('#partner > .hand').html(renderHand(status.partner.hand, -50));
 	$('#right > .hand').html(renderHand(status.opponent_1.hand, -120,0,'right'));
 	$('#left > .hand').html(renderHand(status.opponent_2.hand, -120,0,'left'));
