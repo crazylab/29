@@ -1573,4 +1573,59 @@ describe('Game', function(){
 			expect(game.isNotActive()).to.be.false;
 		});
 	});
+	describe('hasFourJackInAHand',function(){
+		var game;
+		beforeEach(function(){
+			game = new Game(deck);
+			var player1 = new Player('ramu');
+			var player2 = new Player('raju');
+			var player3 = new Player('peter');
+			var player4 = new Player('dhamu');
+
+			player1.hand = [{id: 'H7', name: '7', suit: 'Heart', point: 0, rank: 8 },
+							{ id: 'DK', name: 'K', suit: 'Diamond', point: 0, rank: 5 },
+							{ id: 'D8', name: '8', suit: 'Diamond', point: 0, rank: 7 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'SQ', name: 'Q', suit: 'Spade', point: 0, rank: 6 } ];
+			player2.hand = [{id: 'S7', name: '7', suit: 'Spade', point: 0, rank: 8 },
+							{ id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 },
+							{ id: 'CJ', name: 'J', suit: 'Club', point: 3, rank: 1 },
+							{ id: 'SJ', name: 'J', suit: 'Spade', point: 3, rank: 1 },
+							{ id: 'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 },
+							{ id: 'DJ', name: 'J', suit: 'Diamond', point: 3, rank: 1 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 }];
+			player3.hand = [{id: 'HK', name: 'K', suit: 'Heart', point: 0, rank: 5 },
+							{ id: 'D10', name: '10', suit: 'Diamond', point: 1, rank: 4 },
+							{ id: 'HQ', name: 'Q', suit: 'Heart', point: 0, rank: 6 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'D7', name: '7', suit: 'Diamond', point: 0, rank: 8 } ];
+			player4.hand = [{id: 'SK', name: 'K', suit: 'Spade', point: 0, rank: 5 },
+							{ id: 'SQ', name: 'Q', suit: 'Spade', point: 0, rank: 6 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 },
+							{ id: 'SA', name: 'A', suit: 'Spade', point: 1, rank: 3 } ];
+
+			game.team_1.players = [player1,player2];
+			game.team_2.players = [player3,player4];
+		});
+		it('returns true when any player has four JACKs in his hand',function(){
+			game.setDistributionSequence();
+			expect(game.hasFourJackInAHand()).to.be.true;
+		});
+		it('returns false when no player has four JACKs in his hand',function(){
+			game.team_1.players[1].hand[3] = { id: 'H9', name: '9', suit: 'Heart', point: 2, rank: 2 };
+			game.setDistributionSequence();
+			expect(game.hasFourJackInAHand()).to.be.false;
+		});
+	});
 });
