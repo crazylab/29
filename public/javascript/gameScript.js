@@ -59,18 +59,17 @@ var updateChanges = function(status){
 	showWhoHasPair(status.pair)
 }
 var getStatus = function(){
-	setInterval(function(){
+	var statusCall = setInterval(function(){
 		$.get("status",function(data){
 			var status = JSON.parse(data);
 			updateChanges(status);
 			dealCard(status.isDealComplete);
 		});
 	},1000);
+	return statusCall;
 }
 var onPageReady = function(){
 	revealTrump();
-	// var name = parseCookie().name;
-	// $('#you > .name').html(name.toUpperCase());
 	$.get('status',function(status){
 		var status = JSON.parse(status);
 		dealCard(status.isDealComplete);
