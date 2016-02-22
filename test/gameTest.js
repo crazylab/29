@@ -982,6 +982,8 @@ describe('Game', function(){
 	describe('setTrumpSuit',function(){
 		it('sets the trump suit based on the given suit',function(){
 			var game = new Game(deck);
+			game.checkAllPlayerHand = sinon.stub.returns(true);
+			
 			game.setRoundSequence = sinon.spy();
 			game.setTrumpSuit('H2');
 			expect(game.trump.suit).to.be.equal('H2');
@@ -994,6 +996,7 @@ describe('Game', function(){
 			var player4 = new Player('dhamu');
 			game.team_1.players = [player1,player2];
 			game.team_2.players = [player3,player4];
+			game.checkAllPlayerHand = sinon.stub.returns(true);
 			game.setDistributionSequence();
 
 			player2.get7thCard = sinon.stub().returns({name: '7', suit:'Diamond'});
@@ -1010,6 +1013,8 @@ describe('Game', function(){
 			game.team_1.players = [player1,player2];
 			game.team_2.players = [player3,player4];
 			game.setDistributionSequence();
+			game.checkAllPlayerHand = sinon.stub.returns(true);
+
 
 			player2.get7thCard = sinon.stub().returns({name: '7', suit:'Diamond'});
 			game.getPlayer = sinon.stub().returns(player2);
