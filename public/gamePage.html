@@ -9,7 +9,6 @@
 		<script type="text/javascript" src="javascript/jquery-1.11.3.min.js"></script>
 		<script type="text/javascript" src="javascript/lodash.min.js"></script>
 		<script type="text/javascript" src="javascript/gameScript.js"></script>
-		<script type="text/javascript" src="javascript/cookie_parser.js"></script>
 		<script type="text/javascript" src="javascript/cards.js"></script>
 		<script type="text/javascript" src="javascript/playingCard.js"></script>
 		<script type="text/javascript" src="javascript/trump.js"></script>
@@ -17,7 +16,11 @@
 	</head>
 	<body>
 		<div class="game">
-			<div class="header"></div>
+			<div class="header">
+				<a href="leave_game.html"> <div class="leave-game"><img src="cancel.svg"/></div></a>
+				<div class="profile-pic"><img src="avatar.svg"/></div>
+				<a href="help.html"> <div class="help"><img src="Help-Button.svg"/></div></a>
+			</div>
 				<div class="show_Score">
 					<table>
 						<tr>
@@ -66,20 +69,20 @@
 					<div class="message"></div>
 				</div>
 				<div id="partner" class="top player">
-					<div class="hand"></div>
-					<div class="name" id="your_partner_point">0</div>
+					<div class="hand top-hand transformation"></div>
+					<div class="name float-name-top" id="your_partner_point">0</div>
 				</div>
 				<div id="left" class="left player">
-					<div class="hand side-hand-cards"></div>
+					<div class="hand left-hand-cards transformation"></div>
 					<div class="name opponent-name left-name" id="opponent_left_point">0</div>
 				</div>
 				<div id="right" class="right player">
-					<div class="hand side-hand-cards"></div>
+					<div class="hand right-hand-cards transformation"></div>
 					<div class="name opponent-name right-name" id="opponent_right_point">0</div>
 				</div>
 				<div id="you" class="bottom player">
-					<div class="hand"></div>
-					<div class="name" id="your_point">YOU</div>
+					<div class="hand bottom-hand transformation"></div>
+					<div class="name own-name" id="your_point">YOU</div>
 				</div>
 				<div id="_7thCard"></div>
 		</div>
