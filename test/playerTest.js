@@ -177,4 +177,48 @@ describe('Player',function(){
 			expect(player['_7thCard']).to.deep.equal({name: '7', suit:'Diamond'});
 	    });
 	});
+
+	describe('hasCard', function(){
+		var player = new Player();
+		player.hand = [
+			{id: 'SA', name: 'A', suit:'Spade'},
+			{id: 'SJ', name: 'J', suit:'Spade'},
+			{id: 'CK', name: 'K', suit:'Club'},
+			{id: 'SQ', name: 'Q', suit:'Spade'},
+			{id: 'C9', name: '9', suit:'Club'},
+			{id: 'H10', name: '10', suit:'Heart'},
+			{id: 'D7', name: '7', suit:'Diamond'},
+			{id: 'D6', name: '6', suit:'Diamond'}
+		];
+
+		it('gives true if the player has the card in his hand', function(){
+			expect(player.hasCard('CK')).to.be.true;
+		});
+
+		it('gives false if the player does not have the card in his hand', function(){
+			expect(player.hasCard('DA')).to.be.false;
+		});
+	});
+
+	describe('hasSameSuitCard', function(){
+		var player = new Player();
+		player.hand = [
+			{id: 'SA', name: 'A', suit:'Spade'},
+			{id: 'SJ', name: 'J', suit:'Spade'},
+			{id: 'CK', name: 'K', suit:'Club'},
+			{id: 'SQ', name: 'Q', suit:'Spade'},
+			{id: 'C9', name: '9', suit:'Club'},
+			{id: 'C10', name: '10', suit:'Club'},
+			{id: 'D7', name: '7', suit:'Diamond'},
+			{id: 'D6', name: '6', suit:'Diamond'}
+		];
+
+		it('gives true if the player has the card of same suit with the given card', function(){
+			expect(player.hasSameSuitCard('C7')).to.be.true;
+		});
+
+		it('gives false if the player does not have card with matching suit', function(){
+			expect(player.hasSameSuitCard('HA')).to.be.false;
+		});
+	});
 });

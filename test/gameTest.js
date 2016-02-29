@@ -253,20 +253,21 @@ describe('Game', function(){
 			game.team_1.players = [p1,p3];
 			game.team_2.players = [p2,p4];
 		});
+
 		it('allows a player to play any card of his hand when playedCards bucket is empty',function(){
-			expect(game.isValidCardToThrow('S9',game.team_1.players[0].hand)).to.be.true;
+			expect(game.isValidCardToThrow('S9',game.team_1.players[0])).to.be.true;
 		});
 		it('only allows a player to play the running suit if he has that suit',function(){
 
 			game.playedCards = [{card:{ id: 'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 }},
 								{card:{ id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }}];
-			expect(game.isValidCardToThrow('H10',game.team_1.players[0].hand)).to.be.true;
-			expect(game.isValidCardToThrow('S9',game.team_1.players[0].hand)).to.be.false;
+			expect(game.isValidCardToThrow('H10',game.team_1.players[0])).to.be.true;
+			expect(game.isValidCardToThrow('S9',game.team_1.players[0])).to.be.false;
 		});
 		it('allows a player to play any card of his hand if his hand doesn\'t contain running suit',function(){
 			game.playedCards = [{card:{ id: 'DJ', name: 'J', suit: 'Diamond', point: 3, rank: 1 }},
 								{card:{ id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }}];
-			expect(game.isValidCardToThrow('C8',game.team_1.players[0].hand)).to.be.true;
+			expect(game.isValidCardToThrow('C8',game.team_1.players[0])).to.be.true;
 		});
 		it('doesn\'t allow a player to play any suit card rathar than trump suit card, if he revel trump suit and he has trump suit in hand in that round',function(){
 			var game = new Game(deck);
@@ -289,17 +290,16 @@ describe('Game', function(){
 							card:{ id:'S10', name: '10', suit: 'Spade', point: 1, rank: 4 },
 							trumpShown: false
 							}];
-			var hand = [
+			player1.hand = [
 								{ id: 'H10', name: '10', suit: 'Heart', point: 1, rank: 4 },
 		  						{ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 },
 								{ id: 'D8', name: '8', suit: 'Diamond', point: 0, rank: 7 },
 		 						{ id: 'C7', name: '7', suit: 'Club', point: 0, rank: 8 }
 		 				];
-			expect(game.isValidCardToThrow('S9',hand)).to.be.false;
-			expect(game.isValidCardToThrow('H10',hand)).to.be.false;
-			expect(game.isValidCardToThrow('D8',hand)).to.be.true;
-
-		})
+			expect(game.isValidCardToThrow('S9',player1)).to.be.false;
+			expect(game.isValidCardToThrow('H10',player1)).to.be.false;
+			expect(game.isValidCardToThrow('D8', player1)).to.be.true;
+		});
 	});
 
 	describe('getRelationship',function(){
