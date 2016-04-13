@@ -221,4 +221,22 @@ describe('Player',function(){
 			expect(player.hasSameSuitCard('HA')).to.be.false;
 		});
 	});
+
+	describe('getThrowableCard', function(){
+	    it('gives a card that can be played when the current player has first turn', function(){
+	        var player = new Player();
+			player.hand = [
+				{name: 'A', suit:'Spade'},
+				{name: 'J', suit:'Spade'},
+				{name: 'K', suit:'Club'},
+				{name: 'Q', suit:'Spade'},
+				{name: '9', suit:'Club'},
+				{name: '10', suit:'Heart'},
+				{name: '7', suit:'Diamond'},
+				{name: '6', suit:'Diamond'}
+			];
+
+			expect(player.getThrowableCard()).to.deep.equal({name: 'A', suit:'Spade'});
+	    });
+	});
 });

@@ -6,6 +6,8 @@ var assert = chai.assert;
 var expect = chai.expect;
 var sinon = require('sinon');
 
+var ThrownCardStatus = require('../lib/thrownCardStatus');
+
 var deck = {
 	getCards : sinon.stub.returns([1,2,3]),
 	drawFourCards : sinon.stub().returns([
@@ -51,22 +53,12 @@ describe('Game', function(){
 		game.distributionSequence = [player1,player3,player2,player4];
 
 		game.distributeCards();
-		game.playedCards = [{player:'ramu',
-							card:{ id:'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 },
-							trumpShown: false
-							},
-							{player:'raju',
-							card:{ id:'S10', name: '10', suit: 'Spade', point: 1, rank: 4 },
-							trumpShown: false
-							},
-							{player:'peter',
-							card:{ id:'S8', name: '8', suit: 'Spade', point: 0, rank: 7 },
-							trumpShown: true
-							},
-							{player:'dhamu',
-							card:{ id:'HA', name: 'A', suit: 'Heart', point: 1, rank: 3 },
-							trumpShown: true
-							}];
+		game.playedCards = [
+							new ThrownCardStatus('ramu', { id:'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 }, false),
+							new ThrownCardStatus('raju', { id:'S10', name: '10', suit: 'Spade', point: 1, rank: 4 }, false),
+							new ThrownCardStatus('peter', { id:'S8', name: '8', suit: 'Spade', point: 0, rank: 7 }, true),
+							new ThrownCardStatus('dhamu', { id:'HA', name: 'A', suit: 'Heart', point: 1, rank: 3 }, true)
+						];
 		var status = game.getStatus('peter');
 		it('gives four card IDs for the requested player',function(){
 			expect(status.me.hand).to.have.length(4);
@@ -259,14 +251,14 @@ describe('Game', function(){
 		});
 		it('only allows a player to play the running suit if he has that suit',function(){
 
-			game.playedCards = [{card:{ id: 'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 }},
-								{card:{ id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }}];
+			game.playedCards = [new ThrownCardStatus('ramu', { id: 'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 }, false),
+								new ThrownCardStatus('dhamu', { id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }, true)];
 			expect(game.isValidCardToThrow('H10',game.team_1.players[0])).to.be.true;
 			expect(game.isValidCardToThrow('S9',game.team_1.players[0])).to.be.false;
 		});
 		it('allows a player to play any card of his hand if his hand doesn\'t contain running suit',function(){
-			game.playedCards = [{card:{ id: 'DJ', name: 'J', suit: 'Diamond', point: 3, rank: 1 }},
-								{card:{ id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }}];
+			game.playedCards = [new ThrownCardStatus('ramu', { id: 'DJ', name: 'J', suit: 'Diamond', point: 3, rank: 1 }, false),
+								new ThrownCardStatus('dhamu', { id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }, true)];
 			expect(game.isValidCardToThrow('C8',game.team_1.players[0])).to.be.true;
 		});
 		it('doesn\'t allow a player to play any suit card rathar than trump suit card, if he revel trump suit and he has trump suit in hand in that round',function(){
@@ -282,14 +274,10 @@ describe('Game', function(){
 				suit : 'D2',
 				open : true
 			};
-			game.playedCards = [{player:'ramu',
-							card:{ id:'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 },
-							trumpShown: false
-							},
-							{player:'raka',
-							card:{ id:'S10', name: '10', suit: 'Spade', point: 1, rank: 4 },
-							trumpShown: false
-							}];
+
+			game.playedCards = [new ThrownCardStatus('ramu', { id:'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 }, false),
+								new ThrownCardStatus('raka', { id:'S10', name: '10', suit: 'Spade', point: 1, rank: 4 }, false)];
+
 			player1.hand = [
 								{ id: 'H10', name: '10', suit: 'Heart', point: 1, rank: 4 },
 		  						{ id: 'S9', name: '9', suit: 'Spade', point: 2, rank: 2 },
@@ -329,14 +317,8 @@ describe('Game', function(){
 	describe("ableToAskForTrumpSuit",function(){
 		it("prevents a player to see the trump suit if the player has the running suit",function(){
 			var game = new Game(deck);
-			game.playedCards = [{player:'ramu',
-							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
-							trumpShown: false
-							},
-							{player:'peter',
-							card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
-							trumpShown: false
-							}];
+			game.playedCards = [new ThrownCardStatus('ramu', { id:'C7', name: '7', suit: 'Club', point: 0, rank: 8 }, false),
+								new ThrownCardStatus('peter', { id:'C8', name: '8', suit: 'Club', point: 0, rank: 7 }, false)];
 
 			var playerHand = [{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
 							{ name: '7', suit: 'Heart', point: 0, rank: 8 },
@@ -361,14 +343,9 @@ describe('Game', function(){
 
 		it("allows a player to see the trump suit if the player doesn't have the running suit",function(){
 			var game = new Game(deck);
-			game.playedCards = [{player:'ramu',
-							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
-							trumpShown: false
-							},
-							{player:'peter',
-							card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
-							trumpShown: false
-							}];
+
+			game.playedCards = [new ThrownCardStatus('ramu', { id:'C7', name: '7', suit: 'Club', point: 0, rank: 8 }, false),
+								new ThrownCardStatus('peter', { id:'C8', name: '8', suit: 'Club', point: 0, rank: 7 }, false)];
 
 			var playerHand = [{ name: '7', suit: 'Diamond', point: 0, rank: 8 },
 							{ name: '7', suit: 'Heart', point: 0, rank: 8 },
@@ -614,54 +591,24 @@ describe('Game', function(){
 		var player = {point: 0, addPoint: sinon.stub().returns(this)};
 		game.getPlayer = sinon.stub().returns(player)
 		it('gives the id of the player who won the round before trumpShown',function(){
-			var playedCardsSet_1 = [{player:'peter',
-							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
-							trumpShown: false
-							},
-							{player:'john',
-							card:{ name: '8', suit: 'Club', point: 0, rank: 7 },
-							trumpShown: false
-							},
-							{player:'ramu',
-							card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
-							trumpShown: false
-							},
-							{player:'savio',
-							card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
-							trumpShown: false
-							}];
-			var playedCardsSet_2 = [{player:'peter',
-								card:{ name: '7', suit: 'Spade', point: 0, rank: 8 },
-								trumpShown: false
-								},
-								{player:'john',
-								card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
-								trumpShown: false
-								},
-								{player:'ramu',
-								card:{ name: 'J', suit: 'Spade', point: 3, rank: 1 },
-								trumpShown: false
-								},
-								{player:'savio',
-								card:{ name: '9', suit: 'Spade', point: 2, rank: 2 },
-								trumpShown: false
-								}];
-			var playedCardsSet_3 = [{player:'peter',
-							card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
-							trumpShown: false
-							},
-							{player:'john',
-							card:{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
-							trumpShown: false
-							},
-							{player:'ramu',
-							card:{ name: 'J', suit: 'Spade', point: 3, rank: 2 },
-							trumpShown: false
-							},
-							{player:'savio',
-							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
-							trumpShown: false
-							}];
+			var playedCardsSet_1 = [
+				new ThrownCardStatus('peter', { id:'C7', name: '7', suit: 'Club', point: 0, rank: 8 }, false),
+				new ThrownCardStatus('john', { id:'C8', name: '8', suit: 'Club', point: 0, rank: 7 }, false),
+				new ThrownCardStatus('ramu', { id:'C9', name: '9', suit: 'Club', point: 2, rank: 2 }, false),
+				new ThrownCardStatus('savio', { id:'CJ', name: 'J', suit: 'Club', point: 3, rank: 1 }, false)
+			];
+			var playedCardsSet_2 = [
+				new ThrownCardStatus('peter', { id:'S7', name: '7', suit: 'Spade', point: 0, rank: 8 }, false),
+				new ThrownCardStatus('john', { id:'D8', name: '8', suit: 'Diamond', point: 0, rank: 7 }, false),
+				new ThrownCardStatus('ramu', { id:'SJ', name: 'J', suit: 'Spade', point: 3, rank: 1 }, false),
+				new ThrownCardStatus('savio', { id:'S9', name: '9', suit: 'Spade', point: 2, rank: 2 }, false)
+			];
+			var playedCardsSet_3 = [
+				new ThrownCardStatus('peter', { id:'CJ', name: 'J', suit: 'Club', point: 3, rank: 1 }, false),
+				new ThrownCardStatus('john', { id:'DJ', name: 'J', suit: 'Diamond', point: 3, rank: 1 }, false),
+				new ThrownCardStatus('ramu', { id:'SJ', name: 'J', suit: 'Spade', point: 3, rank: 1 }, false),
+				new ThrownCardStatus('savio', { id:'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 }, false)
+			];
 			game.playedCards = playedCardsSet_1;
 			assert.equal('savio',game.roundWinner());
 			game.playedCards = playedCardsSet_2;
@@ -673,134 +620,55 @@ describe('Game', function(){
 
 		});
 		it('gives the id of the player who won the round after trumpShown',function(){
-			var playedCardsSet_1 = [{player:'peter',
-							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
-							trumpShown: false
-							},
-							{player:'john',
-							card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
-							trumpShown: true
-							},
-							{player:'ramu',
-							card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
-							trumpShown: true
-							},
-							{player:'savio',
-							card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
-							trumpShown: true
-							}];
-			var playedCardsSet_2 = [{player:'peter',
-							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
-							trumpShown: false
-							},
-							{player:'john',
-							card:{ name: '10', suit: 'Spade', point: 1, rank: 4 },
-							trumpShown: false
-							},
-							{player:'ramu',
-							card:{ name: '8', suit: 'Spade', point: 0, rank: 7 },
-							trumpShown: true
-							},
-							{player:'savio',
-							card:{ name: 'A', suit: 'Heart', point: 1, rank: 3 },
-							trumpShown: true
-							}];
-			var playedCardsSet_3 = [{player:'peter',
-							card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
-							trumpShown: false
-							},
-							{player:'john',
-							card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
-							trumpShown: true
-							},
-							{player:'ramu',
-							card:{ name: 'K', suit: 'Diamond', point: 0, rank: 5 },
-							trumpShown: true
-							},
-							{player:'savio',
-							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
-							trumpShown: true
-							}];
-			var playedCardsSet_4 = [{player:'peter',
-							card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
-							trumpShown: false
-							},
-							{player:'john',
-							card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
-							trumpShown: true
-							},
-							{player:'ramu',
-							card:{ name: 'J', suit: 'Diamond', point: 3, rank: 1 },
-							trumpShown: true
-							},
-							{player:'savio',
-							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
-							trumpShown: true
-							}];
-			var playedCardsSet_5 = [{player:'peter',
-							card:{ name: '7', suit: 'Heart', point: 0, rank: 8 },
-							trumpShown: true
-							},
-							{player:'john',
-							card:{ name: '9', suit: 'Diamond', point: 2, rank: 2 },
-							trumpShown: true
-							},
-							{player:'ramu',
-							card:{ name: 'K', suit: 'Diamond', point: 0, rank: 5 },
-							trumpShown: true
-							},
-							{player:'savio',
-							card:{ name: 'J', suit: 'Heart', point: 3, rank: 1 },
-							trumpShown: true
-							}];
-			var playedCardsSet_6 = [{player:'peter',
-							card:{ name: '7', suit: 'Club', point: 0, rank: 8 },
-							trumpShown: true
-							},
-							{player:'john',
-							card:{ name: '8', suit: 'Diamond', point: 0, rank: 7 },
-							trumpShown: true
-							},
-							{player:'ramu',
-							card:{ name: '9', suit: 'Club', point: 2, rank: 2 },
-							trumpShown: true
-							},
-							{player:'savio',
-							card:{ name: 'J', suit: 'Club', point: 3, rank: 1 },
-							trumpShown: true
-							}];
-			var playedCardsSet_7 = [{player:'peter',
-							card:{ name: 'K', suit: 'Club', point: 0, rank: 5 },
-							trumpShown: true
-							},
-							{player:'john',
-							card:{ name: 'Q', suit: 'Heart', point: 0, rank: 6 },
-							trumpShown: true
-							},
-							{player:'ramu',
-							card:{ name: '8', suit: 'Spade', point: 0, rank: 7 },
-							trumpShown: true
-							},
-							{player:'savio',
-							card:{ name: 'K', suit: 'Diamond', point: 0, rank: 5 },
-							trumpShown: true
-							}];
-			var playedCardsSet_8 = [{player:'peter',
-							card:{ name: 'K', suit: 'Club', point: 0, rank: 5 },
-							trumpShown: true
-							},
-							{player:'john',
-							card:{ name: 'Q', suit: 'Heart', point: 0, rank: 6 },
-							trumpShown: true
-							},
-							{player:'ramu',
-							card:{ name: 'K', suit: 'Heart', point: 0, rank: 5 },
-							trumpShown: true
-							},
-							{player:'savio',
-							card:{ name: 'K', suit: 'Diamond', point: 0, rank: 5 },
-							trumpShown: true
-							}];
+			var playedCardsSet_1 = [
+				new ThrownCardStatus('peter', { name: '7', suit: 'Club', point: 0, rank: 8 }, false),
+				new ThrownCardStatus('john', { name: '8', suit: 'Diamond', point: 0, rank: 7 }, true),
+				new ThrownCardStatus('ramu', { name: '9', suit: 'Club', point: 2, rank: 2 }, true),
+				new ThrownCardStatus('savio', { name: 'J', suit: 'Club', point: 3, rank: 1 }, true)
+			];
+			var playedCardsSet_2 = [
+				new ThrownCardStatus('peter', { name: 'J', suit: 'Heart', point: 3, rank: 1 }, false),
+				new ThrownCardStatus('john', { name: '10', suit: 'Spade', point: 1, rank: 4 }, false),
+				new ThrownCardStatus('ramu', { name: '8', suit: 'Spade', point: 0, rank: 7 }, true),
+				new ThrownCardStatus('savio', { name: 'A', suit: 'Heart', point: 1, rank: 3 }, true)
+			];
+			var playedCardsSet_3 = [
+				new ThrownCardStatus('peter', { name: '7', suit: 'Heart', point: 0, rank: 8 }, false),
+				new ThrownCardStatus('john', { name: '9', suit: 'Diamond', point: 2, rank: 2 }, true),
+				new ThrownCardStatus('ramu', { name: 'K', suit: 'Diamond', point: 0, rank: 5 }, true),
+				new ThrownCardStatus('savio', { name: 'J', suit: 'Heart', point: 3, rank: 1 }, true)
+			];
+			var playedCardsSet_4 = [
+				new ThrownCardStatus('peter', { name: '7', suit: 'Heart', point: 0, rank: 8 }, false),
+				new ThrownCardStatus('john', { name: '9', suit: 'Diamond', point: 2, rank: 2 }, true),
+				new ThrownCardStatus('ramu', { name: 'J', suit: 'Diamond', point: 3, rank: 1 }, true),
+				new ThrownCardStatus('savio', { name: 'J', suit: 'Heart', point: 3, rank: 1 }, true)
+			];
+			var playedCardsSet_5 = [
+				new ThrownCardStatus('peter', { name: '7', suit: 'Heart', point: 0, rank: 8 }, true),
+				new ThrownCardStatus('john', { name: '9', suit: 'Diamond', point: 2, rank: 2 }, true),
+				new ThrownCardStatus('ramu', { name: 'K', suit: 'Diamond', point: 0, rank: 5 }, true),
+				new ThrownCardStatus('savio', { name: 'J', suit: 'Heart', point: 3, rank: 1 }, true)
+			];
+			var playedCardsSet_6 = [
+				new ThrownCardStatus('peter', { name: '7', suit: 'Club', point: 0, rank: 8 }, true),
+				new ThrownCardStatus('john', { name: '8', suit: 'Diamond', point: 0, rank: 7 }, true),
+				new ThrownCardStatus('ramu', { name: '9', suit: 'Club', point: 2, rank: 2 }, true),
+				new ThrownCardStatus('savio', { name: 'J', suit: 'Club', point: 3, rank: 1 }, true)
+			];
+			var playedCardsSet_7 = [
+				new ThrownCardStatus('peter', { name: 'K', suit: 'Club', point: 0, rank: 5 }, true),
+				new ThrownCardStatus('john', { name: 'Q', suit: 'Heart', point: 0, rank: 6 }, true),
+				new ThrownCardStatus('ramu', { name: '8', suit: 'Spade', point: 0, rank: 7 }, true),
+				new ThrownCardStatus('savio', { name: 'K', suit: 'Diamond', point: 0, rank: 5 }, true)
+			];
+			var playedCardsSet_8 = [
+				new ThrownCardStatus('peter', { name: 'K', suit: 'Club', point: 0, rank: 5 }, true),
+				new ThrownCardStatus('john', { name: 'Q', suit: 'Heart', point: 0, rank: 6 }, true),
+				new ThrownCardStatus('ramu', { name: 'K', suit: 'Heart', point: 0, rank: 5 }, true),
+				new ThrownCardStatus('savio', { name: 'K', suit: 'Diamond', point: 0, rank: 5 }, true)
+			];
+
 			game.playedCards = playedCardsSet_2;
 			game.trump = {suit:'Spade'};
 			assert.equal('ramu',game.roundWinner(playedCardsSet_2,'Spade'));
@@ -983,7 +851,7 @@ describe('Game', function(){
 		it('sets the trump suit based on the given suit',function(){
 			var game = new Game(deck);
 			game.checkAllPlayerHand = sinon.stub.returns(true);
-			
+
 			game.setRoundSequence = sinon.spy();
 			game.setTrumpSuit('H2');
 			expect(game.trump.suit).to.be.equal('H2');
@@ -1335,10 +1203,10 @@ describe('Game', function(){
 		beforeEach(function(){
 			game = new Game(deck);
 			game.playedCards = [
-				{ player: 'X', card: 'J' },
-				{ player: 'M', card: 'Q' },
-				{ player: 'Y', card: 'K' },
-				{ player: 'N', card: 'A' }
+				new ThrownCardStatus('X', {}, false),
+				new ThrownCardStatus('M', {}, false),
+				new ThrownCardStatus('Y', {}, false),
+				new ThrownCardStatus('N', {}, false)
 			];
 			var relation = {
 				me : {id: 'Y'},
@@ -1543,7 +1411,7 @@ describe('Game', function(){
 			game.nextTurn = function(){};
 
 			expect(game.playCard('Player_1','DJ')).to.be.true;
-			expect(game.playedCards).to.deep.equal([{player: 'Player_1',card:'DJ',trumpShown:false}]);
+			expect(game.playedCards).to.deep.equal([new ThrownCardStatus('Player_1', 'DJ', false)]);
 	    });
 
 		it('does not playes a card from the player\'s hand when he playes an invalid card and does not moves it to playedCards', function(){
