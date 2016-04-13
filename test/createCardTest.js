@@ -19,4 +19,20 @@ describe('createCard',function(){
 		heartA.rank = 1;
 		expect(expectedCard).to.deep.equals(heartA);
 	});
+
+	it('gives error message when the given suit is invalid',function(){
+		try {
+			createCard("A","boom");
+		} catch (e) {
+			expect('Invalid card suit').to.equals(e.message);
+		};
+	});
+
+	it('gives error message when the given card name is invalid',function(){
+		try {
+			createCard("X","Heart");
+		} catch (e) {
+			expect('Invalid card name').to.equals(e.message);
+		};
+	});
 });
