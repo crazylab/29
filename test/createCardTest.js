@@ -3,17 +3,12 @@ var expect = chai.expect;
 var sinon = require('sinon');
 
 var createCard = require('../lib/createCard.js');
+var Card = require('../lib/card.js');
 
 describe('createCard',function(){
 	it('gives a read only card',function(){
 		var heartA = createCard("A","Heart");
-		var expectedCard = {
-			id : 'HA',
-			suit : 'Heart',
-			name : 'A',
-			point : 1,
-			rank : 3
-		};
+		var expectedCard = new Card("A", "Heart");
 		expect(expectedCard).to.deep.equals(heartA);
 
 		heartA.rank = 1;

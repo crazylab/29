@@ -1,4 +1,8 @@
 var Player = require('../lib/player');
+var PlayedCards = require('../lib/playedCards');
+var Card = require('../lib/card');
+
+
 var chai = require('chai');
 var assert = chai.assert;
 var expect = chai.expect;
@@ -222,21 +226,63 @@ describe('Player',function(){
 		});
 	});
 
-	describe('getThrowableCard', function(){
+	describe('throwAValidCard', function(){
 	    it('gives a card that can be played when the current player has first turn', function(){
+			var playedCards = new PlayedCards();
+
 	        var player = new Player();
 			player.hand = [
-				{name: 'A', suit:'Spade'},
-				{name: 'J', suit:'Spade'},
-				{name: 'K', suit:'Club'},
-				{name: 'Q', suit:'Spade'},
-				{name: '9', suit:'Club'},
-				{name: '10', suit:'Heart'},
-				{name: '7', suit:'Diamond'},
-				{name: '6', suit:'Diamond'}
+				new Card('A', 'Spade'),
+				new Card('J', 'Spade'),
+				new Card('K', 'Club'),
+				new Card('Q', 'Spade'),
+				new Card('9', 'Club'),
+				new Card('10', 'Heart'),
+				new Card('7', 'Diamond'),
+				new Card('J', 'Diamond')
 			];
 
-			expect(player.getThrowableCard()).to.deep.equal({name: 'A', suit:'Spade'});
+			expect(player.throwAValidCard(playedCards)).to.deep.equal(new Card('A', 'Spade'));
+	    });
+
+		it('gives a card that can be played when the current player does not has first turn and the player has running suit', function(){
+			var playedCards = new PlayedCards();
+			playedCards.pushCard('ramu', { id: 'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 }, false);
+			playedCards.pushCard('dhamu', { id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }, false);
+
+	        var player = new Player();
+			player.hand = [
+				new Card('A', 'Spade'),
+				new Card('J', 'Spade'),
+				new Card('K', 'Club'),
+				new Card('Q', 'Spade'),
+				new Card('9', 'Club'),
+				new Card('10', 'Heart'),
+				new Card('7', 'Diamond'),
+				new Card('J', 'Diamond')
+			];
+
+			expect(player.throwAValidCard(playedCards)).to.deep.equal(new Card('10', 'Heart'));
+	    });
+
+		it('gives a card that can be played when the current player does not has first turn and the player does not has running suit', function(){
+			var playedCards = new PlayedCards();
+			playedCards.pushCard('ramu', { id: 'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 }, false);
+			playedCards.pushCard('dhamu', { id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }, false);
+
+	        var player = new Player();
+			player.hand = [
+				new Card('A', 'Spade'),
+				new Card('J', 'Spade'),
+				new Card('K', 'Club'),
+				new Card('Q', 'Spade'),
+				new Card('9', 'Club'),
+				new Card('10', 'Diamond'),
+				new Card('7', 'Diamond'),
+				new Card('J', 'Diamond')
+			];
+
+			expect(player.throwAValidCard(playedCards)).to.deep.equal(new Card('A', 'Spade'));
 	    });
 	});
 });
