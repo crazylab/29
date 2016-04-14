@@ -226,7 +226,7 @@ describe('Player',function(){
 		});
 	});
 
-	describe('throwAValidCard', function(){
+	describe('getAThrowableCardID', function(){
 	    it('gives a card that can be played when the current player has first turn', function(){
 			var playedCards = new PlayedCards();
 
@@ -242,7 +242,7 @@ describe('Player',function(){
 				new Card('J', 'Diamond')
 			];
 
-			expect(player.throwAValidCard(playedCards)).to.deep.equal(new Card('A', 'Spade'));
+			expect(player.getAThrowableCardID(playedCards)).to.equals('SA');
 	    });
 
 		it('gives a card that can be played when the current player does not has first turn and the player has running suit', function(){
@@ -262,7 +262,7 @@ describe('Player',function(){
 				new Card('J', 'Diamond')
 			];
 
-			expect(player.throwAValidCard(playedCards)).to.deep.equal(new Card('10', 'Heart'));
+			expect(player.getAThrowableCardID(playedCards)).to.equals('H10');
 	    });
 
 		it('gives a card that can be played when the current player does not has first turn and the player does not has running suit', function(){
@@ -282,7 +282,7 @@ describe('Player',function(){
 				new Card('J', 'Diamond')
 			];
 
-			expect(player.throwAValidCard(playedCards)).to.deep.equal(new Card('A', 'Spade'));
+			expect(player.getAThrowableCardID(playedCards)).to.equals('SA');
 	    });
 	});
 });
