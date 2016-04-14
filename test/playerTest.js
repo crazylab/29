@@ -84,7 +84,7 @@ describe('Player',function(){
 
 	});
 
-	describe('getCardID',function(){
+	describe('getCardIDs',function(){
 		it('gives all the card IDs those are in player\'s hand',function(){
 			var player = new Player();
 			player.hand = [{id:'SJ', name:'J', suit:'Spade'},
@@ -93,7 +93,7 @@ describe('Player',function(){
 				{id:'SK', name:'K', suit:'Spade'}];
 
 			var expectedResult = ['SJ', 'S7', 'C9', 'SK'];
-			var actualResult = player.getCardID();
+			var actualResult = player.getCardIDs();
 			assert.deepEqual(expectedResult,actualResult);
 		});
 	});

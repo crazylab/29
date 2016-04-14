@@ -1,6 +1,7 @@
 var Game = require('../lib/game');
 var Player = require('../lib/player');
 var PlayedCards = require('../lib/playedCards');
+var Card = require('../lib/card');
 
 var chai = require('chai');
 var assert = chai.assert;
@@ -12,10 +13,11 @@ var ThrownCardStatus = require('../lib/thrownCardStatus');
 var deck = {
 	getCards : sinon.stub.returns([1,2,3]),
 	drawFourCards : sinon.stub().returns([
-		{id: 'A', rank: 3, suit: 'Heart'},
-		{id: 'B', rank: 3, suit: 'Heart'},
-		{id: 'C', rank: 3, suit: 'Heart'},
-		{id: 'D', rank: 3, suit: 'Heart'}]),
+		new Card('A', 'Heart'),
+		new Card('J', 'Heart'),
+		new Card('Q', 'Heart'),
+		new Card('K', 'Heart')
+	]),
 	recollectCards : function(){},
 	cardsCount : function(){}
 }
@@ -370,7 +372,7 @@ describe('Game', function(){
 			expect(hand4).to.have.length(4);
 		});
 		it('gives the 7th card when trump is selected as 7th card', function(){
-			var expectedCard = {id: 'C', rank: 3, suit: 'Heart'};
+			var expectedCard = 	new Card('Q', 'Heart');
 			expect(game.distributeCards(true, 'ramu')).to.deep.equal(expectedCard);
 		});
 	});
@@ -612,7 +614,7 @@ describe('Game', function(){
 
 			game.playedCards = playedCardsSet_8;
 			game.trump = {suit:'Heart'};
-			
+
 			assert.equal('ramu',game.roundWinner());
 		});
 	});
@@ -786,7 +788,7 @@ describe('Game', function(){
 			game.checkAllPlayerHand = sinon.stub.returns(true);
 			game.setDistributionSequence();
 
-			player2.get7thCard = sinon.stub().returns({name: '7', suit:'Diamond'});
+			player2.get7thCard = sinon.stub().returns(new Card('7', 'Diamond'));
 			game.getPlayer = sinon.stub().returns(player2);
 			game.setTrumpSuit('seventh', 'raju');
 			expect(game.trump.suit).to.be.equal('D2');
@@ -803,7 +805,7 @@ describe('Game', function(){
 			game.checkAllPlayerHand = sinon.stub.returns(true);
 
 
-			player2.get7thCard = sinon.stub().returns({name: '7', suit:'Diamond'});
+			player2.get7thCard = sinon.stub().returns(new Card('7','Diamond'));
 			game.getPlayer = sinon.stub().returns(player2);
 			game.setTrumpSuit('seventh', 'raju');
 			expect(game.trump._7thCardPlayer).to.be.deep.equal(player2);
