@@ -1,4 +1,8 @@
 var Player = require('../lib/player');
+var PlayedCards = require('../lib/playedCards');
+var Card = require('../lib/card');
+
+
 var chai = require('chai');
 var assert = chai.assert;
 var expect = chai.expect;
@@ -80,7 +84,7 @@ describe('Player',function(){
 
 	});
 
-	describe('getCardID',function(){
+	describe('getCardIDs',function(){
 		it('gives all the card IDs those are in player\'s hand',function(){
 			var player = new Player();
 			player.hand = [{id:'SJ', name:'J', suit:'Spade'},
@@ -89,7 +93,7 @@ describe('Player',function(){
 				{id:'SK', name:'K', suit:'Spade'}];
 
 			var expectedResult = ['SJ', 'S7', 'C9', 'SK'];
-			var actualResult = player.getCardID();
+			var actualResult = player.getCardIDs();
 			assert.deepEqual(expectedResult,actualResult);
 		});
 	});
@@ -220,5 +224,65 @@ describe('Player',function(){
 		it('gives false if the player does not have card with matching suit', function(){
 			expect(player.hasSameSuitCard('HA')).to.be.false;
 		});
+	});
+
+	describe('getAThrowableCardID', function(){
+	    it('gives a card that can be played when the current player has first turn', function(){
+			var playedCards = new PlayedCards();
+
+	        var player = new Player();
+			player.hand = [
+				new Card('A', 'Spade'),
+				new Card('J', 'Spade'),
+				new Card('K', 'Club'),
+				new Card('Q', 'Spade'),
+				new Card('9', 'Club'),
+				new Card('10', 'Heart'),
+				new Card('7', 'Diamond'),
+				new Card('J', 'Diamond')
+			];
+
+			expect(player.getAThrowableCardID(playedCards)).to.equals('SA');
+	    });
+
+		it('gives a card that can be played when the current player does not has first turn and the player has running suit', function(){
+			var playedCards = new PlayedCards();
+			playedCards.pushCard('ramu', { id: 'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 }, false);
+			playedCards.pushCard('dhamu', { id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }, false);
+
+	        var player = new Player();
+			player.hand = [
+				new Card('A', 'Spade'),
+				new Card('J', 'Spade'),
+				new Card('K', 'Club'),
+				new Card('Q', 'Spade'),
+				new Card('9', 'Club'),
+				new Card('10', 'Heart'),
+				new Card('7', 'Diamond'),
+				new Card('J', 'Diamond')
+			];
+
+			expect(player.getAThrowableCardID(playedCards)).to.equals('H10');
+	    });
+
+		it('gives a card that can be played when the current player does not has first turn and the player does not has running suit', function(){
+			var playedCards = new PlayedCards();
+			playedCards.pushCard('ramu', { id: 'HJ', name: 'J', suit: 'Heart', point: 3, rank: 1 }, false);
+			playedCards.pushCard('dhamu', { id: 'C9', name: '9', suit: 'Club', point: 2, rank: 2 }, false);
+
+	        var player = new Player();
+			player.hand = [
+				new Card('A', 'Spade'),
+				new Card('J', 'Spade'),
+				new Card('K', 'Club'),
+				new Card('Q', 'Spade'),
+				new Card('9', 'Club'),
+				new Card('10', 'Diamond'),
+				new Card('7', 'Diamond'),
+				new Card('J', 'Diamond')
+			];
+
+			expect(player.getAThrowableCardID(playedCards)).to.equals('SA');
+	    });
 	});
 });
